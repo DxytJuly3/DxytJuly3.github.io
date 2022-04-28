@@ -1,6 +1,7 @@
-http://example.com/4cbf022fb582/
+http://example.com/b70029164be4/
 http://example.com/about/index.html
 http://example.com/categories/index.html
 http://example.com/tags/index.html
 http://example.com/83b96e9163f5/
 http://example.com/
+http://example.com/tags/%E5%9B%BE%E5%BA%8A/
