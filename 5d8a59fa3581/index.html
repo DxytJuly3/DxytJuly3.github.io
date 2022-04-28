@@ -20,28 +20,55 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="文件操作一. 文件的分类文件按照功能，区分为两类：程序文件、数据文件 两种文件类型的区分是相对的，并不是绝对的  程序文件  比如：C语言的源程序文件( .c 为后缀的文件 ) ​		   目标文件( 在Windows环境中 以 .obj 为后缀 ) ​		   可执行程序文件( 在Windows环境中 以 .exe 为后缀 ) ​		   等等   数据文件  数据文件的内容，不一定是程序。可以">
+<meta property="og:type" content="article">
 <meta property="og:title" content="JULY&#39;S">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://example.com/5d8a59fa3581/index.html">
 <meta property="og:site_name" content="JULY&#39;S">
+<meta property="og:description" content="文件操作一. 文件的分类文件按照功能，区分为两类：程序文件、数据文件 两种文件类型的区分是相对的，并不是绝对的  程序文件  比如：C语言的源程序文件( .c 为后缀的文件 ) ​		   目标文件( 在Windows环境中 以 .obj 为后缀 ) ​		   可执行程序文件( 在Windows环境中 以 .exe 为后缀 ) ​		   等等   数据文件  数据文件的内容，不一定是程序。可以">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fputc_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-input.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-output.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fputc_STDOUT.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fgetc_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fgetc_RETURN.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fputs_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fgets_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fgets_MEMORY.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fgets_FLIE_LONGTH.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fprintf_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fscanf_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fwrite_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fwrite_READ.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fread_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fseek_TEST.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fseek_NOFSEEK.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fseek_CUR.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fseek_SET.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fseek_END.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-ftell_FILE.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-rewind_FILE.png">
+<meta property="article:published_time" content="2022-03-02T13:14:17.543Z">
+<meta property="article:modified_time" content="2022-03-29T05:43:48.926Z">
 <meta property="article:author" content="七月July">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-fputc_FILE.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/5d8a59fa3581/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>JULY'S</title>
+  <title> | JULY'S</title>
   
 
 
@@ -183,992 +210,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/620655434a2a/">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/620655434a2a/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-28 23:25:15" itemprop="dateCreated datePublished" datetime="2022-04-28T23:25:15+08:00">2022-04-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-10 00:14:31" itemprop="dateModified" datetime="2022-04-10T00:14:31+08:00">2022-04-10</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/620655434a2a/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/620655434a2a/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/83b96e9163f5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/83b96e9163f5/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-24 23:32:48" itemprop="dateCreated datePublished" datetime="2022-04-24T23:32:48+08:00">2022-04-24</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/83b96e9163f5/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/83b96e9163f5/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>367</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/4cbf022fb582/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/4cbf022fb582/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-18 23:31:38 / 修改时间：23:26:01" itemprop="dateCreated datePublished" datetime="2022-04-18T23:31:38+08:00">2022-04-18</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/4cbf022fb582/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/4cbf022fb582/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：**<code>Gitee 图床炸了</code>**</p>
-<p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br><img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
-<p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br>肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br>但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br>所以，对自己图床访问的限制也就变得尤为重要。<br> <strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br>下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
-<hr>
-<h1 id="给图床设置白名单"><a href="#给图床设置白名单" class="headerlink" title="给图床设置白名单"></a>给图床设置白名单</h1><p> 这里以 <code>阿里云</code> 为例 <code>( 阿里云手机暂不支持操作，或者是我没找到如何修改 )</code></p>
-<p>首先，在自己的 <code>OSS管理控制台</code> 进入<code>需要设立白名单的Bucket</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_1.png" alt="请添加图片描述"><br>然后再左边列表选择 <code>权限管理-&gt;防盗链</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_2.png"></p>
-<p>然后找到 <code>开启防盗链</code>，并打开<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_3.png"></p>
-<p>打开后，在 <code>Referer</code> 表里，添加 <code>白名单域名</code> 或 <code>ip</code>  就好了</p>
-<h1 id="白名单需要添加什么"><a href="#白名单需要添加什么" class="headerlink" title="白名单需要添加什么"></a>白名单需要添加什么</h1><p><code>白名单(防盗链)</code> 中，添加一般 <code>需要访问图床图片</code> 的 <code>网址</code> 和 <code>ip</code></p>
-<p>比如，我们在 <code>C站</code> 写博客需要访问图床外链，就把 <code>C站的域名</code> 添加进去：<code>*.csdn.net</code></p>
-<p>或者，需要在 <code>阿里云OSS</code> 预览图片：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS.png"></p>
-<p>也需要将 <code>阿里云</code> 的域名添加进去，如果不添加就会变成这样：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS_2.png"></p>
-<p>将 <code>需要访问图床图片的网站域名</code> 添加进去之后，指定网站就可以访问获取图片了 !</p>
-<p>这里我添加了需要访问图片的域名：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Referer_yuming.png"><br>添加域名的方式，阿里云有给手册 ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/For_star.png"></p>
-<p>添加完成后，就可以<code>防止白名单外的网站访问图床内的图片</code>，就可以 <code>防止爬虫访问导致流量疯狂外流</code>。</p>
-<h2 id="添加-ip-建议"><a href="#添加-ip-建议" class="headerlink" title="添加 ip 建议"></a>添加 ip 建议</h2><p>添加完网站域名，我还推荐 <code>将自己常用网络的ip地址</code> 添加至白名单。否则本地访问 图床图片时 会被拒绝导致访问失败。</p>
-<p>考虑到有些小伙伴可能不知道自己的 网络 <code>ip</code>，这里提供一下查询方法<code>(Windows平台)</code>：</p>
-<blockquote>
-<ol>
-<li>使用 <code>CMD</code> 指令查看：<br> 先打开 <code>CMD</code> 或 <code>Terminal(Win11)</code>：<br>  <code>CMD</code>：可以 <code>Win + R</code> 组合键唤出  <code>运行</code>，然后输入 <code>CMD</code> 运行就可以<br>  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_CMD.png"></li>
-</ol>
-</blockquote>
-<blockquote>
-<p> <code>Terminal(Win11)</code> ：右键 <code>开始按钮</code> 选择 <code>终端(Terminal)</code> 就可以<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_Terminal.png"></p>
-</blockquote>
-<blockquote>
-<p> 然后在弹出的界面输入 <code>ipconfig /all</code> 回车<br> 就可以找到 <code>当前网络 ip</code>：<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress.png"></p>
-<ol start="2">
-<li>开始界面打开 <code>设置</code>，并打开 <code>网络与Internet</code>，找到 <code>属性</code> 点击就可以看到 <code>当前网络ip</code>：<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress2.png"></li>
-</ol>
-</blockquote>
-<p>找到自己的 <code>网络 ip</code> 然后添加到 <code>阿里云OSS</code> <code>防盗链(白名单)</code> 里就 OK 啦！ </p>
-<hr>
-<p>OK 本篇文章到这里就结束了！</p>
-<p><code>祝以后的我们的无论使用什么做图床，都不会再挂！！</code></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/6ab6006ebadb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/6ab6006ebadb/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-10 00:14:12 / 修改时间：00:14:46" itemprop="dateCreated datePublished" datetime="2022-04-10T00:14:12+08:00">2022-04-10</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/6ab6006ebadb/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/6ab6006ebadb/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>0</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/8bc6baafa0b1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/8bc6baafa0b1/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-29 23:10:26" itemprop="dateCreated datePublished" datetime="2022-03-29T23:10:26+08:00">2022-03-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-06 21:26:19" itemprop="dateModified" datetime="2022-04-06T21:26:19+08:00">2022-04-06</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/8bc6baafa0b1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/8bc6baafa0b1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
     
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="预处理详解"><a href="#预处理详解" class="headerlink" title="预处理详解"></a>预处理详解</h1><p>在C语言的代码编写中，经常会见到的 <code>#include </code> <code>#define</code> <code>#pragma</code> 等写在整个代码文件开头的位置，这些 拥有 <code>#</code> 且一般写在 代码开头的语句，就是代码的 <code>预处理指令</code>。</p>
-<h2 id="预定义符号"><a href="#预定义符号" class="headerlink" title="预定义符号"></a>预定义符号</h2><p>预定义符号，是 C语言标准 默认内置的宏定义符号。<br>可以直接被拿出使用。</p>
-<p>C语言 默认的预定义符号有 5 个：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__FILE__  <span class="comment">//进行编译的源文件文件名 (字符串)</span></span><br><span class="line">__LINE__  <span class="comment">//文件当前的行号 （整型）</span></span><br><span class="line">__DATE__  <span class="comment">//文件此次被编译的日期 （字符串）</span></span><br><span class="line">__TIME__  <span class="comment">//文件此次被编译的时间 （字符串）</span></span><br><span class="line">__STDC__  <span class="comment">//当编译器遵循ANSI C时，其值为1，否则未定义</span></span><br></pre></td></tr></table></figure>
-<p>用一段代码可以非常直观的表示出 这 5 个预定义符号的特点：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	FILE* pf = fopen(<span class="string">&quot;log.txt&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">5</span>; i++)</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">fprintf</span>(pf, <span class="string">&quot;%s %s %s %d i=%d \n&quot;</span>, __DATE__, __TIME__, __FILE__, __LINE__, i);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	fclose(pf);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;执行完成\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码执行效果：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/PRE-Symbols.png" alt="预定义符号"><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/PRE-Symbols-Show.png" alt="预定义符号效果"></p>
-<h2 id="define"><a href="#define" class="headerlink" title="#define"></a>#define</h2><p>#define </p>
-<h3 id="用-define定义-无参宏-标识符"><a href="#用-define定义-无参宏-标识符" class="headerlink" title="用#define定义 无参宏(标识符)"></a>用#define定义 无参宏(标识符)</h3><p>用 #define 来定义无参数的宏，也被成为标识符，是比较简单的</p>
-<p>具体的使用，比如：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> Max 100</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> uchar unsigned char</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> TIME_PRINT printf(<span class="string">&quot;Today is %s.\n\</span></span></span><br><span class="line"><span class="string"><span class="meta">The time now is %s.\n&quot;</span>, \</span></span><br><span class="line"><span class="meta">						   __TIME__, __DATE__)</span></span><br></pre></td></tr></table></figure>
-<p>这些被定义的 <strong>宏</strong> 在使用的时候，是不需要输入参数的，可以直接在代码编写中使用：</p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/PRE-define-symbol-show.png" alt="define-symbol-show"></p>
-<p>截图，使用 <code>uchar</code> 定义了 无符号字符类型变量 <code>c</code><br><code>c &lt; 10</code>， 所以 <code>c</code> 被赋予 <code>Max</code><br>然后使用 <code>TIME_PRINT</code> 来输出时间</p>
-<blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> TIME_PRINT printf(<span class="string">&quot;Today is %s.\n\</span></span></span><br><span class="line"><span class="string"><span class="meta">The time now is %s.\n&quot;</span>, \</span></span><br><span class="line"><span class="meta">					   __TIME__, __DATE__)</span></span><br></pre></td></tr></table></figure>
-<p>在这一句使用 #define 定义中，第一个 <code>\n</code> 后的  <code>\</code> , 和 <code>,</code>  后的 <code>\</code> ，作用都是续行<br>   如果需要被定义的指令过长，可以分成几行写，除了最后一行外，每行的后面都加一个反斜杠，作用是续行。</p>
-</blockquote>
-<p>具体用途是：<br>对于较长的固定的，或需要重复使用的某句指令 或 内容，用一个 自定义的标识符 来表示，方便以后统一使用或修改。</p>
-<p>#define 定义标识符的规则就是:</p>
-<p><code>#define + 自定义标识符 + 需要被自定义的内容</code><br>或者通俗的说<br><code>#define + 新名字(自己起) + 旧名字(原来的)</code></p>
-<p>不过需要注意的是，对于 #define 定义的使用，最好不要在指令的末尾加 <code>;</code><br>因为 #define 后第一个字符或字符串 之后的所有内容都是会在 [[编译和链接]] 的过程中 替换掉的<br>在 #define 指令的最后 加上 <code>;</code> ，如果不注意使用 标识符 的话，就可能会造成不必要的错误。</p>
-<h3 id="用-define定义-有参宏"><a href="#用-define定义-有参宏" class="headerlink" title="用#define定义 有参宏"></a>用#define定义 有参宏</h3><p>对于有参数的宏，模样 与 使用方法 和函数十分的相似：<br>执行以下代码，对比以下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> ADD(x, y) ((x)+(y))</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">Add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">20</span>;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">30</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ADD(a, b));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, Add(a, b));</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/define_function-pk.png" alt="define_function-pk"><br>结果是，<code>#define</code> 定义的 有参宏 与 自定义的函数，都实现了两数相加的功能。</p>
-<p>像这样，对变量大小的相加、相减、比较等简单的代码执行， 有参宏 和 函数都可以实现，不过可以明显地看出，对于比较这些功能的实现，宏的规模和执行，都要比函数要优许多。<br>宏也可以实现，一般函数实现不了的事情，比如：</p>
-<blockquote>
-<p>当我们需要输出非常多类似这样的语句：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">the value of a = <span class="number">1</span></span><br><span class="line">the value of b = <span class="number">2</span></span><br><span class="line">the value of c = <span class="number">3</span></span><br></pre></td></tr></table></figure>
-<p>每次输出，<code>=</code>  左右两边的输出值，都会随着输出的 变量名 和 变量数值大小 改变<br>这种实现，函数是实现不了，或者说不容易实现<br>但，这样的操作可以使用宏来实现</p>
-</blockquote>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/992eb7b579ca/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/992eb7b579ca/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-03-29 23:10:26 / 修改时间：13:28:16" itemprop="dateCreated datePublished" datetime="2022-03-29T23:10:26+08:00">2022-03-29</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/992eb7b579ca/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/992eb7b579ca/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>382</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="程序执行的过程"><a href="#程序执行的过程" class="headerlink" title="程序执行的过程"></a>程序执行的过程</h1><h2 id="1-程序载入内存："><a href="#1-程序载入内存：" class="headerlink" title="1. 程序载入内存："></a>1. 程序载入内存：</h2><p>程序载入内存分为两种情况：</p>
-<ol>
-<li>有操作系统环境:<br>打开可执行程序的时候，一般由操作系统自动执行 将程序载入至内存的操作 ( 所以打开程序会有内存占用)</li>
-<li>无操作系统环境( 或称为 独立的环境):<br>无操作系统环境的情况，一般适用于：类似 <code>arduino</code>、单片机 等嵌入式开发时。<br>在无操作系统的环境下，一般需要手工将 <code>可执行程序</code> 载入运行平台的内存中，或者直接 <code>将可执行的代码</code> 放入其 <code>只读内存</code> 中</li>
-</ol>
-<h2 id="2-程序执行开始"><a href="#2-程序执行开始" class="headerlink" title="2. 程序执行开始:"></a>2. 程序执行开始:</h2><p>程序开始执行后的第一个动作就是:<br>寻找程序的入口：<code>main</code> 函数</p>
-<h2 id="3-执行程序代码"><a href="#3-执行程序代码" class="headerlink" title="3. 执行程序代码:"></a>3. 执行程序代码:</h2><p>程序的代码开始执行的时候，将会使用一个运行时堆栈（[[函数栈帧]]），用来存储 <code>函数的局部变量</code> 和 <code>返回地址</code> 。<br>还会使用 静态内存区域（堆区），来存储程序代码中的 使用的 <code>静态变量</code></p>
-<h2 id="4-程序终止"><a href="#4-程序终止" class="headerlink" title="4. 程序终止"></a>4. 程序终止</h2><p>当程序 在 <code>main</code> 函数中正常返回，就意味着程序正常结束。但也有可能出现程序被中断的现象（程序非正常结束）。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/76d5519c39be/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/76d5519c39be/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-03-27 13:49:01 / 修改时间：13:52:09" itemprop="dateCreated datePublished" datetime="2022-03-27T13:49:01+08:00">2022-03-27</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/76d5519c39be/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/76d5519c39be/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>[[结构体]]</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/bb6b53a4bb7d/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/bb6b53a4bb7d/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-03-27 13:42:58 / 修改时间：13:51:03" itemprop="dateCreated datePublished" datetime="2022-03-27T13:42:58+08:00">2022-03-27</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/bb6b53a4bb7d/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/bb6b53a4bb7d/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="文件缓冲区"><a href="#文件缓冲区" class="headerlink" title="文件缓冲区"></a>文件缓冲区</h1><p>关于<code>文件缓冲区</code> 先来理解一下是怎么形成的：</p>
-<p>现行 <code>ANSIC 标准</code> 是采用<code>“缓冲文件系统”</code>处理数据文件的，所谓<code>缓冲文件系统</code>是指系统自动地在内存中为程序中每一个正在使用的文件开辟一块 <code>“文件缓冲区”</code>。</p>
-<p>文件缓冲区的作用：</p>
-<p>从 <code>内存</code> 向 <code>磁盘</code> 输出数据 会先送到内存中的缓冲区，装满缓冲区后才一起送到磁盘上。</p>
-<p>如果从 <code>磁盘</code> 向 <code>计算机</code> 读入数据，则从 磁盘文件中 读取数据输入 到内存缓冲区（充满缓冲区），然后再从 缓冲区逐个地 将数据送到程序数据区（程序变量等）。缓冲区的大小根据C编译系统决定的。 </p>
-<p>当然，并不是只有在缓冲区被装满的时候，在会执行缓冲区的命令，可以通过手动刷新缓冲区来执行缓冲区中的命令。在一个程序结束的时候，也会刷新清除缓冲区。 换行、以及 fclose 函数也会刷新缓冲区。</p>
-<p>文件缓冲区的存在，可以减轻系统的压力。为什么呢？举个栗子：</p>
-<p>比如，</p>
-<p>执行一个C语言代码，需要在屏幕上打印信息，会用到 printf 函数</p>
-<p>这个函数会调用系统调用api，通过系统调用api让操作系统在屏幕上打印信息</p>
-<p>但是，如果需要很多次使用 printf，同时也没有缓冲区的存在，那么函数就会频繁的通过系统调用api麻烦操作系统来执行它的命令。但是操作系统并不是只执行这一个程序的，如果只一个程序就频繁的麻烦操作系统，那么如果有更多的程序，操作系统就会承受更多的压力，频繁跳跃与不同的命令。</p>
-<p>如果存在缓冲区，那么一个程序中的命令，就会先存储到缓冲区中，当缓冲区被装满之后，再由操作系统 统一执行操作。</p>
-<p>类似于问问题，频繁的问问题会让被提问者无法继续当前正在进行的事情。如果存够一定的问题再提问，并且一次性解决，会大大降低提问者和被提问者的压力。</p>
-<p>那么怎么证明缓冲区的存在呢？？</p>
-<p>在 Windows平台：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;errno.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	FILE* pf = fopen(<span class="string">&quot;test.txt&quot;</span>, <span class="string">&quot;w&quot;</span>);</span><br><span class="line">	<span class="keyword">if</span> (pf == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;fopen failed::%s&quot;</span>, strerror(errno));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">fputs</span>(<span class="string">&quot;Hello Bit&quot;</span>, pf);</span><br><span class="line">	Sleep(<span class="number">10000</span>);</span><br><span class="line"></span><br><span class="line">	fclose(pf);</span><br><span class="line">	pf = <span class="literal">NULL</span>;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BUFFER-WINDOWS.gif" alt="Windows 平台缓冲区展示" style="zoom:50%;" />
-
-<p>可以看出，在程序编译运行的前5秒，文件中是没有内容的，文件的大小也是 0KB，在程序结束之后，缓冲区虽然并未被装满但是强制被刷新清空，文件中被写入内容。</p>
-<p>Linux 平台：</p>
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BUFFER-LINUX.gif" alt="Linux 平台缓冲区展示" style="zoom:50%;" />
-
-<p>可以看出，printf 结尾 有换行符的，都会直接刷新缓冲区，所以每次printf语句执行，都会输出 Hello Bit，但是后面的几句，结尾都没有换行符，所以缓冲区会在程序结束的时候刷新，所以 后面的 Hello Bit，都会在程序结束的时候输出。 </p>
-<p>[[文件读取结束的判定]]<br>[[文件操作]]<br>[[文本文件及二进制文件]]</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/c29da5f6728e/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/c29da5f6728e/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-03-27 13:37:46 / 修改时间：13:50:54" itemprop="dateCreated datePublished" datetime="2022-03-27T13:37:46+08:00">2022-03-27</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/c29da5f6728e/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/c29da5f6728e/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>2 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="文本文件、二进制文件及其存储"><a href="#文本文件、二进制文件及其存储" class="headerlink" title="文本文件、二进制文件及其存储"></a>文本文件、二进制文件及其存储</h1><hr>
-<p>上一篇介绍过，文件按照功能分类，可以分为 <code>程序文件</code>、<code>数据文件</code> 两类。</p>
-<p>此外，文件的分类还有其他的分类方法，比如 按照文件数据的组织形式 来分为 <code>二进制文件</code> 和 <code>文本文件</code>。</p>
-<hr>
-<h2 id="文本文件和二进制文件"><a href="#文本文件和二进制文件" class="headerlink" title="文本文件和二进制文件"></a>文本文件和二进制文件</h2><p>具体什么是文本文件，什么是二进制文件呢？</p>
-<p>关于文本文件，一般我们自己创建并写入内容的文档，或者 Markdown 文件等，都是可以看懂内容的的，这些都属于文本文件的。</p>
-<p>比如：</p>
-<blockquote>
-<p>一个 <code>.txt</code> 文件:  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-TEXT_FILE.png" alt="TEXT_FILE" style="zoom: 80%;" />，或者 一个 <code>.md</code> 文件 <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_FILE.png" alt="BINARY_FILE" style="zoom:50%;" /></p>
-</blockquote>
-<p>而对于二进制文件，一般人打开二进制文件是没有办法直接看懂的，因为大部分内容都是乱码</p>
-<p>除非用二进制的编辑器打开才会显示二进制的形式，不过一般人还是无法看懂的</p>
-<blockquote>
-<p>类似这样：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ1.png" alt="BINARY_READ1"></p>
-<p>这样：</p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ2.png" alt="BINARY_READ2"></p>
-<p>或者这样：</p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ3.png" alt="BINARY_READ3"></p>
-<p>类似于，这些文件，一般人（反正我是）真的看不懂。</p>
-</blockquote>
-<p>这时候可能有人会说</p>
-<blockquote>
-<p>那 文本文件不就是，打开后 一般人能看懂的文件</p>
-<p>二进制文件不就是，打开后内容都是二进制或者乱码形式的一般人看不懂的文件吗</p>
-</blockquote>
-<p>啊，确实</p>
-<p>但是身为新时代青年的我们，不能这样简单的区分</p>
-<p>我们要知道，文本文件 和 二进制文件  在内存中都是如何存储的</p>
-<p>虽然两种文本的内容在内存中都是以二进制的形式存储的，但是存储的方式又有其他不同。</p>
-<h2 id="文本文件在内存中的存储"><a href="#文本文件在内存中的存储" class="headerlink" title="文本文件在内存中的存储"></a>文本文件在内存中的存储</h2><blockquote>
-<p>文本文件，我们可以直接打开看懂，主要是因为 文本文件存入内存的二进制数据是经过转换的。</p>
-<p>在文本文件的内容 存入内存之前，文本文件的所有内容 都会转换为 <code>ASCII 码</code> 的形式，然后再 以 <code>ASCII 码</code> 的二进制数据存入内存中。</p>
-<p>也就是，对于文本文件的内容：</p>
-<blockquote>
-<p>字符类型、数值类型的数据，都会按位转换为 对应的 <code>ASCII码</code> ，然后将 <code>ASCII码</code>对应的二进制数据，存储到内存中</p>
-</blockquote>
-<p>然后当使用者打开文本文件的时候，也是会经过转换再显示的。</p>
-</blockquote>
-<h2 id="二进制文件在内存中的存储"><a href="#二进制文件在内存中的存储" class="headerlink" title="二进制文件在内存中的存储"></a>二进制文件在内存中的存储</h2><blockquote>
-<p>二进制文件，直接打开一般会有一部分乱码</p>
-<p>是因为，二进制文件的内容，不会全部以 <code>ASCII 码</code> 的形式存入内存中，只有字符型的数据，会转换为相应的 <code>ASCII码</code> 再存储至内存。</p>
-<p>所以直接打开二进制文件，字符型以外的数据 就会以乱码的形式展现给用户。</p>
-<blockquote>
-<p>或许会有 打开二进制文件 却发现中文内容也变成了乱码，那可能是文件内容编码不合适导致的</p>
-</blockquote>
-</blockquote>
-<h2 id="数据在内存中的存储"><a href="#数据在内存中的存储" class="headerlink" title="数据在内存中的存储"></a>数据在内存中的存储</h2><blockquote>
-<p>介绍完 <code>文本文件</code> 和 <code>二进制文件</code>，会发现有一个共同点：</p>
-<p>字符型的数据，都会先转换为 <code>ASCII码</code> 之后，在存储 <code>ASCII码</code> 的二进制数据。</p>
-<p>其实是因为，数据在内存中的存储具体是这样的：</p>
-<blockquote>
-<ol>
-<li>字符型的数据，都会 以其对应的 <code>ASCII码</code> 的二进制存储至内存中</li>
-<li>数值型的数据，可以 以其对应的 <code>ASCII码</code> 的二进制存储至内存中（文本文件），也可以 直接以数值本身的二进制形式存储至内存中</li>
-</ol>
-</blockquote>
-<p>那么，数值型的数据 的两种不同形式的存储 有没有什么区别呢？</p>
-<p>答案是有的！</p>
-<p>举例说明：</p>
-<blockquote>
-<p>当 我们需要将 99999 存储起来，可以用两种形式：</p>
-<blockquote>
-<ol>
-<li><p>以 <code>ASCII码</code> 的形式存储：</p>
-<p>需要将<code>9</code> <code>9</code> <code>9</code> <code>9</code> <code>9</code> 分别转换为字符，然后存储其对应的 <code>ASCII码</code>的二进制</p>
-<p>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-ASCII.png" alt="DATA_STORAGE-ASCII"></p>
-<p><code>VS2013</code>:<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-ASCII-READ.png" alt="ASCII-READ."></p>
-</li>
-<li><p>直接以数值的二进制存储：</p>
-<p>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY.png" alt="DATA_STORAGE-BINARY"></p>
-<p><code>VS2013</code>：对文件中以二进制输出 <code>99999</code></p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY-READ.png" alt="BINARY-READ1"></p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY-READ2.png" alt="BINARY-READ2"></p>
-</li>
-</ol>
-</blockquote>
-<p>我们可以非常明确的看到，对于同一个数值型数据，以 <code>99999</code> 为例</p>
-<p>如果以 <code>ASCII码</code>形式 存储，占用 5 字节 内存</p>
-<p>如果直接以 数值的二进制形式 存储，占用 4 字节 内存</p>
-<p>所以，数值型数据的两种不同的存储方式，在内存方面 是有一定的区别的。</p>
-</blockquote>
-</blockquote>
-<p>看完这些，相信都可以理解究竟什么是二进制文件，什么是文本文件了吧！</p>
-<hr>
-<p>[[文件缓冲区]]<br>[[文件操作]]<br>[[文件读取结束的判定]]</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -1184,10 +229,9 @@
       <meta itemprop="name" content="JULY'S">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
+        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/5d8a59fa3581/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -1207,6 +251,13 @@
               </span>
 
           
+            <span class="post-meta-item" title="阅读数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -1245,7 +296,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="一-文件的分类"><a href="#一-文件的分类" class="headerlink" title="一. 文件的分类"></a>一. 文件的分类</h2><p>文件按照功能，区分为两类：程序文件、数据文件</p>
+        <h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="一-文件的分类"><a href="#一-文件的分类" class="headerlink" title="一. 文件的分类"></a>一. 文件的分类</h2><p>文件按照功能，区分为两类：程序文件、数据文件</p>
 <p>两种文件类型的区分是相对的，并不是绝对的</p>
 <ol>
 <li><p>程序文件</p>
@@ -1672,30 +723,40 @@
 <p>如果想要了解 学习更多的 文件操作函数，可以参考 <code>Win32 API</code> 或者 <a target="_blank" rel="noopener" href="http://cplusplus.com/">Cplusplus</a> 等网站自行学习 </p>
 <p>[[文本文件及二进制文件]]<br>[[文件缓冲区]]<br>[[文件读取结束的判定]]</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/817ba7d24c29/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/c29da5f6728e/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
+    
   </article>
   
   
   
 
 
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
-
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -1742,6 +803,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80-%E6%96%87%E4%BB%B6%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.1.</span> <span class="nav-text">一. 文件的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E6%96%87%E4%BB%B6%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.</span> <span class="nav-text">二. 文件的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%96%87%E4%BB%B6%E6%8C%87%E9%92%88"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1  文件指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%96%87%E4%BB%B6%E7%9A%84%E6%89%93%E5%BC%80%E4%B8%8E%E5%85%B3%E9%97%AD"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2  文件的打开与关闭</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#fopen-%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">fopen 文件打开</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fclose-%E6%96%87%E4%BB%B6%E5%85%B3%E9%97%AD"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">fclose 文件关闭</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%96%87%E4%BB%B6%E7%9A%84%E9%A1%BA%E5%BA%8F%E8%AF%BB%E5%86%99"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3  文件的顺序读写</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E6%96%87%E4%BB%B6%E8%AF%BB%E5%86%99%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 文件读写函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-%E5%8D%95%E4%B8%AA%E5%AD%97%E7%AC%A6%E8%AF%BB%E5%86%99"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 单个字符读写</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#fputc-%E8%BE%93%E5%87%BA%E5%AD%97%E7%AC%A6%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.2.1.</span> <span class="nav-text">fputc 输出字符函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fgetc-%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.2.2.</span> <span class="nav-text">fgetc 输入字符函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-%E6%95%B4%E8%A1%8C%E5%AD%97%E7%AC%A6%E8%AF%BB%E5%86%99"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">2.3.3 整行字符读写</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#fputs-%E6%96%87%E6%9C%AC%E8%A1%8C%E8%BE%93%E5%87%BA%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.3.1.</span> <span class="nav-text">fputs 文本行输出函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fgets-%E6%96%87%E6%9C%AC%E8%A1%8C%E8%BE%93%E5%85%A5%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.3.2.</span> <span class="nav-text">fgets 文本行输入函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-4-%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%86%99"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">2.3.4 格式化数据读写</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#fprintf-%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%87%BA%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.4.1.</span> <span class="nav-text">fprintf 格式化输出函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fscanf-%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%BE%93%E5%85%A5%E5%87%BD%E6%95%B0"><span class="nav-number">1.2.3.4.2.</span> <span class="nav-text">fscanf 格式化输入函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-5-%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AF%BB%E5%86%99"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">2.3.5 二进制读写</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#fwrite-%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%BE%93%E5%87%BA"><span class="nav-number">1.2.3.5.1.</span> <span class="nav-text">fwrite 二进制输出</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#fread-%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%BE%93%E5%85%A5"><span class="nav-number">1.2.3.5.2.</span> <span class="nav-text">fread 二进制输入</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E6%96%87%E4%BB%B6%E7%9A%84%E9%9A%8F%E6%9C%BA%E8%AF%BB%E5%86%99"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4  文件的随机读写</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-1-%E5%AE%9A%E4%BD%8D%EF%BC%88%E6%8C%87%E5%AE%9A%EF%BC%89%E6%96%87%E4%BB%B6%E6%8C%87%E9%92%88"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">2.4.1 定位（指定）文件指针</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#fseek"><span class="nav-number">1.2.4.1.1.</span> <span class="nav-text">fseek</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-2-%E8%BF%94%E5%9B%9E%E5%81%8F%E7%A7%BB%E9%87%8F"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2.4.2 返回偏移量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ftell"><span class="nav-number">1.2.4.2.1.</span> <span class="nav-text">ftell</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-3-%E8%BF%94%E5%9B%9E%E5%88%9D%E5%A7%8B%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">2.4.3 返回初始位置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#rewind"><span class="nav-number">1.2.4.3.1.</span> <span class="nav-text">rewind</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
