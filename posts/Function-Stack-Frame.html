@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="在阅读这篇文章之前，请思考一下对于下面的这些问题，你有一个准确清晰的认知吗？  什么是函数栈帧？ 程序中的局部变量，是如何创建的？ 为什么局部变量不初始化会是随机值？ 函数传参，究竟是如何传参的？ 函数的形参和实参存在什么关系？ 函数是如何被调用的？ 函数被调用之后是如何返回的？  如果没有，请尝试阅读、分析、理解本篇文章。读懂本篇文章将会提升你的“自我修养”。  程序运行背后的机制和由来，可以看">
@@ -179,17 +179,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">8</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -253,7 +253,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/Pikachu.png">
       <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="七月的博客">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -317,7 +317,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
+              <span>5.1k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -367,25 +367,7 @@
 </code></pre>
 </blockquote>
 <p>创建一个最简单的可以观察函数栈帧的程序<br>（步骤划分越细，函数栈帧观察越容易）：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-
-<span class="token keyword">int</span> <span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token keyword">int</span> z <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-	z <span class="token operator">=</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
-
-	<span class="token keyword">return</span> z<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
-	<span class="token keyword">int</span> b <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
-	<span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-	c <span class="token operator">=</span> <span class="token function">Add</span><span class="token punctuation">(</span>a <span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">Add</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> z = <span class="number">0</span>;</span><br><span class="line">	z = x + y;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> z;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">10</span>;</span><br><span class="line">	<span class="type">int</span> b = <span class="number">20</span>;</span><br><span class="line">	<span class="type">int</span> c = <span class="number">0</span>;</span><br><span class="line">	c = Add(a , b);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在对代码进行调试的时候，对函数栈帧调用进行查看，此时调用 mian 函数栈帧:<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_Main.png" alt="SF_Main"></p>
 <p>将光标继续向后走，走到 <code>21行</code> 之后跳到另外一个界面：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_main__CRTStartup_mainCRTStartup.png" alt="main函数被调用"><br>发现，<code>main</code> 函数并不是直接被计算机调用的，而是由另外一个函数所调用</p>
 <p>向上翻阅代码，能看到 main 函数其实是在 <code>__mainCRTStartup</code> 函数中被调用<br>而 <code>__mainCRTStartup</code> 函数，又在 <code>mainCRTStartup</code> 函数中被调用<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_mainCRTStartup_return.png" alt="__mainCRTStartup被调用"></p>
@@ -447,14 +429,9 @@
 <li><p>执行 <code>rep_stos  dword_ptr_es:[edi]</code>：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/rep_stos_change.png" alt="rep_stos"><br>执行之后，从 <code>0x00AFF988 - 4</code> 到 <code>0x00AFF8A4</code> 的<code>(每4字节)</code>所有内容都被设置为了 <code>0xCCCCCCCC</code> ，即 开辟的<code>main</code> 栈帧中的所有内容被设置为 <code>0xCCCCCCCC</code> </p>
 <blockquote>
 <p>汇编指令：</p>
-<pre class="line-numbers language-none"><code class="language-none">lea         edi,[ebp-0E4h]  
-mov         ecx,39h  
-mov         eax,0CCCCCCCCh  
-rep stos    dword ptr es:[edi]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lea</span>         <span class="built_in">edi</span>,[<span class="built_in">ebp</span>-<span class="number">0E4h</span>]  </span><br><span class="line"><span class="keyword">mov</span>         <span class="built_in">ecx</span>,<span class="number">39h</span>  </span><br><span class="line"><span class="keyword">mov</span>         <span class="built_in">eax</span>,<span class="number">0CCCCCCCCh</span>  </span><br><span class="line"><span class="keyword">rep</span> stos    <span class="built_in">dword</span> <span class="built_in">ptr</span> <span class="built_in">es</span>:[<span class="built_in">edi</span>]</span><br></pre></td></tr></table></figure>
 <p>这一段汇编指令中最后一句<br><code>rep_stos    dword_ptr_es:[edi]</code><br><code>rep</code> ： 重复上面指令， 即 </p>
-<pre class="line-numbers language-none"><code class="language-none">lea         edi,[ebp-0E4h]  
-mov         ecx,39h  
-mov         eax,0CCCCCCCCh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lea</span>         <span class="built_in">edi</span>,[<span class="built_in">ebp</span>-<span class="number">0E4h</span>]  </span><br><span class="line"><span class="keyword">mov</span>         <span class="built_in">ecx</span>,<span class="number">39h</span>  </span><br><span class="line"><span class="keyword">mov</span>         <span class="built_in">eax</span>,<span class="number">0CCCCCCCCh</span></span><br></pre></td></tr></table></figure>
 <p>寄存器 <code>ecx</code> 中的值，即为重复的次数<br><code>stos</code> ：将 <code>eax</code> 中的值拷贝到 <code>edi</code> 指向的地址</p>
 </blockquote>
 </li>
@@ -484,10 +461,7 @@ mov         eax,0CCCCCCCCh<span aria-hidden="true" class="line-numbers-rows"><sp
 <hr>
 <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_No.png"><br>先分析汇编代码：</p>
 <blockquote>
-<pre class="line-numbers language-none"><code class="language-none">mov        eax,dword ptr [ebp-14h]
-push       eax
-mov        ecx,dword ptr [ebp-8]
-push       ecx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span>        <span class="built_in">eax</span>,<span class="built_in">dword</span> <span class="built_in">ptr</span> [<span class="built_in">ebp</span>-<span class="number">14h</span>]</span><br><span class="line"><span class="keyword">push</span>       <span class="built_in">eax</span></span><br><span class="line"><span class="keyword">mov</span>        <span class="built_in">ecx</span>,<span class="built_in">dword</span> <span class="built_in">ptr</span> [<span class="built_in">ebp</span>-<span class="number">8</span>]</span><br><span class="line"><span class="keyword">push</span>       <span class="built_in">ecx</span></span><br></pre></td></tr></table></figure>
 <p>将 <code>ebp-14h</code> 地址处的双字的值（即变量 b 的值）存入 寄存器 <code>eax</code>，压栈存入 <code>eax</code> ，压入位置是：<code>0x00AFF894</code><br>将 <code>ebp-8</code> 地址处的双字的值（即变量 a 的值）存入 寄存器 <code>ecx</code>，压栈存入 <code>ecx</code>，压入位置是：<code>0x00AFF890</code></p>
 </blockquote>
 <p>执行之后内存中的变化：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/eax_ecx_a_b_push.png" alt="形参的传参"></p>
@@ -526,10 +500,7 @@ push       ecx<span aria-hidden="true" class="line-numbers-rows"><span></span><s
 </li>
 <li><p><code>x</code>、<code>y</code> 分别对应 ：<code>ebp+8</code> 、<code>ebp+0Ch</code><br>即从 <code>ebp</code> 向高地址偏移 <code>8 字节</code> 和 <code>12 字节</code>，很明显不在 <code>Add</code> 函数栈帧内，究竟在哪？<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_VR_address.png"><br>分析之后发现，<code>Add</code> 函数调用的形参 其实就是之前(即将进入<code>Add</code>函数时)，执行这一段代码时压栈的内容：</p>
 <blockquote>
-<pre class="line-numbers language-none"><code class="language-none">mov        eax,dword ptr [ebp-14h]
-push       eax
-mov        ecx,dword ptr [ebp-8]
-push       ecx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mov</span>        <span class="built_in">eax</span>,<span class="built_in">dword</span> <span class="built_in">ptr</span> [<span class="built_in">ebp</span>-<span class="number">14h</span>]</span><br><span class="line"><span class="keyword">push</span>       <span class="built_in">eax</span></span><br><span class="line"><span class="keyword">mov</span>        <span class="built_in">ecx</span>,<span class="built_in">dword</span> <span class="built_in">ptr</span> [<span class="built_in">ebp</span>-<span class="number">8</span>]</span><br><span class="line"><span class="keyword">push</span>       <span class="built_in">ecx</span></span><br></pre></td></tr></table></figure>
 <p>将 <code>ebp-14h</code> 地址处的双字的值（即变量 <code>b</code> 的值）存入 寄存器 <code>eax</code>，压栈存入 <code>eax</code>，压入位置是：<code>0x00AFF894</code><br>将 <code>ebp-8</code> 地址处的双字的值（即变量 <code>a</code> 的值）存入 寄存器 <code>ecx</code>，压栈存入 <code>ecx</code>，压入位置是：<code>0x00AFF890</code></p>
 </blockquote>
 </li>
@@ -676,7 +647,7 @@ push       ecx<span aria-hidden="true" class="line-numbers-rows"><span></span><s
     <img class="site-author-image" itemprop="image" alt="七月July"
       src="/images/Pikachu.png">
   <p class="site-author-name" itemprop="name">七月July</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">七月的博客</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -747,12 +718,12 @@ push       ecx<span aria-hidden="true" class="line-numbers-rows"><span></span><s
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">38k</span>
+    <span title="站点总字数">40k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">42 分钟</span>
+    <span title="站点阅读时长">44 分钟</span>
 </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://lib.baomitu.com/canvas-nest.js/1.0.1/canvas-nest.js"></script>
 
         

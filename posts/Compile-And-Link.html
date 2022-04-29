@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="程序的编译及链接在学习C语言的过程中，每一个 .c 文件都会经过 编译链接 等 预处理 操作才能成为一个 .exe 的可执行文件的 这些 预处理 过程到底是如何进行的，就是本篇文章的内容">
@@ -153,17 +153,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">8</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -227,7 +227,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/Pikachu.png">
       <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="七月的博客">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -291,7 +291,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>3.8k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -352,14 +352,7 @@
 <p>对三项操作一 一进行展示：</p>
 <blockquote>
 <p>📌 对头文件的包含、展开<br>Linux 环境下编写简单的一段代码：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span>        <span class="token comment">//头文件</span></span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hello World"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span>        <span class="comment">//头文件</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-TEST.png" alt="Linux-test"><br>然后用 GCC 编译器对 test.c 文件进行[[预处理]]，并将[[预处理]]后的文件信息输出至 test.i 文件中：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-GCC-PRE-E.png" alt="GCC -E"></p>
 <blockquote>
 <p>✔️小知识：<br><code>gcc -E (源代码文件) 或 gcc (源代码文件) -E</code> 对源代码进行预编译<br><code>gcc -E (源代码文件) -o (指定预处理文件)或 gcc (源代码文件) -E -o (指定预处理文件)</code> 对源代码进行[[预处理]]并输出至指定文件内</p>
@@ -368,34 +361,12 @@
 </blockquote>
 <blockquote>
 <p>📌 对注释的删除<br>在上面两个文件做对比的时候，细心观察可以发现，两个文件所包含的相同的头文件的代码行数是不相同的<br>再一对比，可以看出 <code>test.i</code>  文件中并没有蓝色的注释部分<br>说明预编译，对源代码也进行了 删除注释 的操作<br>还有一个更直观的 展示方法（使用以下代码进行预编译操作）(可以直接再 <code>test.c</code> 文件中添加)：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 这是头文件的包含</span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stido.h></span></span>
-<span class="token comment">// 这是程序主函数</span>
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token comment">// 这是一个 printf 函数</span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Hello World"</span><span class="token punctuation">)</span>
-
-	<span class="token comment">// 这是主函数的返回操作</span>
-	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 这是头文件的包含</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stido.h&gt;</span></span></span><br><span class="line"><span class="comment">// 这是程序主函数</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">// 这是一个 printf 函数</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Hello World&quot;</span>)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 这是主函数的返回操作</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-TEST-Annotation.png" alt="TEST-Annotation"><br>对以上代码进行预编译操作，并查看预编译后的文件内容：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-GCC-VIM-TEST-i-Annotation.png" alt="READ-TEST.i"><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-GCC-PRE-E-Annotation.png" alt="GCC-PRE-E-Annotation"><br>同样可以看出，预编译后的代码中，注释内容被删除了，也可以说是被空格替换掉了<br>所以，<code>预编译过程中，编译器源代码进行了 删除注释 的操作</code></p>
 </blockquote>
 <blockquote>
 <p>📌 对 #define 宏定义符号的替换<br>还是不同的代码，同样的操作<br>使用以下代码：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
-
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">3</span> <span class="token expression">THREE  </span></span>
-<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">666</span> <span class="token expression">CSDN</span></span>
-
-<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token keyword">int</span> x <span class="token operator">=</span> THREE<span class="token punctuation">;</span>
-	<span class="token keyword">int</span> y <span class="token operator">=</span> CSDN<span class="token punctuation">;</span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span> x <span class="token operator">*</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> 3 THREE  </span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> 666 CSDN</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> x = THREE;</span><br><span class="line">	<span class="type">int</span> y = CSDN;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>, x * y);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-TEST-Macro.png" alt="TEST-Macro"><br>预编译处理：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-GCC-PRE-E-Macro.png" alt="GCC-PRE-E-Macro"><br><code>test.i</code> 部分内容:<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-TEST-i-Macro-READ.png" alt="TEST-i-Macro-READ"></p>
 <p>源代码中的 两句宏定义 语句被删除，函数中使用的宏定义符号 被替换为 原本的数值</p>
 <p>可以说明，<code>预编译过程中，编译器对源代码进行了 替换宏定义符号 的操作</code></p>
@@ -443,35 +414,13 @@
 <blockquote>
 <p>📌</p>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span><span class="token comment">// add.c</span>
-<span class="token operator">></span><span class="token keyword">int</span> <span class="token function">ADD</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
-<span class="token operator">></span><span class="token punctuation">&#123;</span>
-<span class="token operator">></span><span class="token keyword">return</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
-<span class="token operator">></span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="comment">// add.c</span></span><br><span class="line">&gt;<span class="type">int</span> <span class="title function_">ADD</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&gt;&#123;</span><br><span class="line">&gt;<span class="keyword">return</span> x + y;</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span><span class="token comment">// sub.c</span>
-<span class="token operator">></span><span class="token keyword">int</span> <span class="token function">SUB</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
-<span class="token operator">></span><span class="token punctuation">&#123;</span>
-<span class="token operator">></span><span class="token keyword">return</span> x <span class="token operator">-</span> y<span class="token punctuation">;</span>
-<span class="token operator">></span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="comment">// sub.c</span></span><br><span class="line">&gt;<span class="type">int</span> <span class="title function_">SUB</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span></span><br><span class="line">&gt;&#123;</span><br><span class="line">&gt;<span class="keyword">return</span> x - y;</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span><span class="token comment">// test.c</span>
-<span class="token operator">></span>#include <span class="token operator">&lt;</span>stdio<span class="token punctuation">.</span>h<span class="token operator">></span>
-<span class="token operator">></span><span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">ADD</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token operator">></span><span class="token keyword">extern</span> <span class="token keyword">int</span> <span class="token function">SUB</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token operator">></span><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-<span class="token operator">></span><span class="token punctuation">&#123;</span>
-<span class="token keyword">int</span> x <span class="token operator">=</span> <span class="token number">100</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> y <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> sum <span class="token operator">=</span> <span class="token function">ADD</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">int</span> dev <span class="token operator">=</span> <span class="token function">SUB</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"sum = %d\n"</span><span class="token punctuation">,</span> sum<span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"dev = %d\n"</span><span class="token punctuation">,</span> dev<span class="token punctuation">)</span><span class="token punctuation">;</span>
-       
-   	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
-<span class="token operator">></span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="comment">// test.c</span></span><br><span class="line">&gt;<span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line">&gt;<span class="keyword">extern</span> <span class="type">int</span> <span class="title function_">ADD</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>;</span><br><span class="line">&gt;<span class="keyword">extern</span> <span class="type">int</span> <span class="title function_">SUB</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span>;</span><br><span class="line">&gt;<span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&gt;&#123;</span><br><span class="line"><span class="type">int</span> x = <span class="number">100</span>;</span><br><span class="line"><span class="type">int</span> y = <span class="number">20</span>;</span><br><span class="line"><span class="type">int</span> sum = ADD(x, y);</span><br><span class="line"><span class="type">int</span> dev = SUB(x, y);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;sum = %d\n&quot;</span>, sum);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;dev = %d\n&quot;</span>, dev);</span><br><span class="line">       </span><br><span class="line">   	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
 </blockquote>
 <p><code>vim</code>：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-LINK-ADD-C.png" alt="add.c"><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-LINK-SUB-C.png" alt="sub.c"><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-LINK-TEST-C.png" alt="test.c"></p>
 <p>然后，分别对 <code>add.c</code> 、<code>sub.c</code>、 <code>test.c</code> 三个<code>.c</code> 文件，预编译、编译、汇编：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/PRE_PROCESSING/pre-Linux-PROJECT-E-S-c.png" alt="PROJECT-E-S-c"><br>最终生成对应的：<code>add.o</code> 、<code>sub.o</code> 、<code>test.o</code></p>
@@ -586,7 +535,7 @@
     <img class="site-author-image" itemprop="image" alt="七月July"
       src="/images/Pikachu.png">
   <p class="site-author-name" itemprop="name">七月July</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">七月的博客</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -657,12 +606,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">38k</span>
+    <span title="站点总字数">40k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">42 分钟</span>
+    <span title="站点阅读时长">44 分钟</span>
 </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://lib.baomitu.com/canvas-nest.js/1.0.1/canvas-nest.js"></script>
 
         

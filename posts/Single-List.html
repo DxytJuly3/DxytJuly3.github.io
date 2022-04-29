@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="单链表引言🐙❤️‍🔥  数据结构中有 四大基础结构 ，即 四大线性表：顺序表、**链表👻** 、栈、队列">
@@ -162,17 +162,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">8</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -236,7 +236,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/Pikachu.png">
       <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="七月的博客">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -300,7 +300,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>7k</span>
+              <span>7.4k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -389,14 +389,7 @@
 <p>引言的表中，简单表示了 <code>单链表的结构</code> ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/List_photo.jpg" style="zoom:50%;" /><br>是有一个一个节点链接在一起形成的，不过这只是逻辑结构，逻辑顺序是通过 <code>链表中的指针链接次序</code> 实现的，而实际的链表是一种 物理存储结构上 <code>非连续、非顺序</code> 的存储结构，即 这些 <code>单个的节点在内存中不一定是连续存放的</code> 。</p>
 <p>详细的实际情况应该是这样的：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SList_show_4_19.png"><br>即：单链表在 <code>逻辑上是连续的</code> ，一个连着一个，但是在 <code>物理结构上是不一定连续的</code> 。<br>而且可以看出，单链表中 <code>单个节点的结构</code> 由一个 <code>数据单元(存放数据)</code> 和一个 <code>指针单元(存放下个节点的地址)</code> 构成。这样可以保证 链表可以向后链接。</p>
 <p>所以 <code>单链表结构中单个节点</code> 的代码就应该包括两个部分：<code>数据</code> 和 <code>next指针</code><br>实现就为：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">int</span> SLTDataType<span class="token punctuation">;</span>        <span class="token comment">// int typedef 为 SLTDataType</span>
-
-<span class="token comment">// 单链表(SingleList)结构</span>
-<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">SListNode</span>
-<span class="token punctuation">&#123;</span>
-	SLTDataType val<span class="token punctuation">;</span>               <span class="token comment">// val 用来存放数据</span>
-	<span class="token keyword">struct</span> <span class="token class-name">SListNode</span><span class="token operator">*</span> next<span class="token punctuation">;</span>       <span class="token comment">// next 存放下一节点地址，用来指向下一节点 </span>
-<span class="token punctuation">&#125;</span>SListNode<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="type">int</span> SLTDataType;        <span class="comment">// int typedef 为 SLTDataType</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 单链表(SingleList)结构</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">SListNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	SLTDataType val;               <span class="comment">// val 用来存放数据</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">SListNode</span>* <span class="title">next</span>;</span>       <span class="comment">// next 存放下一节点地址，用来指向下一节点 </span></span><br><span class="line">&#125;SListNode;</span><br></pre></td></tr></table></figure>
 
 <p>这就是单链表一个节点的结构。</p>
 <h2 id="单链表接口及实现🪸"><a href="#单链表接口及实现🪸" class="headerlink" title="单链表接口及实现🪸"></a>单链表接口及实现🪸</h2><p>❤️‍🔥</p>
@@ -418,20 +411,7 @@
 <p>先从新节点申请开始。</p>
 <h3 id="新节点申请🐚"><a href="#新节点申请🐚" class="headerlink" title="新节点申请🐚"></a>新节点申请🐚</h3><p>❤️‍🔥<br>单链表节点的申请，实现的功能一般是<br>创建一个 <code>新的节点指针</code> ，然后将 <code>节点指针作为返回值</code> 返回到 <code>需要使用的此节点的地方</code></p>
 <p>既然需要返回，那么就必然需要用动态开辟来实现：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">SListNode<span class="token operator">*</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>SLTDataType x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>SListNode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token keyword">if</span><span class="token punctuation">(</span>newNode <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"BuyNode fail.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token comment">// malloc 成功</span>
-	newNode<span class="token operator">-></span>val <span class="token operator">=</span> x<span class="token punctuation">;</span>            <span class="token comment">// 将新节点val 赋予 x</span>
-	newNode<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>        <span class="token comment">// 将新节点的next 指向空</span>
-	
-	<span class="token keyword">return</span> newNode<span class="token punctuation">;</span>              <span class="token comment">// 返回新节点</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">SListNode* <span class="title function_">BuySLTNode</span><span class="params">(SLTDataType x)</span></span><br><span class="line">&#123;</span><br><span class="line">	SListNode* newNode = (SListNode*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(SListNode));</span><br><span class="line">	<span class="keyword">if</span>(newNode == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;BuyNode fail.\n&quot;</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// malloc 成功</span></span><br><span class="line">	newNode-&gt;val = x;            <span class="comment">// 将新节点val 赋予 x</span></span><br><span class="line">	newNode-&gt;next = <span class="literal">NULL</span>;        <span class="comment">// 将新节点的next 指向空</span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> newNode;              <span class="comment">// 返回新节点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>返回接收后，就可以使用新的节点。</p>
 <h3 id="单链表尾插🐚"><a href="#单链表尾插🐚" class="headerlink" title="单链表尾插🐚"></a>单链表尾插🐚</h3><p>❤️‍🔥<br>单链表尾插就是在 <code>链表的尾节点之后</code> 插入节点</p>
@@ -441,20 +421,7 @@
 <li>需要将新节点 <code>链接到链表的末尾</code></li>
 </ol>
 <p>功能有了，那就来实现一下</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">SListPushBack</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span> phead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pnode<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	
-	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token function">BuyNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	
-	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> phead<span class="token punctuation">;</span>        <span class="token comment">//记录首节点</span>
-	<span class="token keyword">while</span><span class="token punctuation">(</span>tail<span class="token operator">-></span>next <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span><span class="token comment">// 从首节点开始找尾</span>
-		tail <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token comment">// 退出循环就代表找到尾节点</span>
-	tail<span class="token operator">-></span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">SListPushBack</span><span class="params">(SListNode* phead, SLTDataType x)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pnode);</span><br><span class="line">	</span><br><span class="line">	SListNode* newNode = BuyNode(x);</span><br><span class="line">	</span><br><span class="line">	SListNode* tail = phead;        <span class="comment">//记录首节点</span></span><br><span class="line">	<span class="keyword">while</span>(tail-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;<span class="comment">// 从首节点开始找尾</span></span><br><span class="line">		tail = tail-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 退出循环就代表找到尾节点</span></span><br><span class="line">	tail-&gt;next = newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>代码实现完毕，尾插来验证一下。<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_returnError.png"></p>
 <p>但是发现，程序非正常结束了。为什么？<br><code>调试！</code></p>
 <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug1.png"><br>但是当我继续 <code>F10</code> 希望进入循环时：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug2.png"><br>发生了访问冲突。<br>为什么发生了访问冲突？</p>
@@ -470,29 +437,7 @@
 </ol>
 <p>OK，现在情况应该考虑完整了</p>
 <p>再来重新实现代码：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表尾插</span>
-<span class="token keyword">void</span> <span class="token function">SListPushBack</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span><span class="token comment">// 传首节点指针 的地址，要用**</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>				<span class="token comment">// 断言 首节点指针的地址不为空</span>
-
-	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	
-	<span class="token comment">// 首节点为空，将新节点变为首节点</span>
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>pphead <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		<span class="token operator">*</span>pphead <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
-		<span class="token keyword">return</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token comment">// 首节点不为空就 找尾</span>
-	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>        <span class="token comment">//记录首节点</span>
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>tail<span class="token operator">-></span>next <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span><span class="token comment">// 从首节点开始找尾</span>
-		tail <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token comment">// 退出循环就代表找到尾节点</span>
-	tail<span class="token operator">-></span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单链表尾插</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SListPushBack</span><span class="params">(SListNode** pphead, SLTDataType x)</span></span><br><span class="line">&#123;<span class="comment">// 传首节点指针 的地址，要用**</span></span><br><span class="line">	assert(pphead);				<span class="comment">// 断言 首节点指针的地址不为空</span></span><br><span class="line"></span><br><span class="line">	SListNode* newNode = BuySLTNode(x);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 首节点为空，将新节点变为首节点</span></span><br><span class="line">	<span class="keyword">if</span> (*pphead == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		*pphead = newNode;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 首节点不为空就 找尾</span></span><br><span class="line">	SListNode* tail = *pphead;        <span class="comment">//记录首节点</span></span><br><span class="line">	<span class="keyword">while</span> (tail-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;<span class="comment">// 从首节点开始找尾</span></span><br><span class="line">		tail = tail-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 退出循环就代表找到尾节点</span></span><br><span class="line">	tail-&gt;next = newNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug3.png"></p>
 <p>多尾插几个数据试验一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug4.png"></p>
@@ -500,17 +445,7 @@
 <h3 id="单链表打印🐚"><a href="#单链表打印🐚" class="headerlink" title="单链表打印🐚"></a>单链表打印🐚</h3><p>❤️‍🔥<br>实现了 <code>尾插</code> 之后，如果每次查看数据都需要 <code>调试</code> 然后 <code>监视</code>，也太麻烦了</p>
 <p>所以一般需要实现一个打印函数，打印函数没有那么多的注意点</p>
 <p>实现一下：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表打印</span>
-<span class="token keyword">void</span> <span class="token function">SListPrint</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span> phead<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	SListNode<span class="token operator">*</span> cur <span class="token operator">=</span> phead<span class="token punctuation">;</span>
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span><span class="token comment">// cur 为空时退出循环</span>
-		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d->"</span><span class="token punctuation">,</span> cur<span class="token operator">-></span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		cur <span class="token operator">=</span> cur<span class="token operator">-></span>next<span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"NULL\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单链表打印</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SListPrint</span><span class="params">(SListNode* phead)</span></span><br><span class="line">&#123;</span><br><span class="line">	SListNode* cur = phead;</span><br><span class="line">	<span class="keyword">while</span> (cur != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;<span class="comment">// cur 为空时退出循环</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d-&gt;&quot;</span>, cur-&gt;val);</span><br><span class="line">		cur = cur-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;NULL\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>打印刚才实现的单链表：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPrint_Show.png"></p>
 <h3 id="单链表尾删🐚"><a href="#单链表尾删🐚" class="headerlink" title="单链表尾删🐚"></a>单链表尾删🐚</h3><p>❤️‍🔥<br>实现过 <code>尾插</code> 和 <code>打印</code><br>再实现一下 <code>尾删</code></p>
@@ -520,47 +455,7 @@
 <p>如果需要 <code>控制当前节点在尾节点的前一节点停下</code> ，就需要 用 <code>cur-&gt;next-&gt;next != NULL</code> 作找尾循环条件<br>但是这样需要保证 链表至少有<code>两个节点</code> ，所以 <code>空链表</code> 和 <code>只有一个节点的链表</code> 需要单独控制</p>
 </blockquote>
 <p>实现：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表尾删</span>
-<span class="token keyword">void</span> <span class="token function">SListPopBack</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	<span class="token comment">// 空链表</span>
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>pphead <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-		<span class="token keyword">return</span><span class="token punctuation">;</span>
-
-	<span class="token comment">// 只有一个节点</span>
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>pphead<span class="token punctuation">)</span><span class="token operator">-></span>next <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		<span class="token function">free</span><span class="token punctuation">(</span><span class="token operator">*</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		<span class="token operator">*</span>pphead <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-		<span class="token keyword">return</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token comment">// 多个节点</span>
-	SListNode<span class="token operator">*</span> cur <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>cur<span class="token operator">-></span>next<span class="token operator">-></span>next <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		cur <span class="token operator">=</span> cur<span class="token operator">-></span>next<span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-	<span class="token comment">// 退出循环时，cur即在尾节点的前一节点处</span>
-	<span class="token function">free</span><span class="token punctuation">(</span>cur<span class="token operator">-></span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">// 释放cur的next节点(尾节点)</span>
-	cur<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>			<span class="token comment">// cur->next 指向空</span>
-
-	<span class="token comment">/* 或者用前后指针的方法，将 cur 的前一个节点存储起来
-	SListNode* prev = NULL;
-	SListNode* cur = *pphead;
-	while(cur->next != NULL)
-	&#123;
-		prev = cur;				// 每次进入循环先将 cur 用prev存储起来
-		cur = cur->next;
-	&#125;
-	//退出循环时，cur是尾节点，prev是尾节点的前一个节点
-	free(cur);					// 释放尾节点
-	prev->next = NULL;
-	cur = NULL;
-	*/</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单链表尾删</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SListPopBack</span><span class="params">(SListNode** pphead)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pphead);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 空链表</span></span><br><span class="line">	<span class="keyword">if</span> (*pphead == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 只有一个节点</span></span><br><span class="line">	<span class="keyword">if</span> ((*pphead)-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">free</span>(*pphead);</span><br><span class="line">		*pphead = <span class="literal">NULL</span>;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 多个节点</span></span><br><span class="line">	SListNode* cur = *pphead;</span><br><span class="line">	<span class="keyword">while</span> (cur-&gt;next-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		cur = cur-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 退出循环时，cur即在尾节点的前一节点处</span></span><br><span class="line">	<span class="built_in">free</span>(cur-&gt;next);			<span class="comment">// 释放cur的next节点(尾节点)</span></span><br><span class="line">	cur-&gt;next = <span class="literal">NULL</span>;			<span class="comment">// cur-&gt;next 指向空</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/* 或者用前后指针的方法，将 cur 的前一个节点存储起来</span></span><br><span class="line"><span class="comment">	SListNode* prev = NULL;</span></span><br><span class="line"><span class="comment">	SListNode* cur = *pphead;</span></span><br><span class="line"><span class="comment">	while(cur-&gt;next != NULL)</span></span><br><span class="line"><span class="comment">	&#123;</span></span><br><span class="line"><span class="comment">		prev = cur;				// 每次进入循环先将 cur 用prev存储起来</span></span><br><span class="line"><span class="comment">		cur = cur-&gt;next;</span></span><br><span class="line"><span class="comment">	&#125;</span></span><br><span class="line"><span class="comment">	//退出循环时，cur是尾节点，prev是尾节点的前一个节点</span></span><br><span class="line"><span class="comment">	free(cur);					// 释放尾节点</span></span><br><span class="line"><span class="comment">	prev-&gt;next = NULL;</span></span><br><span class="line"><span class="comment">	cur = NULL;</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>验证一下 <code>尾删</code> 有没有出错：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPopBack.png"></p>
 <p>即使过多次尾删也能成功</p>
@@ -577,15 +472,7 @@
 <p>只需要这三步就可以了，甚至不需要考虑链表是否存在节点。</p>
 <p>因为需要修改 <code>链表的首节点</code> 所以传参还需要使用 <code>二级指针</code></p>
 <p><code>单链表头插的实现：</code></p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表头插</span>
-<span class="token keyword">void</span> <span class="token function">SListPushFront</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	newNode<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>            <span class="token comment">// 新节点的next 指向 *pphead</span>
-	<span class="token operator">*</span>pphead <span class="token operator">=</span> newNode<span class="token punctuation">;</span>                <span class="token comment">// 将新节点置为 *pphead</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单链表头插</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SListPushFront</span><span class="params">(SListNode** pphead, SLTDataType x)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pphead);</span><br><span class="line"></span><br><span class="line">	SListNode* newNode = BuySLTNode(x);</span><br><span class="line">	newNode-&gt;next = *pphead;            <span class="comment">// 新节点的next 指向 *pphead</span></span><br><span class="line">	*pphead = newNode;                <span class="comment">// 将新节点置为 *pphead</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>头插几个数据测试一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushFront_2022420.png"><br><code>没有错误！</code></p>
 <p>动画过程：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SingleListPushFront_20220420.gif"></p>
@@ -601,25 +488,7 @@
 </li>
 </ol>
 <p>两种思路都实现一下:</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表头删</span>
-<span class="token keyword">void</span> <span class="token function">SListPopFront</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	
-	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>pphead <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-		<span class="token keyword">return</span><span class="token punctuation">;</span>
-	
-	<span class="token comment">// 存首节点</span>
-	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>
-	<span class="token operator">*</span>pphead <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>
-	<span class="token function">free</span><span class="token punctuation">(</span>tail<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	tail <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-	
-	<span class="token comment">// 存第二节点</span>
-	<span class="token comment">/*SListNode* tail = (*pphead)->next;
-	free(*pphead);
-	*pphead = tail;*/</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单链表头删</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SListPopFront</span><span class="params">(SListNode** pphead)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pphead);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">if</span> (*pphead == <span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 存首节点</span></span><br><span class="line">	SListNode* tail = *pphead;</span><br><span class="line">	*pphead = tail-&gt;next;</span><br><span class="line">	<span class="built_in">free</span>(tail);</span><br><span class="line">	tail = <span class="literal">NULL</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 存第二节点</span></span><br><span class="line">	<span class="comment">/*SListNode* tail = (*pphead)-&gt;next;</span></span><br><span class="line"><span class="comment">	free(*pphead);</span></span><br><span class="line"><span class="comment">	*pphead = tail;*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>头删检测：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPopFront_2022420.png"></p>
 <p>动画过程：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SingleListPushFront_20220421.gif"></p>
@@ -628,19 +497,7 @@
 <h3 id="单链表查找🐚"><a href="#单链表查找🐚" class="headerlink" title="单链表查找🐚"></a>单链表查找🐚</h3><p>❤️‍🔥<br>单链表的查找，其实是 <code>查找某个值节点</code><br>找到数据之后返回 <code>节点</code></p>
 <p>不需要修改，不需要添加，只需要比较<br>所以，传参只需要 <code>传一级指针</code></p>
 <p>实现：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c">SListNode<span class="token operator">*</span> <span class="token function">SListFind</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span> phead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> phead<span class="token punctuation">;</span>    <span class="token comment">// 记录首节点</span>
-	<span class="token keyword">while</span><span class="token punctuation">(</span>tail <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span><span class="token comment">// tail不为空 进循环后 再进行判断</span>
-		<span class="token keyword">if</span><span class="token punctuation">(</span>tail<span class="token operator">-></span>val <span class="token operator">==</span> x<span class="token punctuation">)</span>
-			<span class="token keyword">return</span> tail<span class="token punctuation">;</span>        <span class="token comment">// 找到就返回节点</span>
-			
-		tail <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>      <span class="token comment">// 没找到，tail 就变为 自己的 next</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>    <span class="token comment">// 没进入循环或者从循环出来了，就代表没找到，返回NULL</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SListNode* <span class="title function_">SListFind</span><span class="params">(SListNode* phead, SLTDataType x)</span></span><br><span class="line">&#123;</span><br><span class="line">	SListNode* tail = phead;    <span class="comment">// 记录首节点</span></span><br><span class="line">	<span class="keyword">while</span>(tail != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;<span class="comment">// tail不为空 进循环后 再进行判断</span></span><br><span class="line">		<span class="keyword">if</span>(tail-&gt;val == x)</span><br><span class="line">			<span class="keyword">return</span> tail;        <span class="comment">// 找到就返回节点</span></span><br><span class="line">			</span><br><span class="line">		tail = tail-&gt;next;      <span class="comment">// 没找到，tail 就变为 自己的 next</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;    <span class="comment">// 没进入循环或者从循环出来了，就代表没找到，返回NULL</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>验证一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SLTFind_SHOW_2022420.png"></p>
 <h3 id="单链表指定位置之后插入🐚"><a href="#单链表指定位置之后插入🐚" class="headerlink" title="单链表指定位置之后插入🐚"></a>单链表指定位置之后插入🐚</h3><p>❤️‍🔥<br>单链表的 <code>插入函数</code> 一般是与单链表 <code>查找函数</code> 一起使用的<br><code>查找函数先找到节点的位置</code> ，然后 <code>传入插入函数在结点之后插入新的节点</code></p>
@@ -649,14 +506,7 @@
 <p>思考一下为什么一般不在指定节点位置之前插入?</p>
 </blockquote>
 <p>在 <code>指定位置(pos)之后</code> 插入新节点，就可以不用传入 <code>首节点</code> 直接将新节点 <code>链接在 pos 位置之后</code> 就可以了</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">SListInsertAfter</span><span class="token punctuation">(</span>SListNode <span class="token operator">*</span>pos<span class="token punctuation">,</span> SLTDateType x<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pos<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	SListNode <span class="token operator">*</span>newNode <span class="token operator">=</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
-    newNode<span class="token operator">-></span>next <span class="token operator">=</span> pos<span class="token operator">-></span>next<span class="token punctuation">;</span>             <span class="token comment">// 先将新节点的next 链上 pos的next</span>
-    pos<span class="token operator">-></span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>            <span class="token comment">// 再将pos的next指向新节点</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">SListInsertAfter</span><span class="params">(SListNode *pos, SLTDateType x)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pos);</span><br><span class="line"></span><br><span class="line">	SListNode *newNode = BuySLTNode(x);</span><br><span class="line">    newNode-&gt;next = pos-&gt;next;             <span class="comment">// 先将新节点的next 链上 pos的next</span></span><br><span class="line">    pos-&gt;next = newNode;            <span class="comment">// 再将pos的next指向新节点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>验证一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListInsertAfter_Show_2022420.png"><br>插入成功</p>
 <p>且，在 <code>pos位置之后</code> 插入的时间复杂度为 <code>O(1)</code></p>
@@ -668,19 +518,7 @@
 </blockquote>
 <p>因为 <code>删除 pos 位置之后</code> 的节点，所以也不需要传入 <code>首节点指针</code><br>所以，它的时间复杂度 也是 <code>O(1)</code></p>
 <p>实现：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表删除(pos之后)</span>
-<span class="token keyword">void</span> <span class="token function">SListEraseAfter</span><span class="token punctuation">(</span>SLTNode<span class="token operator">*</span> pos<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pos<span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-	SListNode<span class="token operator">*</span> next <span class="token operator">=</span> pos<span class="token operator">-></span>next<span class="token punctuation">;</span>			<span class="token comment">//先记录 pos 的 next 节点</span>
-	<span class="token keyword">if</span> <span class="token punctuation">(</span>next<span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span><span class="token comment">// 若此节点不为空则进行操作</span>
-		pos<span class="token operator">-></span>next <span class="token operator">=</span> next<span class="token operator">-></span>next<span class="token punctuation">;</span>			<span class="token comment">// 先将 pos的next 指向 next的next</span>
-		<span class="token function">free</span><span class="token punctuation">(</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>						<span class="token comment">// 再释放 next</span>
-		next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 单链表删除(pos之后)</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SListEraseAfter</span><span class="params">(SLTNode* pos)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pos);</span><br><span class="line"></span><br><span class="line">	SListNode* next = pos-&gt;next;			<span class="comment">//先记录 pos 的 next 节点</span></span><br><span class="line">	<span class="keyword">if</span> (next)</span><br><span class="line">	&#123;<span class="comment">// 若此节点不为空则进行操作</span></span><br><span class="line">		pos-&gt;next = next-&gt;next;			<span class="comment">// 先将 pos的next 指向 next的next</span></span><br><span class="line">		<span class="built_in">free</span>(next);						<span class="comment">// 再释放 next</span></span><br><span class="line">		next = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListEraseAfter_Show_2022421.png"></p>
 <p>动画过程：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SingleListEraseAfter_20220421.gif"></p>
@@ -692,21 +530,7 @@
 <li>销毁完成之后，<code>*pphead</code> 置空</li>
 </ol>
 <p>经过以上接口的实现，考虑完这些点，就可以直接实现 <code>销毁</code> 了:</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 销毁单链表</span>
-<span class="token keyword">void</span> <span class="token function">SListDestroy</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	
-	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>
-	<span class="token keyword">while</span><span class="token punctuation">(</span>tail <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span><span class="token comment">// 链表不为空</span>
-		SListNode<span class="token operator">*</span> next <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>    <span class="token comment">//销毁当前结点之前,要将下一节点存储起来</span>
-		<span class="token function">free</span><span class="token punctuation">(</span>tail<span class="token punctuation">)</span><span class="token punctuation">;</span>
-		tail <span class="token operator">=</span> next<span class="token punctuation">;</span>                <span class="token comment">// 将tail 赋成 存储起来的节点</span>
-	<span class="token punctuation">&#125;</span>
-	
-	<span class="token operator">*</span>pphead <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 销毁单链表</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">SListDestroy</span><span class="params">(SListNode** pphead)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pphead);</span><br><span class="line">	</span><br><span class="line">	SListNode* tail = *pphead;</span><br><span class="line">	<span class="keyword">while</span>(tail != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;<span class="comment">// 链表不为空</span></span><br><span class="line">		SListNode* next = tail-&gt;next;    <span class="comment">//销毁当前结点之前,要将下一节点存储起来</span></span><br><span class="line">		<span class="built_in">free</span>(tail);</span><br><span class="line">		tail = next;                <span class="comment">// 将tail 赋成 存储起来的节点</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	*pphead = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListDestroy_2022420.png"></p>
 <p>单链表成功被销毁。</p>
 <hr>
@@ -826,7 +650,7 @@
     <img class="site-author-image" itemprop="image" alt="七月July"
       src="/images/Pikachu.png">
   <p class="site-author-name" itemprop="name">七月July</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">七月的博客</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -897,12 +721,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">38k</span>
+    <span title="站点总字数">40k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">42 分钟</span>
+    <span title="站点阅读时长">44 分钟</span>
 </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://lib.baomitu.com/canvas-nest.js/1.0.1/canvas-nest.js"></script>
 
         

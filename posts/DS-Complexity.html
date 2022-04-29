@@ -17,7 +17,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="复杂度 引言本篇文章是 数据结构与算法 正式内容的第一篇文章。要介绍的也是数据结构与算法中最重要的概念之一：**复杂度** 复杂度，是贯穿整个数据结构与算法学习的一个重要概念。">
@@ -139,17 +139,17 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签<span class="badge">10</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类<span class="badge">4</span></a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档<span class="badge">8</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -213,7 +213,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/Pikachu.png">
       <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="七月的博客">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -277,14 +277,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>5.5k</span>
+              <span>5.9k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
+              <span>7 分钟</span>
             </span>
 
         </div>
@@ -307,67 +307,24 @@
 <p>究竟什么是复杂度？</p>
 <h1 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h1><p>上面提到：**<code>时间复杂度</code>** 主要衡量一个算法的运行快慢。<br>但是，这里的 快慢 并不是指 算法运行所需要执行的具体的时间。而是指：<code>算法中的基本操作的执行次数</code>。并且，算法的时间复杂度用一个函数表示.</p>
 <p>举个简单的例子：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 一个简单的循环</span>
-<span class="token keyword">void</span> <span class="token function">Fun1</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> n<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d "</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个简单的循环</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Fun1</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d &quot;</span>, i);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这段代码，<code>for</code> 循环执行的次数，是根据传入的参数来具体决定的，即循环 <code>n</code> 次。就可以说，这个函数的 时间复杂度是 <code>O(N)</code>。</p>
 <p>看起来非常简单？</p>
 <p>那么再看一个例子：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">Fun2</span><span class="token punctuation">(</span><span class="token keyword">int</span> n<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N <span class="token punctuation">;</span> <span class="token operator">++</span> i<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> N <span class="token punctuation">;</span> <span class="token operator">++</span> j<span class="token punctuation">)</span>  
-		<span class="token punctuation">&#123;</span>  
-			<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-		<span class="token punctuation">&#125;</span>  
-	<span class="token punctuation">&#125;</span>  
-	
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">2</span> <span class="token operator">*</span> N <span class="token punctuation">;</span> <span class="token operator">++</span> k<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-	
-	<span class="token keyword">int</span> M <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>  
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>M<span class="token operator">--</span><span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>
-
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Fun2</span><span class="params">(<span class="type">int</span> n)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> count = <span class="number">0</span>;  </span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; N ; ++ i)  </span><br><span class="line">	&#123;  </span><br><span class="line">		<span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; N ; ++ j)  </span><br><span class="line">		&#123;  </span><br><span class="line">			++count;  </span><br><span class="line">		&#125;  </span><br><span class="line">	&#125;  </span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; <span class="number">2</span> * N ; ++ k)  </span><br><span class="line">	&#123;  </span><br><span class="line">		++count;  </span><br><span class="line">	&#125;  </span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> M = <span class="number">10</span>;  </span><br><span class="line">	<span class="keyword">while</span> (M--)  </span><br><span class="line">	&#123;  </span><br><span class="line">		++count;  </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>函数 <code>Fun2</code> 中存在三个循环体，其中一个是嵌套的双重循环<br>那么，这个函数的 时间复杂度 是多少呢？该怎么计算？</p>
 <p>逐个分析：</p>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span><span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-<span class="token operator">></span><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> N <span class="token punctuation">;</span> <span class="token operator">++</span> i<span class="token punctuation">)</span>  
-<span class="token operator">></span><span class="token punctuation">&#123;</span>  
-<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> N <span class="token punctuation">;</span> <span class="token operator">++</span> j<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span>  
-<span class="token operator">></span><span class="token punctuation">&#125;</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="type">int</span> count = <span class="number">0</span>;  </span><br><span class="line">&gt;<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; N ; ++ i)  </span><br><span class="line">&gt;&#123;  </span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">0</span>; j &lt; N ; ++ j)  </span><br><span class="line">&#123;  </span><br><span class="line">	++count;  </span><br><span class="line">&#125;  </span><br><span class="line">&gt;&#125;  </span><br></pre></td></tr></table></figure>
 <p>这个循环是一个循环的嵌套，执行次数是 <code>N*N</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span><span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">2</span> <span class="token operator">*</span> N <span class="token punctuation">;</span> <span class="token operator">++</span> k<span class="token punctuation">)</span>  
-<span class="token operator">></span><span class="token punctuation">&#123;</span>  
-<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-<span class="token operator">></span><span class="token punctuation">&#125;</span>  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; <span class="number">2</span> * N ; ++ k)  </span><br><span class="line">&gt;&#123;  </span><br><span class="line">++count;  </span><br><span class="line">&gt;&#125;  </span><br></pre></td></tr></table></figure>
 <p>这个循环就是一个普通的循环，执行次数是 <code>2*N</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span><span class="token keyword">int</span> M <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>  
-<span class="token operator">></span><span class="token keyword">while</span> <span class="token punctuation">(</span>M<span class="token operator">--</span><span class="token punctuation">)</span>  
-<span class="token operator">></span><span class="token punctuation">&#123;</span>  
-<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-<span class="token operator">></span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="type">int</span> M = <span class="number">10</span>;  </span><br><span class="line">&gt;<span class="keyword">while</span> (M--)  </span><br><span class="line">&gt;&#123;  </span><br><span class="line">++count;  </span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
 <p>这个循环是 可以确定次数的循环，每次函数调用执行的次数是一定的，执行次数是 <code>10</code> 次</p>
 </blockquote>
 <p>结合起来，这个函数的时间复杂度就是 <code>O(N^2 + 2*N + 10)</code><br>但是，事实并不是这样的。<br>这个函数的时间复杂度 其实是 <code>O(N^2)</code><br>为什么？</p>
@@ -391,22 +348,7 @@
 </ol>
 <p>即，大O的渐进表示法 <code>去掉了那些对结果影响不大的项</code> ，简洁明了的表示出了时间复杂度。<br>所以 函数<code>Fun2</code> 的时间复杂度为： <code>O(N^2)</code> 忽略了 <code>2*N + 10</code></p>
 <h3 id="时间复杂度的最好、最坏、平均情况"><a href="#时间复杂度的最好、最坏、平均情况" class="headerlink" title="时间复杂度的最好、最坏、平均情况"></a>时间复杂度的最好、最坏、平均情况</h3><p>虽然知道了 大O渐进表示法 的计算方法，但是 总有一些算法代码是拥有多种情况的。<br>比如：</p>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">//查找整型数组中第一个 10 的位置</span>
-<span class="token keyword">int</span> <span class="token function">Find_10</span><span class="token punctuation">(</span><span class="token keyword">int</span> <span class="token operator">*</span>arr<span class="token punctuation">,</span> <span class="token keyword">int</span> arrSize<span class="token punctuation">)</span>
-<span class="token punctuation">&#123;</span>
-	<span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-	<span class="token keyword">while</span><span class="token punctuation">(</span>arrSize<span class="token operator">--</span><span class="token punctuation">)</span>
-	<span class="token punctuation">&#123;</span>
-		<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">*</span>arr <span class="token operator">==</span> <span class="token number">10</span><span class="token punctuation">)</span>
-		<span class="token punctuation">&#123;</span>
-			<span class="token keyword">return</span> i<span class="token punctuation">;</span>	
-		<span class="token punctuation">&#125;</span>
-		arr<span class="token operator">++</span><span class="token punctuation">;</span>
-		i<span class="token operator">++</span><span class="token punctuation">;</span>
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//查找整型数组中第一个 10 的位置</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Find_10</span><span class="params">(<span class="type">int</span> *arr, <span class="type">int</span> arrSize)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span>(arrSize--)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(*arr == <span class="number">10</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> i;	</span><br><span class="line">		&#125;</span><br><span class="line">		arr++;</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这个函数目的是寻找数组中第一个 <code>10</code> 的位置，但是  第一个 <code>10</code> 有可能出现在 一个数组中的任何位置，甚至不出现在数组中。</p>
 <p>可能是 在 <code>arr[0]</code> <code>arr[n - 1]</code> <code>arr[n / 2]</code> ，被查找的数的位置是不定的，所以 这个函数中 <code>基本操作的执行次数也是不定的</code>。</p>
@@ -415,98 +357,23 @@
 <p><code>「PS:计算基本操作的执行次数，结果中的未知数用 N 或 M 代表(只有一个未知数 用 N,两个未知数 用 N 和 M, 多个可以用其他)」</code></p>
 </blockquote>
 <h2 id="时间复杂度计算举例"><a href="#时间复杂度计算举例" class="headerlink" title="时间复杂度计算举例"></a>时间复杂度计算举例</h2><blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算Func1的时间复杂度？  </span>
-<span class="token keyword">void</span> <span class="token function">Func1</span><span class="token punctuation">(</span><span class="token keyword">int</span> N<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">2</span> <span class="token operator">*</span> N <span class="token punctuation">;</span> <span class="token operator">++</span>k<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>
-
-	<span class="token keyword">int</span> M <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>  
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>M<span class="token operator">--</span><span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算Func1的时间复杂度？  </span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Func1</span><span class="params">(<span class="type">int</span> N)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	<span class="type">int</span> count = <span class="number">0</span>;  </span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; <span class="number">2</span> * N ; ++k)  </span><br><span class="line">	&#123;  </span><br><span class="line">		++count;  </span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> M = <span class="number">10</span>;  </span><br><span class="line">	<span class="keyword">while</span> (M--)  </span><br><span class="line">	&#123;  </span><br><span class="line">		++count;  </span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, count);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此函数，通过分析<br>拥有两个循环体，一个循环 <code>2*N</code> 次，另一个循环 <code>10</code> 次<br>按照 大O 渐进表示法，时间复杂度为 <code>O(N)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算Func2的时间复杂度？  </span>
-<span class="token keyword">void</span> <span class="token function">Func2</span><span class="token punctuation">(</span><span class="token keyword">int</span> N<span class="token punctuation">,</span> <span class="token keyword">int</span> M<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> M<span class="token punctuation">;</span> <span class="token operator">++</span>k<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> N <span class="token punctuation">;</span> <span class="token operator">++</span> k<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算Func2的时间复杂度？  </span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Func2</span><span class="params">(<span class="type">int</span> N, <span class="type">int</span> M)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	<span class="type">int</span> count = <span class="number">0</span>;  </span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; M; ++k)  </span><br><span class="line">	&#123;  </span><br><span class="line">		++count;  </span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; N ; ++ k)  </span><br><span class="line">	&#123;  </span><br><span class="line">		++count;  </span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, count);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此函数，通过分析<br>拥有两个循环体，一个循环 <code>M</code> 次，另一个循环 <code>N</code> 次<br>按照 大O 渐进表示法，时间复杂度为 <code>O(M + N)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算Func3的时间复杂度？  </span>
-<span class="token keyword">void</span> <span class="token function">Func3</span><span class="token punctuation">(</span><span class="token keyword">int</span> N<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token keyword">int</span> count <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> k <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> k <span class="token operator">&lt;</span> <span class="token number">100</span><span class="token punctuation">;</span> <span class="token operator">++</span>k<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token operator">++</span>count<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> count<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算Func3的时间复杂度？  </span></span><br><span class="line"><span class="type">void</span> <span class="title function_">Func3</span><span class="params">(<span class="type">int</span> N)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	<span class="type">int</span> count = <span class="number">0</span>;  </span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">0</span>; k &lt; <span class="number">100</span>; ++k)  </span><br><span class="line">	&#123;  </span><br><span class="line">		++count;  </span><br><span class="line">	&#125;  </span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, count);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此函数，通过分析<br>有一个循环体，但是循环体循环次数与传入参数无关，固定循环 <code>100</code> 次<br>按照 大O 渐进表示法，时间复杂度为 <code>O(1)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算BubbleSort的时间复杂度？  </span>
-<span class="token keyword">void</span> <span class="token function">BubbleSort</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token function">assert</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> end <span class="token operator">=</span> n<span class="token punctuation">;</span> end <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token operator">--</span>end<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token keyword">int</span> exchange <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-		<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> end<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>  
-		<span class="token punctuation">&#123;</span>  
-			<span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">></span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>  
-			<span class="token punctuation">&#123;</span>  
-				<span class="token function">Swap</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
-				exchange <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>  
-			<span class="token punctuation">&#125;</span>  
-		<span class="token punctuation">&#125;</span>  
-		<span class="token keyword">if</span> <span class="token punctuation">(</span>exchange <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>  
-			<span class="token keyword">break</span><span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算BubbleSort的时间复杂度？  </span></span><br><span class="line"><span class="type">void</span> <span class="title function_">BubbleSort</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> n)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	assert(a);  </span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> end = n; end &gt; <span class="number">0</span>; --end)  </span><br><span class="line">	&#123;  </span><br><span class="line">		<span class="type">int</span> exchange = <span class="number">0</span>;  </span><br><span class="line">		<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">1</span>; i &lt; end; ++i)  </span><br><span class="line">		&#123;  </span><br><span class="line">			<span class="keyword">if</span> (a[i<span class="number">-1</span>] &gt; a[i])  </span><br><span class="line">			&#123;  </span><br><span class="line">				Swap(&amp;a[i<span class="number">-1</span>], &amp;a[i]); </span><br><span class="line">				exchange = <span class="number">1</span>;  </span><br><span class="line">			&#125;  </span><br><span class="line">		&#125;  </span><br><span class="line">		<span class="keyword">if</span> (exchange == <span class="number">0</span>)  </span><br><span class="line">			<span class="keyword">break</span>;  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此函数为<code>冒泡排序（排升序）</code><br>需要分情况分析：<br>最好的情况是：除了第一位其他都已位升序，则只需要循环 <code>N</code>  次，即 <code>将第一位数据冒泡至最后一位</code><br>最坏的情况是：数据按照降序排列，则每一个数据都要进行排序，计算执行次数的结果为：<code>(N*(N+1)/2</code> 次<br>按照 大O 渐进表示法，取最坏的情况时间复杂度为 <code>O(N^2)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算BinarySearch的时间复杂度？  </span>
-<span class="token keyword">int</span> <span class="token function">BinarySearch</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">,</span> <span class="token keyword">int</span> x<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token function">assert</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-
-	<span class="token keyword">int</span> begin <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-	<span class="token keyword">int</span> end <span class="token operator">=</span> n<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>  
-	<span class="token keyword">while</span> <span class="token punctuation">(</span>begin <span class="token operator">&lt;</span> end<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token keyword">int</span> mid <span class="token operator">=</span> begin <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>end<span class="token operator">-</span>begin<span class="token punctuation">)</span><span class="token operator">>></span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-		<span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>mid<span class="token punctuation">]</span> <span class="token operator">&lt;</span> x<span class="token punctuation">)</span>  
-			begin <span class="token operator">=</span> mid<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>  
-		<span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>mid<span class="token punctuation">]</span> <span class="token operator">></span> x<span class="token punctuation">)</span>  
-			end <span class="token operator">=</span> mid<span class="token punctuation">;</span>  
-		<span class="token keyword">else</span>  
-			<span class="token keyword">return</span> mid<span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-
-	<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算BinarySearch的时间复杂度？  </span></span><br><span class="line"><span class="type">int</span> <span class="title function_">BinarySearch</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> n, <span class="type">int</span> x)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	assert(a);  </span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> begin = <span class="number">0</span>;  </span><br><span class="line">	<span class="type">int</span> end = n<span class="number">-1</span>;  </span><br><span class="line">	<span class="keyword">while</span> (begin &lt; end)  </span><br><span class="line">	&#123;  </span><br><span class="line">		<span class="type">int</span> mid = begin + ((end-begin)&gt;&gt;<span class="number">1</span>);  </span><br><span class="line">		<span class="keyword">if</span> (a[mid] &lt; x)  </span><br><span class="line">			begin = mid+<span class="number">1</span>;  </span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span> (a[mid] &gt; x)  </span><br><span class="line">			end = mid;  </span><br><span class="line">		<span class="keyword">else</span>  </span><br><span class="line">			<span class="keyword">return</span> mid;  </span><br><span class="line">	&#125;  </span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此函数为<code>二分查找</code>，<code>(被查找的数据必须是有序的)</code><br>同样需要分情况分析：<br>最好的情况：<code>指定数据在数组中间位置，只需要执行一次</code>，即第一次查找就查找到指定数据<br>最坏的情况：</p>
 <blockquote>
 <p>二分查找的原理：<code>因为使用二分查找的数据必须是有序的，所以可以通过缩小查找范围来进行查找</code><br>二分查找每次查找一次，<code>下一次查找的范围会缩小为当前范围的一半</code><br>只需要一张动图就可解释：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/BinarySearch.gif"><br>可以看出，每次查找之后，下一次需要查找的元素只剩下一半，所以最坏的情况其实是 需要查找：<code>log N</code>次<br><code>复杂度中，log N即为 以2为底N的对数</code></p>
@@ -514,25 +381,11 @@
 <p>所以按照 大O 渐进表示法，取最坏的情况时间复杂度为 <code>O(log N)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算阶乘递归Fac的时间复杂度？  </span>
-<span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token function">Fac</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> N<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token number">0</span> <span class="token operator">==</span> N<span class="token punctuation">)</span>  
-		<span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>  
-
-	<span class="token keyword">return</span> <span class="token function">Fac</span><span class="token punctuation">(</span>N<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span>N<span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算阶乘递归Fac的时间复杂度？  </span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> <span class="title function_">Fac</span><span class="params">(<span class="type">size_t</span> N)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	<span class="keyword">if</span>(<span class="number">0</span> == N)  </span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;  </span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> Fac(N<span class="number">-1</span>)*N;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此函数为 <code>递归求阶乘</code><br>递归求阶乘，通过计算可以算出，求<code>N的阶乘</code> 则函数调用了 <code>N</code>次<br>所以按照 大O 渐进表示法，时间复杂度为 <code>O(N)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算斐波那契递归Fib的时间复杂度</span>
-<span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token function">Fib</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> N<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token keyword">if</span><span class="token punctuation">(</span>N <span class="token operator">&lt;</span> <span class="token number">3</span><span class="token punctuation">)</span>  
-		<span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>  
-
-	<span class="token keyword">return</span> <span class="token function">Fib</span><span class="token punctuation">(</span>N<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token function">Fib</span><span class="token punctuation">(</span>N<span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算斐波那契递归Fib的时间复杂度</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> <span class="title function_">Fib</span><span class="params">(<span class="type">size_t</span> N)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	<span class="keyword">if</span>(N &lt; <span class="number">3</span>)  </span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;  </span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> Fib(N<span class="number">-1</span>) + Fib(N<span class="number">-2</span>);  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>此函数为 <code>递归求斐波那契数列</code><br>递归求斐波那契数列，一个简单的递归分析图：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Fib_5.jpg"><br>发现正常调用函数，会再发生两次递归，所以应该是 <code>2^N</code><br>但是因为当 <code>N &lt; 3</code> 会返回 <code>1</code>，不再递归，所以应该是 <code>2^N - x</code> <code>(不容易计算所以用 x 表示)</code>，但是无论怎样，相减的常数因该是对<code>2^N</code> 造不成多大影响的<br>所以按照 大O 渐进表示法，时间复杂度为 <code>O(2^N)</code></p>
 </blockquote>
 <hr>
@@ -549,56 +402,15 @@
 <p><code>空间复杂度</code> 和 <code>时间复杂度</code> 的表示方法一样，都用 大O渐进表示法。</p>
 <h2 id="空间复杂度的计算举例"><a href="#空间复杂度的计算举例" class="headerlink" title="空间复杂度的计算举例"></a>空间复杂度的计算举例</h2><p>依然举几个例子：</p>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算BubbleSort的空间复杂度？  </span>
-<span class="token keyword">void</span> <span class="token function">BubbleSort</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token operator">*</span> a<span class="token punctuation">,</span> <span class="token keyword">int</span> n<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token function">assert</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>  
-
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> end <span class="token operator">=</span> n<span class="token punctuation">;</span> end <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">;</span> <span class="token operator">--</span>end<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		<span class="token keyword">int</span> exchange <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-		<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">size_t</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> end<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>  
-		<span class="token punctuation">&#123;</span>  
-			<span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">></span> a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>  
-			<span class="token punctuation">&#123;</span>  
-				<span class="token function">Swap</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>a<span class="token punctuation">[</span>i<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>a<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
-				exchange <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>  
-			<span class="token punctuation">&#125;</span>  
-		<span class="token punctuation">&#125;</span>  
-		<span class="token keyword">if</span> <span class="token punctuation">(</span>exchange <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>  
-			<span class="token keyword">break</span><span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算BubbleSort的空间复杂度？  </span></span><br><span class="line"><span class="type">void</span> <span class="title function_">BubbleSort</span><span class="params">(<span class="type">int</span>* a, <span class="type">int</span> n)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	assert(a);  </span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> end = n; end &gt; <span class="number">0</span>; --end)  </span><br><span class="line">	&#123;  </span><br><span class="line">		<span class="type">int</span> exchange = <span class="number">0</span>;  </span><br><span class="line">		<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">1</span>; i &lt; end; ++i)  </span><br><span class="line">		&#123;  </span><br><span class="line">			<span class="keyword">if</span> (a[i<span class="number">-1</span>] &gt; a[i])  </span><br><span class="line">			&#123;  </span><br><span class="line">				Swap(&amp;a[i<span class="number">-1</span>], &amp;a[i]); </span><br><span class="line">				exchange = <span class="number">1</span>;  </span><br><span class="line">			&#125;  </span><br><span class="line">		&#125;  </span><br><span class="line">		<span class="keyword">if</span> (exchange == <span class="number">0</span>)  </span><br><span class="line">			<span class="keyword">break</span>;  </span><br><span class="line">	&#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>分析代码可以看出，冒泡排序额外使用的空间并没有与 <code>N</code> 发生关联。使用了常量个额外空间<br>所以 按照 大O 渐进表示法，空间复杂度为 <code>O(1)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算Fibonacci的空间复杂度？  </span>
-<span class="token comment">// 返回斐波那契数列的前n项  </span>
-<span class="token keyword">long</span> <span class="token keyword">long</span><span class="token operator">*</span> <span class="token function">Fibonacci</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> n<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token keyword">if</span><span class="token punctuation">(</span>n<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span>  
-		<span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>  
-	<span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token operator">*</span> fibArray <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token punctuation">(</span>n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">long</span> <span class="token keyword">long</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-	fibArray<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>  
-	fibArray<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>  
-	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> n <span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span>  
-	<span class="token punctuation">&#123;</span>  
-		fibArray<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> fibArray<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">+</span> fibArray <span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">;</span>  
-	<span class="token punctuation">&#125;</span>  
-
-	<span class="token keyword">return</span> fibArray<span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算Fibonacci的空间复杂度？  </span></span><br><span class="line"><span class="comment">// 返回斐波那契数列的前n项  </span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span>* <span class="title function_">Fibonacci</span><span class="params">(<span class="type">size_t</span> n)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	<span class="keyword">if</span>(n==<span class="number">0</span>)  </span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;  </span><br><span class="line">	<span class="type">long</span> <span class="type">long</span> * fibArray = (<span class="type">long</span> <span class="type">long</span> *)<span class="built_in">malloc</span>((n+<span class="number">1</span>) * <span class="keyword">sizeof</span>(<span class="type">long</span> <span class="type">long</span>));  </span><br><span class="line">	fibArray[<span class="number">0</span>] = <span class="number">0</span>;  </span><br><span class="line">	fibArray[<span class="number">1</span>] = <span class="number">1</span>;  </span><br><span class="line">	<span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n ; ++i)  </span><br><span class="line">	&#123;  </span><br><span class="line">		fibArray[i] = fibArray[i - <span class="number">1</span>] + fibArray [i - <span class="number">2</span>];  </span><br><span class="line">	&#125;  </span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> fibArray;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这是使用 <code>数组实现的计算斐波那契数列的 前N 项</code><br>分析代码可以看出，这段代码 使用 <code>malloc</code> 函数开辟了 <code>n+1</code> 个 <code>long long</code>类型的空间，即额外使用的空间与 <code>N</code> 1:1相关<br>所以 按照 大O 渐进表示法，空间复杂度为 <code>O(N)</code></p>
 </blockquote>
 <blockquote>
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 计算阶乘递归Fac的空间复杂度？  </span>
-<span class="token keyword">long</span> <span class="token keyword">long</span> <span class="token function">Fac</span><span class="token punctuation">(</span><span class="token class-name">size_t</span> N<span class="token punctuation">)</span>  
-<span class="token punctuation">&#123;</span>  
-	<span class="token keyword">if</span><span class="token punctuation">(</span>N <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span>  
-		<span class="token keyword">return</span> <span class="token number">1</span><span class="token punctuation">;</span>  
-
-	<span class="token keyword">return</span> <span class="token function">Fac</span><span class="token punctuation">(</span>N<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token operator">*</span>N<span class="token punctuation">;</span>  
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算阶乘递归Fac的空间复杂度？  </span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> <span class="title function_">Fac</span><span class="params">(<span class="type">size_t</span> N)</span>  </span><br><span class="line">&#123;  </span><br><span class="line">	<span class="keyword">if</span>(N == <span class="number">0</span>)  </span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;  </span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> Fac(N<span class="number">-1</span>)*N;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p><code>递归求N的阶乘</code><br>分析代码可以看出，代码执行需要递归 <code>N</code> 次，且每次递归都需要开辟函数栈帧，<code>每次函数栈帧开辟都会消耗常量个空间</code>，所以是 <code>常量 * N</code><br>按照 大O 渐进表示法，空间复杂度为 <code>O(N)</code></p>
 </blockquote>
 <hr>
@@ -706,7 +518,7 @@
     <img class="site-author-image" itemprop="image" alt="七月July"
       src="/images/Pikachu.png">
   <p class="site-author-name" itemprop="name">七月July</p>
-  <div class="site-description" itemprop="description"></div>
+  <div class="site-description" itemprop="description">七月的博客</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -777,12 +589,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">38k</span>
+    <span title="站点总字数">40k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">42 分钟</span>
+    <span title="站点阅读时长">44 分钟</span>
 </div><script color="0,0,255" opacity="0.5" zIndex="-1" count="99" src="https://lib.baomitu.com/canvas-nest.js/1.0.1/canvas-nest.js"></script>
 
         
