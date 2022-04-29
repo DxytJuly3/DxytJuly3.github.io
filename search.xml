@@ -282,51 +282,6 @@
       </tags>
   </entry>
   <entry>
-    <title>怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~</title>
-    <url>/posts/Figur-Bed-Whitelist.html</url>
-    <content><![CDATA[<h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
-<span id="more"></span>
-
-<p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br><img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
-<p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br>肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br>但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br>所以，对自己图床访问的限制也就变得尤为重要。<br> <strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br>下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
-<hr>
-<h1 id="给图床设置白名单"><a href="#给图床设置白名单" class="headerlink" title="给图床设置白名单"></a>给图床设置白名单</h1><p> 这里以 <code>阿里云</code> 为例 <code>( 阿里云手机暂不支持操作，或者是我没找到如何修改 )</code></p>
-<p>首先，在自己的 <code>OSS管理控制台</code> 进入<code>需要设立白名单的Bucket</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_1.png" alt="请添加图片描述"><br>然后再左边列表选择 <code>权限管理-&gt;防盗链</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_2.png"></p>
-<p>然后找到 <code>开启防盗链</code>，并打开<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_3.png"></p>
-<p>打开后，在 <code>Referer</code> 表里，添加 <code>白名单域名</code> 或 <code>ip</code>  就好了</p>
-<h1 id="白名单需要添加什么"><a href="#白名单需要添加什么" class="headerlink" title="白名单需要添加什么"></a>白名单需要添加什么</h1><p><code>白名单(防盗链)</code> 中，添加一般 <code>需要访问图床图片</code> 的 <code>网址</code> 和 <code>ip</code></p>
-<p>比如，我们在 <code>C站</code> 写博客需要访问图床外链，就把 <code>C站的域名</code> 添加进去：<code>*.csdn.net</code></p>
-<p>或者，需要在 <code>阿里云OSS</code> 预览图片：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS.png"></p>
-<p>也需要将 <code>阿里云</code> 的域名添加进去，如果不添加就会变成这样：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS_2.png"></p>
-<p>将 <code>需要访问图床图片的网站域名</code> 添加进去之后，指定网站就可以访问获取图片了 !</p>
-<p>这里我添加了需要访问图片的域名：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Referer_yuming.png"><br>添加域名的方式，阿里云有给手册 ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/For_star.png"></p>
-<p>添加完成后，就可以<code>防止白名单外的网站访问图床内的图片</code>，就可以 <code>防止爬虫访问导致流量疯狂外流</code>。</p>
-<h2 id="添加-ip-建议"><a href="#添加-ip-建议" class="headerlink" title="添加 ip 建议"></a>添加 ip 建议</h2><p>添加完网站域名，我还推荐 <code>将自己常用网络的ip地址</code> 添加至白名单。否则本地访问 图床图片时 会被拒绝导致访问失败。</p>
-<p>考虑到有些小伙伴可能不知道自己的 网络 <code>ip</code>，这里提供一下查询方法<code>(Windows平台)</code>：</p>
-<blockquote>
-<ol>
-<li>使用 <code>CMD</code> 指令查看：<br> 先打开 <code>CMD</code> 或 <code>Terminal(Win11)</code>：<br> <code>CMD</code>：可以 <code>Win + R</code> 组合键唤出  <code>运行</code>，然后输入 <code>CMD</code> 运行就可以<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_CMD.png"></li>
-</ol>
-</blockquote>
-<blockquote>
-<p> <code>Terminal(Win11)</code> ：右键 <code>开始按钮</code> 选择 <code>终端(Terminal)</code> 就可以<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_Terminal.png"></p>
-</blockquote>
-<blockquote>
-<p> 然后在弹出的界面输入 <code>ipconfig /all</code> 回车<br> 就可以找到 <code>当前网络 ip</code>：<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress.png"></p>
-<ol start="2">
-<li>开始界面打开 <code>设置</code>，并打开 <code>网络与Internet</code>，找到 <code>属性</code> 点击就可以看到 <code>当前网络ip</code>：<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress2.png"></li>
-</ol>
-</blockquote>
-<p>找到自己的 <code>网络 ip</code> 然后添加到 <code>阿里云OSS</code> <code>防盗链(白名单)</code> 里就 OK 啦！ </p>
-<hr>
-<p>OK 本篇文章到这里就结束了！</p>
-<p><code>祝以后的我们的无论使用什么做图床，都不会再挂！！</code></p>
-]]></content>
-      <tags>
-        <tag>图床</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>【神秘海域】[动图] 顺序表千字破解~</title>
     <url>/posts/DS-SeqList.html</url>
     <content><![CDATA[<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/DS_Cover_qesList.jpg"></p>
@@ -538,6 +493,51 @@ void seqListDestory(SeqList* psl);
         <tag>C语言</tag>
         <tag>数据结构与算法</tag>
         <tag>顺序表</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~</title>
+    <url>/posts/Figur-Bed-Whitelist.html</url>
+    <content><![CDATA[<h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
+<span id="more"></span>
+
+<p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br><img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
+<p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br>肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br>但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br>所以，对自己图床访问的限制也就变得尤为重要。<br> <strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br>下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
+<hr>
+<h1 id="给图床设置白名单"><a href="#给图床设置白名单" class="headerlink" title="给图床设置白名单"></a>给图床设置白名单</h1><p> 这里以 <code>阿里云</code> 为例 <code>( 阿里云手机暂不支持操作，或者是我没找到如何修改 )</code></p>
+<p>首先，在自己的 <code>OSS管理控制台</code> 进入<code>需要设立白名单的Bucket</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_1.png" alt="请添加图片描述"><br>然后再左边列表选择 <code>权限管理-&gt;防盗链</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_2.png"></p>
+<p>然后找到 <code>开启防盗链</code>，并打开<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_3.png"></p>
+<p>打开后，在 <code>Referer</code> 表里，添加 <code>白名单域名</code> 或 <code>ip</code>  就好了</p>
+<h1 id="白名单需要添加什么"><a href="#白名单需要添加什么" class="headerlink" title="白名单需要添加什么"></a>白名单需要添加什么</h1><p><code>白名单(防盗链)</code> 中，添加一般 <code>需要访问图床图片</code> 的 <code>网址</code> 和 <code>ip</code></p>
+<p>比如，我们在 <code>C站</code> 写博客需要访问图床外链，就把 <code>C站的域名</code> 添加进去：<code>*.csdn.net</code></p>
+<p>或者，需要在 <code>阿里云OSS</code> 预览图片：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS.png"></p>
+<p>也需要将 <code>阿里云</code> 的域名添加进去，如果不添加就会变成这样：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS_2.png"></p>
+<p>将 <code>需要访问图床图片的网站域名</code> 添加进去之后，指定网站就可以访问获取图片了 !</p>
+<p>这里我添加了需要访问图片的域名：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Referer_yuming.png"><br>添加域名的方式，阿里云有给手册 ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/For_star.png"></p>
+<p>添加完成后，就可以<code>防止白名单外的网站访问图床内的图片</code>，就可以 <code>防止爬虫访问导致流量疯狂外流</code>。</p>
+<h2 id="添加-ip-建议"><a href="#添加-ip-建议" class="headerlink" title="添加 ip 建议"></a>添加 ip 建议</h2><p>添加完网站域名，我还推荐 <code>将自己常用网络的ip地址</code> 添加至白名单。否则本地访问 图床图片时 会被拒绝导致访问失败。</p>
+<p>考虑到有些小伙伴可能不知道自己的 网络 <code>ip</code>，这里提供一下查询方法<code>(Windows平台)</code>：</p>
+<blockquote>
+<ol>
+<li>使用 <code>CMD</code> 指令查看：<br> 先打开 <code>CMD</code> 或 <code>Terminal(Win11)</code>：<br> <code>CMD</code>：可以 <code>Win + R</code> 组合键唤出  <code>运行</code>，然后输入 <code>CMD</code> 运行就可以<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_CMD.png"></li>
+</ol>
+</blockquote>
+<blockquote>
+<p> <code>Terminal(Win11)</code> ：右键 <code>开始按钮</code> 选择 <code>终端(Terminal)</code> 就可以<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_Terminal.png"></p>
+</blockquote>
+<blockquote>
+<p> 然后在弹出的界面输入 <code>ipconfig /all</code> 回车<br> 就可以找到 <code>当前网络 ip</code>：<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress.png"></p>
+<ol start="2">
+<li>开始界面打开 <code>设置</code>，并打开 <code>网络与Internet</code>，找到 <code>属性</code> 点击就可以看到 <code>当前网络ip</code>：<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress2.png"></li>
+</ol>
+</blockquote>
+<p>找到自己的 <code>网络 ip</code> 然后添加到 <code>阿里云OSS</code> <code>防盗链(白名单)</code> 里就 OK 啦！ </p>
+<hr>
+<p>OK 本篇文章到这里就结束了！</p>
+<p><code>祝以后的我们的无论使用什么做图床，都不会再挂！！</code></p>
+]]></content>
+      <tags>
+        <tag>图床</tag>
       </tags>
   </entry>
   <entry>
@@ -1118,7 +1118,7 @@ void seqListDestory(SeqList* psl);
       </tags>
   </entry>
   <entry>
-    <title>【C语言】[图文] 详解结构体，详细分析结构体对齐</title>
+    <title>【C 语言】[图文] 详解结构体，详细分析结构体对齐</title>
     <url>/posts/Structure.html</url>
     <content><![CDATA[<h1 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h1><h2 id="1-结构体"><a href="#1-结构体" class="headerlink" title="1. 结构体"></a>1. 结构体</h2><pre><code>结构体是一些值的集合，这些值成为成员变量。结构的每个成员可以是不同类型的变量。结构体属于自定义类型。
 </code></pre>
@@ -1149,7 +1149,7 @@ void seqListDestory(SeqList* psl);
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> c1;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">char</span> c2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>我们用 <code>sizeof</code> 求出此结构体类型的大小是：<code>12</code> 字节</p>
-<p><img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124135912996.png" alt="image-20220124135912996"></p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124135912996.png" alt="image-20220124135912996"></p>
 <p>但是 <code>int</code>类型大小是 <code>4</code> 字节，<code>char</code> 类型的大小是 <code>1</code> 字节。这个结构体大小不应该是 <code>6</code> 字节吗？ 为什么是 <code>12</code> 字节呢？</p>
 <p>这就是由于内存对齐的原因：</p>
 <hr>
@@ -1167,17 +1167,17 @@ void seqListDestory(SeqList* psl);
 <p> 所在头文件是 <code>stddef.h</code></p>
 </blockquote>
 <p>我们先计算一下上边这段结构体类型，各成员的偏移量(<code>%zu是输出 size_t 类型的数据的指定格式</code>)</p>
-<p><img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124141635244.png" alt="image-20220124141635244"></p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124141635244.png" alt="image-20220124141635244"></p>
 <p>第一个，<code>c1</code>的偏移量是 <code>0</code>;</p>
 <p>其次，<code>i</code> 的偏移量是 <code>4</code>;</p>
 <p>最后，<code>c2</code>的偏移量是 <code>8</code>. </p>
 <p>我们做图明确出来：</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124144039803.png" alt="image-20220124144039803" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124144039803.png" alt="image-20220124144039803" style="zoom:67%;" />
 
 <p>可以非常明显的看出，结构体成员<code>c1</code> 到 <code>i</code> 之间，有三个字节的空间是空的</p>
 <p>不过，这也才占用了 <code>9</code>字节的空间，但是我们计算的 结构体的大小 是 <code>12</code>，所以我们判断，在 <code>c2</code> 之后还有三个字节的空间 被这个结构体所占用。</p>
 <p>所以，此结构体的内存空间占用情况，可能是这样的：</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124144940813.png" alt="image-20220124144940813" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124144940813.png" alt="image-20220124144940813" style="zoom:67%;" />
 
 <p>那么，为什么呢？为什么会有 开辟了，但是没有用到 的空间呢？一个结构体类型的大小，到底如何计算呢？</p>
 </blockquote>
@@ -1205,7 +1205,7 @@ void seqListDestory(SeqList* psl);
 <h4 id="1-4-2-结构体内存对齐详解"><a href="#1-4-2-结构体内存对齐详解" class="headerlink" title="1.4.2 结构体内存对齐详解"></a>1.4.2 结构体内存对齐详解</h4><h5 id="1-4-2-1-示例1："><a href="#1-4-2-1-示例1：" class="headerlink" title="1.4.2.1 示例1："></a>1.4.2.1 示例1：</h5><p>我们以上面举过例子的结构体为例：</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> c1;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="type">char</span> c2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-<p>先看一下总大小：<br> <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124160252990.png" alt="image-20220124160252990" style="zoom:67%;" /></p>
+<p>先看一下总大小：<br> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124160252990.png" alt="image-20220124160252990" style="zoom:67%;" /></p>
 <p>然后我们具体来计算一下：</p>
 <blockquote>
 <table>
@@ -1233,18 +1233,18 @@ void seqListDestory(SeqList* psl);
 <p>根据规则：</p>
 <ol>
 <li><p><code>c1</code> 存放在结构体变量 开始地址的 0 偏移处</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124154534873.png" alt="image-20220124154534873" style="zoom: 67%;" /> 
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124154534873.png" alt="image-20220124154534873" style="zoom: 67%;" /> 
 </li>
 <li><p><code>i</code> 的对齐数是 <code>4</code>，所以存放在偏移量是 <code>4</code>的整数倍 处</p>
 <p>至少是<code>4</code> </p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124155055202.png" alt="image-20220124155055202" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124155055202.png" alt="image-20220124155055202" style="zoom:67%;" />
 </li>
 <li><p><code>c2</code> 的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的整数倍 处</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124155317987.png" alt="image-20220124155317987" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124155317987.png" alt="image-20220124155317987" style="zoom:67%;" />
 </li>
 <li><p>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>4</code> 的整数倍。</p>
 <p><code>c2</code>所在空间已经是 第 <code>9</code> 个字节，所以此结构体总大小 最小为 <code>12</code></p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124155736544.png" alt="image-20220124155736544" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124155736544.png" alt="image-20220124155736544" style="zoom:67%;" />
 
 <p>所以，结构体大小为 <code>12</code> 字节</p>
 </li>
@@ -1254,7 +1254,7 @@ void seqListDestory(SeqList* psl);
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S2</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">char</span> c1;</span><br><span class="line">    <span class="type">char</span> c2;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p>我们将，上一个结构体成员中的，<code>i</code> 和<code>c2</code>换一换位置结果又是什么呢？</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124160428100.png" alt="image-20220124160428100" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124160428100.png" alt="image-20220124160428100" style="zoom:67%;" />
 
 <p>我们发现只是换了一下位置，结构体大小就减少了 <code>4</code> 个字节 </p>
 <p>这次又是怎么对齐和计算的呢？</p>
@@ -1284,24 +1284,24 @@ void seqListDestory(SeqList* psl);
 <ol>
 <li><code>c1</code> 存放在结构体变量 开始地址的 0 偏移处</li>
 </ol>
-  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124154534873.png" alt="image-20220124154534873" style="zoom: 67%;" /> 
+  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124154534873.png" alt="image-20220124154534873" style="zoom: 67%;" /> 
 
 <ol start="2">
 <li><code>c2</code> 的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的整数倍 处，<code>c2</code> 下面就可以</li>
 </ol>
-  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124160939391.png" alt="image-20220124160939391" style="zoom:67%;" />
+  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124160939391.png" alt="image-20220124160939391" style="zoom:67%;" />
 
 <ol start="3">
 <li><code>i</code> 的对齐数是 <code>4</code>，所以存放在偏移量是 <code>4</code>的整数倍 处</li>
 </ol>
 <p> 至少是<code>4</code> </p>
-  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124161026248.png" alt="image-20220124161026248" style="zoom:67%;" />
+  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124161026248.png" alt="image-20220124161026248" style="zoom:67%;" />
 
 <ol start="4">
 <li>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>4</code> 的整数倍。</li>
 </ol>
 <p> <code>i</code>存放完，结构体占<code>8</code>个字节，正好是 <code>4</code>的倍数，所以不用再占用其他空间</p>
-  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124161322999.png" alt="image-20220124161322999" style="zoom:67%;" />
+  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124161322999.png" alt="image-20220124161322999" style="zoom:67%;" />
 
 <p> 此结构体总大小为：<code>8</code>字节</p>
 </blockquote>
@@ -1334,25 +1334,25 @@ void seqListDestory(SeqList* psl);
 </tbody></table>
 <ol>
 <li><p><code>n</code> 存放在结构体变量 开始地址的 <code>0</code> 偏移处</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163039058.png" alt="image-20220124163039058" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124163039058.png" alt="image-20220124163039058" style="zoom:67%;" />
 </li>
 <li><p><code>c2</code> 的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的整数倍 处</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163133970.png" alt="image-20220124163133970" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124163133970.png" alt="image-20220124163133970" style="zoom:67%;" />
 </li>
 <li><p><code>i</code> 的对齐数是 <code>4</code>，所以存放在偏移量是 <code>4</code>的整数倍 处</p>
 <p>至少是<code>12</code> </p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163205300.png" alt="image-20220124163205300" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124163205300.png" alt="image-20220124163205300" style="zoom:67%;" />
 </li>
 <li><p>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>8</code> 的整数倍。</p>
 <p><code>i</code>存放完，结构体占<code>16</code>个字节，正好是 <code>8</code>的倍数，所以不用再占用其他空间</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163407789.png" alt="image-20220124163407789" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124163407789.png" alt="image-20220124163407789" style="zoom:67%;" />
 
 <p>此结构体总大小为：<code>16</code>字节</p>
 </li>
 </ol>
 </blockquote>
 <p>我们来验证一下：</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163820717.png" alt="image-20220124163820717" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124163820717.png" alt="image-20220124163820717" style="zoom:67%;" />
 
 <p>确实跟我们计算的一样，这个结构体大小为 <code>16</code> 字节</p>
 <h5 id="1-4-2-4-示例4（嵌套结构体的结构体）"><a href="#1-4-2-4-示例4（嵌套结构体的结构体）" class="headerlink" title="1.4.2.4 示例4（嵌套结构体的结构体）"></a>1.4.2.4 示例4（嵌套结构体的结构体）</h5><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S3</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">double</span> n;</span><br><span class="line">    <span class="type">char</span> c1;</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S4</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">S3</span> <span class="title">s</span>;</span></span><br><span class="line">    <span class="type">char</span> c1;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
@@ -1392,18 +1392,18 @@ void seqListDestory(SeqList* psl);
 </tbody></table>
 <ol>
 <li><p><code>n</code> （大小为<code>4</code>）存放在结构体变量 开始地址的 <code>0</code> 偏移处</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124165613737.png" alt="image-20220124165613737" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124165613737.png" alt="image-20220124165613737" style="zoom:67%;" />
 </li>
 <li><p><code>s</code> （大小为<code>16</code>）的对齐数是 <code>8</code>，所以存放在偏移量是 <code>8</code>的整数倍 处</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124170021927.png" alt="image-20220124170021927"  />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124170021927.png" alt="image-20220124170021927"  />
 </li>
 <li><p><code>c1</code>（大小为 <code>1</code>）的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的倍数 处</p>
-<p> <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124170223547.png" alt="image-20220124170223547"></p>
+<p> <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124170223547.png" alt="image-20220124170223547"></p>
 </li>
 <li><p>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>8</code> 的整数倍。</p>
 <p><code>c1</code> 存放完，已经占用 <code>25</code> 字节，所以此结构体总大小 最小为 <code>32</code></p>
 <p>即</p>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124170531153.png" alt="image-20220124170531153" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124170531153.png" alt="image-20220124170531153" style="zoom:67%;" />
 
 <p>此结构体总大小为：<code>32</code> 字节</p>
 </li>
@@ -1445,12 +1445,12 @@ void seqListDestory(SeqList* psl);
 <ol>
 <li>假设 不对齐内存</li>
 </ol>
-  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124173955115.png" alt="image-20220124173955115" style="zoom:67%;" />
+  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124173955115.png" alt="image-20220124173955115" style="zoom:67%;" />
 
 <ol start="2">
 <li>假设 对齐内存</li>
 </ol>
-  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124174019513.png" alt="image-20220124174019513" style="zoom:67%;" />
+  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124174019513.png" alt="image-20220124174019513" style="zoom:67%;" />
 
 <p>假设，我们是 32 位环境，一次可以读取 4 字节</p>
 <p>那么对于<code>第一种情况</code>:</p>
@@ -1458,7 +1458,7 @@ void seqListDestory(SeqList* psl);
 <p>我们要访问完整的 <code>i</code> 的数据，就需要访问两次</p>
 </blockquote>
 <blockquote>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124174747128.png" alt="image-20220124174747128" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124174747128.png" alt="image-20220124174747128" style="zoom:67%;" />
 </blockquote>
 <blockquote>
 <p>因为，第一次只访问到了 <code>i</code>的 前三个字节，第二次访问了 <code>i</code> 的最后一个字节 </p>
@@ -1471,7 +1471,7 @@ void seqListDestory(SeqList* psl);
 <p>跳过前 4 个字节，直接访问 <code>i</code> 的数据，效率要更高一些</p>
 </blockquote>
 <blockquote>
- <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124175136669.png" alt="image-20220124175136669" style="zoom:67%;" />
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124175136669.png" alt="image-20220124175136669" style="zoom:67%;" />
 </blockquote>
 <p>所以，内存对齐，有一定的性能的提升</p>
 </blockquote>
@@ -1497,7 +1497,7 @@ void seqListDestory(SeqList* psl);
 <p>举个栗子:</p>
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">pragma</span> pack(1)		<span class="comment">//设置默认对齐数为1</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">S1</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"> <span class="type">char</span> c1;</span><br><span class="line"> <span class="type">int</span> i;</span><br><span class="line"> <span class="type">char</span> c2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line"> <span class="built_in">printf</span>(<span class="string">&quot;%zu&quot;</span>, <span class="keyword">sizeof</span>(<span class="keyword">struct</span> S1));</span><br><span class="line"></span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124202355959.png" alt="image-20220124202355959" style="zoom:67%;" />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220124202355959.png" alt="image-20220124202355959" style="zoom:67%;" />
 
 <p>此时，<code>struct S1</code>的总大小变成了 <code>6</code> 字节，而我们没有改变的时候是 <code>12</code> 字节</p>
 </blockquote>
