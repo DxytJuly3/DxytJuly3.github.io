@@ -22,11 +22,11 @@
     <title>图床白名单</title>
     <url>/b70029164be4/</url>
     <content><![CDATA[<h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
-<p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br><img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
+<p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br><img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16"></p>
 <p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br>肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br>但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br>所以，对自己图床访问的限制也就变得尤为重要。<br> <strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br>下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
 <hr>
 <h1 id="给图床设置白名单"><a href="#给图床设置白名单" class="headerlink" title="给图床设置白名单"></a>给图床设置白名单</h1><p> 这里以 <code>阿里云</code> 为例 <code>( 阿里云手机暂不支持操作，或者是我没找到如何修改 )</code></p>
-<p>首先，在自己的 <code>OSS管理控制台</code> 进入<code>需要设立白名单的Bucket</code><br><img src="D:\MyBolg-July\July\source_posts\图床白名单\OSS_1.png" alt="请添加图片描述"><br>然后再左边列表选择 <code>权限管理-&gt;防盗链</code><br><img src="D:\MyBolg-July\July\source_posts\图床白名单\OSS_2.png"></p>
+<p>首先，在自己的 <code>OSS管理控制台</code> 进入<code>需要设立白名单的Bucket</code><br><img src="D:\MyBolg-July\July\source_posts\图床白名单\OSS_1.png"><br>然后再左边列表选择 <code>权限管理-&gt;防盗链</code><br><img src="D:\MyBolg-July\July\source_posts\图床白名单\OSS_2.png"></p>
 <p>然后找到 <code>开启防盗链</code>，并打开<br><img src="D:\MyBolg-July\July\source_posts\图床白名单\OSS_3.png"></p>
 <p>打开后，在 <code>Referer</code> 表里，添加 <code>白名单域名</code> 或 <code>ip</code>  就好了</p>
 <h1 id="白名单需要添加什么"><a href="#白名单需要添加什么" class="headerlink" title="白名单需要添加什么"></a>白名单需要添加什么</h1><p><code>白名单(防盗链)</code> 中，添加一般 <code>需要访问图床图片</code> 的 <code>网址</code> 和 <code>ip</code></p>
