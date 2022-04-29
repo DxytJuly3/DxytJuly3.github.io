@@ -1,7 +1,7 @@
-http://example.com/b0a915a677a9/
-http://example.com/about/index.html
-http://example.com/categories/index.html
-http://example.com/tags/index.html
-http://example.com/83b96e9163f5/
-http://example.com/
-http://example.com/tags/%E5%9B%BE%E5%BA%8A/
+http://dxyt-july.cn/Figur-Bed-Whitelist.html
+http://dxyt-july.cn/about/index.html
+http://dxyt-july.cn/categories/index.html
+http://dxyt-july.cn/tags/index.html
+http://dxyt-july.cn/hello-world.html
+http://dxyt-july.cn/
+http://dxyt-july.cn/tags/%E5%9B%BE%E5%BA%8A/
