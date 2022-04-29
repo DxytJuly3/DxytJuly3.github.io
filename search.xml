@@ -491,6 +491,110 @@ c. 汇编 <code>(将 汇编代码文件 转换为 对应的机器指令文件（
       </tags>
   </entry>
   <entry>
+    <title>【C语言初阶】[图文] 二进制文件怎么看？C语言能对文件进行哪些操作？今天我来教你</title>
+    <url>/posts/File-Operations.html</url>
+    <content><![CDATA[<h1 id="文本文件-二进制文件及其存储"><a class="markdownIt-Anchor" href="#文本文件-二进制文件及其存储"></a> 文本文件、二进制文件及其存储</h1>
+<hr />
+<p>上一篇介绍过，文件按照功能分类，可以分为 <code>程序文件</code>、<code>数据文件</code> 两类。</p>
+<p>此外，文件的分类还有其他的分类方法，比如 按照文件数据的组织形式 来分为 <code>二进制文件</code> 和 <code>文本文件</code>。</p>
+<span id="more"></span>
+<hr />
+<h2 id="文本文件和二进制文件"><a class="markdownIt-Anchor" href="#文本文件和二进制文件"></a> 文本文件和二进制文件</h2>
+<p>具体什么是文本文件，什么是二进制文件呢？</p>
+<p>关于文本文件，一般我们自己创建并写入内容的文档，或者 Markdown 文件等，都是可以看懂内容的的，这些都属于文本文件的。</p>
+<p>比如：</p>
+<blockquote>
+<p>一个 <code>.txt</code> 文件:  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-TEXT_FILE.png" alt="TEXT_FILE" style="zoom: 80%;" />，或者 一个 <code>.md</code> 文件 <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_FILE.png" alt="BINARY_FILE" style="zoom:50%;" /></p>
+</blockquote>
+<p>而对于二进制文件，一般人打开二进制文件是没有办法直接看懂的，因为大部分内容都是乱码</p>
+<p>除非用二进制的编辑器打开才会显示二进制的形式，不过一般人还是无法看懂的</p>
+<blockquote>
+<p>类似这样：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ1.png" alt="BINARY_READ1" /></p>
+<p>这样：</p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ2.png" alt="BINARY_READ2" /></p>
+<p>或者这样：</p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ3.png" alt="BINARY_READ3" /></p>
+<p>类似于，这些文件，一般人（反正我是）真的看不懂。</p>
+</blockquote>
+<p>这时候可能有人会说</p>
+<blockquote>
+<p>那 文本文件不就是，打开后 一般人能看懂的文件</p>
+<p>二进制文件不就是，打开后内容都是二进制或者乱码形式的一般人看不懂的文件吗</p>
+</blockquote>
+<p>啊，确实</p>
+<p>但是身为新时代青年的我们，不能这样简单的区分</p>
+<p>我们要知道，文本文件 和 二进制文件  在内存中都是如何存储的</p>
+<p>虽然两种文本的内容在内存中都是以二进制的形式存储的，但是存储的方式又有其他不同。</p>
+<h2 id="文本文件在内存中的存储"><a class="markdownIt-Anchor" href="#文本文件在内存中的存储"></a> 文本文件在内存中的存储</h2>
+<blockquote>
+<p>文本文件，我们可以直接打开看懂，主要是因为 文本文件存入内存的二进制数据是经过转换的。</p>
+<p>在文本文件的内容 存入内存之前，文本文件的所有内容 都会转换为 <code>ASCII 码</code> 的形式，然后再 以 <code>ASCII 码</code> 的二进制数据存入内存中。</p>
+<p>也就是，对于文本文件的内容：</p>
+<blockquote>
+<p>字符类型、数值类型的数据，都会按位转换为 对应的 <code>ASCII码</code> ，然后将 <code>ASCII码</code>对应的二进制数据，存储到内存中</p>
+</blockquote>
+<p>然后当使用者打开文本文件的时候，也是会经过转换再显示的。</p>
+</blockquote>
+<h2 id="二进制文件在内存中的存储"><a class="markdownIt-Anchor" href="#二进制文件在内存中的存储"></a> 二进制文件在内存中的存储</h2>
+<blockquote>
+<p>二进制文件，直接打开一般会有一部分乱码</p>
+<p>是因为，二进制文件的内容，不会全部以 <code>ASCII 码</code> 的形式存入内存中，只有字符型的数据，会转换为相应的 <code>ASCII码</code> 再存储至内存。</p>
+<p>所以直接打开二进制文件，字符型以外的数据 就会以乱码的形式展现给用户。</p>
+<blockquote>
+<p>或许会有 打开二进制文件 却发现中文内容也变成了乱码，那可能是文件内容编码不合适导致的</p>
+</blockquote>
+</blockquote>
+<h2 id="数据在内存中的存储"><a class="markdownIt-Anchor" href="#数据在内存中的存储"></a> 数据在内存中的存储</h2>
+<blockquote>
+<p>介绍完 <code>文本文件</code> 和 <code>二进制文件</code>，会发现有一个共同点：</p>
+<p>字符型的数据，都会先转换为 <code>ASCII码</code> 之后，在存储 <code>ASCII码</code> 的二进制数据。</p>
+<p>其实是因为，数据在内存中的存储具体是这样的：</p>
+<blockquote>
+<ol>
+<li>字符型的数据，都会 以其对应的 <code>ASCII码</code> 的二进制存储至内存中</li>
+<li>数值型的数据，可以 以其对应的 <code>ASCII码</code> 的二进制存储至内存中（文本文件），也可以 直接以数值本身的二进制形式存储至内存中</li>
+</ol>
+</blockquote>
+<p>那么，数值型的数据 的两种不同形式的存储 有没有什么区别呢？</p>
+<p>答案是有的！</p>
+<p>举例说明：</p>
+<blockquote>
+<p>当 我们需要将 99999 存储起来，可以用两种形式：</p>
+<blockquote>
+<ol>
+<li>
+<p>以 <code>ASCII码</code> 的形式存储：</p>
+<p>需要将<code>9</code> <code>9</code> <code>9</code> <code>9</code> <code>9</code> 分别转换为字符，然后存储其对应的 <code>ASCII码</code>的二进制</p>
+<p>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-ASCII.png" alt="DATA_STORAGE-ASCII" /></p>
+<p><code>VS2013</code>:<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-ASCII-READ.png" alt="ASCII-READ." /></p>
+</li>
+<li>
+<p>直接以数值的二进制存储：</p>
+<p>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY.png" alt="DATA_STORAGE-BINARY" /></p>
+<p><code>VS2013</code>：对文件中以二进制输出 <code>99999</code></p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY-READ.png" alt="BINARY-READ1" /></p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY-READ2.png" alt="BINARY-READ2" /></p>
+</li>
+</ol>
+</blockquote>
+<p>我们可以非常明确的看到，对于同一个数值型数据，以 <code>99999</code> 为例</p>
+<p>如果以 <code>ASCII码</code>形式 存储，占用 5 字节 内存</p>
+<p>如果直接以 数值的二进制形式 存储，占用 4 字节 内存</p>
+<p>所以，数值型数据的两种不同的存储方式，在内存方面 是有一定的区别的。</p>
+</blockquote>
+</blockquote>
+<p>看完这些，相信都可以理解究竟什么是二进制文件，什么是文本文件了吧！</p>
+<hr />
+]]></content>
+      <categories>
+        <category>C语言初阶</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>文件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【神秘海域】[动图] 顺序表千字破解~</title>
     <url>/posts/DS-SeqList.html</url>
     <content><![CDATA[<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/DS_Cover_qesList.jpg" alt="" /></p>
@@ -789,110 +893,6 @@ void seqListDestory(SeqList* psl);
         <tag>C语言</tag>
         <tag>数据结构与算法</tag>
         <tag>顺序表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【C语言初阶】[图文] 二进制文件怎么看？C语言能对文件进行哪些操作？今天我来教你</title>
-    <url>/posts/File-Operations.html</url>
-    <content><![CDATA[<h1 id="文本文件-二进制文件及其存储"><a class="markdownIt-Anchor" href="#文本文件-二进制文件及其存储"></a> 文本文件、二进制文件及其存储</h1>
-<hr />
-<p>上一篇介绍过，文件按照功能分类，可以分为 <code>程序文件</code>、<code>数据文件</code> 两类。</p>
-<p>此外，文件的分类还有其他的分类方法，比如 按照文件数据的组织形式 来分为 <code>二进制文件</code> 和 <code>文本文件</code>。</p>
-<span id="more"></span>
-<hr />
-<h2 id="文本文件和二进制文件"><a class="markdownIt-Anchor" href="#文本文件和二进制文件"></a> 文本文件和二进制文件</h2>
-<p>具体什么是文本文件，什么是二进制文件呢？</p>
-<p>关于文本文件，一般我们自己创建并写入内容的文档，或者 Markdown 文件等，都是可以看懂内容的的，这些都属于文本文件的。</p>
-<p>比如：</p>
-<blockquote>
-<p>一个 <code>.txt</code> 文件:  <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-TEXT_FILE.png" alt="TEXT_FILE" style="zoom: 80%;" />，或者 一个 <code>.md</code> 文件 <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_FILE.png" alt="BINARY_FILE" style="zoom:50%;" /></p>
-</blockquote>
-<p>而对于二进制文件，一般人打开二进制文件是没有办法直接看懂的，因为大部分内容都是乱码</p>
-<p>除非用二进制的编辑器打开才会显示二进制的形式，不过一般人还是无法看懂的</p>
-<blockquote>
-<p>类似这样：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ1.png" alt="BINARY_READ1" /></p>
-<p>这样：</p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ2.png" alt="BINARY_READ2" /></p>
-<p>或者这样：</p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-BINARY_READ3.png" alt="BINARY_READ3" /></p>
-<p>类似于，这些文件，一般人（反正我是）真的看不懂。</p>
-</blockquote>
-<p>这时候可能有人会说</p>
-<blockquote>
-<p>那 文本文件不就是，打开后 一般人能看懂的文件</p>
-<p>二进制文件不就是，打开后内容都是二进制或者乱码形式的一般人看不懂的文件吗</p>
-</blockquote>
-<p>啊，确实</p>
-<p>但是身为新时代青年的我们，不能这样简单的区分</p>
-<p>我们要知道，文本文件 和 二进制文件  在内存中都是如何存储的</p>
-<p>虽然两种文本的内容在内存中都是以二进制的形式存储的，但是存储的方式又有其他不同。</p>
-<h2 id="文本文件在内存中的存储"><a class="markdownIt-Anchor" href="#文本文件在内存中的存储"></a> 文本文件在内存中的存储</h2>
-<blockquote>
-<p>文本文件，我们可以直接打开看懂，主要是因为 文本文件存入内存的二进制数据是经过转换的。</p>
-<p>在文本文件的内容 存入内存之前，文本文件的所有内容 都会转换为 <code>ASCII 码</code> 的形式，然后再 以 <code>ASCII 码</code> 的二进制数据存入内存中。</p>
-<p>也就是，对于文本文件的内容：</p>
-<blockquote>
-<p>字符类型、数值类型的数据，都会按位转换为 对应的 <code>ASCII码</code> ，然后将 <code>ASCII码</code>对应的二进制数据，存储到内存中</p>
-</blockquote>
-<p>然后当使用者打开文本文件的时候，也是会经过转换再显示的。</p>
-</blockquote>
-<h2 id="二进制文件在内存中的存储"><a class="markdownIt-Anchor" href="#二进制文件在内存中的存储"></a> 二进制文件在内存中的存储</h2>
-<blockquote>
-<p>二进制文件，直接打开一般会有一部分乱码</p>
-<p>是因为，二进制文件的内容，不会全部以 <code>ASCII 码</code> 的形式存入内存中，只有字符型的数据，会转换为相应的 <code>ASCII码</code> 再存储至内存。</p>
-<p>所以直接打开二进制文件，字符型以外的数据 就会以乱码的形式展现给用户。</p>
-<blockquote>
-<p>或许会有 打开二进制文件 却发现中文内容也变成了乱码，那可能是文件内容编码不合适导致的</p>
-</blockquote>
-</blockquote>
-<h2 id="数据在内存中的存储"><a class="markdownIt-Anchor" href="#数据在内存中的存储"></a> 数据在内存中的存储</h2>
-<blockquote>
-<p>介绍完 <code>文本文件</code> 和 <code>二进制文件</code>，会发现有一个共同点：</p>
-<p>字符型的数据，都会先转换为 <code>ASCII码</code> 之后，在存储 <code>ASCII码</code> 的二进制数据。</p>
-<p>其实是因为，数据在内存中的存储具体是这样的：</p>
-<blockquote>
-<ol>
-<li>字符型的数据，都会 以其对应的 <code>ASCII码</code> 的二进制存储至内存中</li>
-<li>数值型的数据，可以 以其对应的 <code>ASCII码</code> 的二进制存储至内存中（文本文件），也可以 直接以数值本身的二进制形式存储至内存中</li>
-</ol>
-</blockquote>
-<p>那么，数值型的数据 的两种不同形式的存储 有没有什么区别呢？</p>
-<p>答案是有的！</p>
-<p>举例说明：</p>
-<blockquote>
-<p>当 我们需要将 99999 存储起来，可以用两种形式：</p>
-<blockquote>
-<ol>
-<li>
-<p>以 <code>ASCII码</code> 的形式存储：</p>
-<p>需要将<code>9</code> <code>9</code> <code>9</code> <code>9</code> <code>9</code> 分别转换为字符，然后存储其对应的 <code>ASCII码</code>的二进制</p>
-<p>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-ASCII.png" alt="DATA_STORAGE-ASCII" /></p>
-<p><code>VS2013</code>:<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-ASCII-READ.png" alt="ASCII-READ." /></p>
-</li>
-<li>
-<p>直接以数值的二进制存储：</p>
-<p>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY.png" alt="DATA_STORAGE-BINARY" /></p>
-<p><code>VS2013</code>：对文件中以二进制输出 <code>99999</code></p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY-READ.png" alt="BINARY-READ1" /></p>
-<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/FILE_CONTROL/file-DATA_STORAGE-BINARY-READ2.png" alt="BINARY-READ2" /></p>
-</li>
-</ol>
-</blockquote>
-<p>我们可以非常明确的看到，对于同一个数值型数据，以 <code>99999</code> 为例</p>
-<p>如果以 <code>ASCII码</code>形式 存储，占用 5 字节 内存</p>
-<p>如果直接以 数值的二进制形式 存储，占用 4 字节 内存</p>
-<p>所以，数值型数据的两种不同的存储方式，在内存方面 是有一定的区别的。</p>
-</blockquote>
-</blockquote>
-<p>看完这些，相信都可以理解究竟什么是二进制文件，什么是文本文件了吧！</p>
-<hr />
-]]></content>
-      <categories>
-        <category>C语言初阶</category>
-      </categories>
-      <tags>
-        <tag>C语言</tag>
-        <tag>文件</tag>
       </tags>
   </entry>
   <entry>
