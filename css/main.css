@@ -277,7 +277,7 @@ hr {
   margin: 40px 0;
 }
 blockquote {
-  border-left: 4px solid #ddd;
+  border-left: 4px solid #000000d6;
   color: var(--blockquote-color);
   margin: 0;
   padding: 0 15px;
@@ -467,9 +467,9 @@ code {
   font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
-  background: #eee;
+  background: #000000db;
   border-radius: 3px;
-  color: #555;
+  color: #fffafa;
   padding: 2px 4px;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -1268,7 +1268,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ffad93;
+  background: #ff9c30;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
