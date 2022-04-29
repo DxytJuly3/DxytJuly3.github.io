@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>为你的图床添加白名单</title>
+    <title>怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~</title>
     <url>/posts/Figur-Bed-Whitelist.html</url>
-    <content><![CDATA[<h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：**<code>Gitee 图床炸了</code>**</p>
+    <content><![CDATA[<h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
+<span id="more"></span>
+
 <p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br><img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
 <p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br>肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br>但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br>所以，对自己图床访问的限制也就变得尤为重要。<br> <strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br>下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
 <hr>

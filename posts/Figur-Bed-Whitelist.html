@@ -17,15 +17,15 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="原由大家好啊！我是七月上个月发生了一件让许多人破防的一件事：**Gitee 图床炸了** 在 Gitee 上建立的图床里的图片全都变成了 Gitee 的图标： 这波事故过后一定有许多小伙伴也不敢再在 Gitee 创建图床，免得把再自己给整破防了。肯定有许多小伙伴转到了 阿里云 等云平台服务重新建立了自己的图床。但是在 云平台服务建立图床 不是免费的，无论是空间还是流量都不是免费的。所以，对自己图床">
+  <meta name="description" content="原由大家好啊！我是七月上个月发生了一件让许多人破防的一件事：Gitee 图床炸了">
 <meta property="og:type" content="article">
-<meta property="og:title" content="为你的图床添加白名单">
+<meta property="og:title" content="怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~">
 <meta property="og:url" content="http://dxyt-july.cn/posts/Figur-Bed-Whitelist.html">
 <meta property="og:site_name" content="JULY&#39;S">
-<meta property="og:description" content="原由大家好啊！我是七月上个月发生了一件让许多人破防的一件事：**Gitee 图床炸了** 在 Gitee 上建立的图床里的图片全都变成了 Gitee 的图标： 这波事故过后一定有许多小伙伴也不敢再在 Gitee 创建图床，免得把再自己给整破防了。肯定有许多小伙伴转到了 阿里云 等云平台服务重新建立了自己的图床。但是在 云平台服务建立图床 不是免费的，无论是空间还是流量都不是免费的。所以，对自己图床">
+<meta property="og:description" content="原由大家好啊！我是七月上个月发生了一件让许多人破防的一件事：Gitee 图床炸了">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16">
 <meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_1.png">
@@ -39,8 +39,8 @@
 <meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_Terminal.png">
 <meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress.png">
 <meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress2.png">
-<meta property="article:published_time" content="2022-04-29T01:24:09.000Z">
-<meta property="article:modified_time" content="2022-04-29T01:40:59.230Z">
+<meta property="article:published_time" content="2022-04-17T01:24:09.000Z">
+<meta property="article:modified_time" content="2022-04-29T06:40:29.185Z">
 <meta property="article:author" content="七月July">
 <meta property="article:tag" content="图床">
 <meta name="twitter:card" content="summary">
@@ -59,7 +59,7 @@
   };
 </script>
 
-  <title>为你的图床添加白名单 | JULY'S</title>
+  <title>怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~ | JULY'S</title>
   
 
 
@@ -194,6 +194,8 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
     <main class="main">
@@ -221,7 +223,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          为你的图床添加白名单
+          怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~
         </h1>
 
         <div class="post-meta">
@@ -230,10 +232,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-29 09:24:09 / 修改时间：09:40:59" itemprop="dateCreated datePublished" datetime="2022-04-29T09:24:09+08:00">2022-04-29</time>
+              <time title="创建时间：2022-04-17 09:24:09" itemprop="dateCreated datePublished" datetime="2022-04-17T09:24:09+08:00">2022-04-17</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-29 14:40:29" itemprop="dateModified" datetime="2022-04-29T14:40:29+08:00">2022-04-29</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读数" id="busuanzi_container_page_pv" style="display: none;">
@@ -262,7 +270,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1k</span>
+              <span>996</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -281,7 +289,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：**<code>Gitee 图床炸了</code>**</p>
+        <h1 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h1><p>大家好啊！我是七月<br>上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
+<span id="more"></span>
+
 <p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br><img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述"></p>
 <p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br>肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br>但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br>所以，对自己图床访问的限制也就变得尤为重要。<br> <strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br>下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
 <hr>
@@ -334,11 +344,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/posts/hello-world.html" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
-    </a></div>
       <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/hello-world.html" rel="next" title="Hello World">
+      Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -528,6 +538,8 @@
 
 
 <script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
 
 
   <script defer src="/lib/three/three.min.js"></script>
