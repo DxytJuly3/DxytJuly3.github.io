@@ -4,7 +4,7 @@
   --card-bg-color: #f5f5f5;
   --text-color: #555;
   --blockquote-color: #666;
-  --link-color: #833838;
+  --link-color: #555;
   --link-hover-color: #222;
   --brand-color: #fff;
   --brand-hover-color: #fff;
@@ -277,7 +277,7 @@ hr {
   margin: 40px 0;
 }
 blockquote {
-  border-left: 10px solid #000000d6;
+  border-left: 4px solid #ddd;
   color: var(--blockquote-color);
   margin: 0;
   padding: 0 15px;
@@ -467,9 +467,9 @@ code {
   font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
-  background: #000000db;
+  background: #eee;
   border-radius: 3px;
-  color: #fffafa;
+  color: #555;
   padding: 2px 4px;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -1229,7 +1229,7 @@ pre .javascript .function {
   display: inline-block;
 }
 .site-author-image {
-  border: 25px solid #1d1f21ba;
+  border: 1px solid #eee;
   display: block;
   margin: 0 auto;
   max-width: 120px;
@@ -1268,7 +1268,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ff9c30;
+  background: #74acd9;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1398,7 +1398,7 @@ pre .javascript .function {
 .post-toc ol {
   list-style: none;
   margin: 0;
-  padding: 0 2px 5px 20px;
+  padding: 0 2px 5px 10px;
   text-align: left;
 }
 .post-toc ol > ol {
@@ -2484,7 +2484,7 @@ ul.breadcrumb li + li:last-child {
 }
 .menu .menu-item a,
 .menu .menu-item span.exturl {
-  padding: 5px 45px;
+  padding: 5px 20px;
   position: relative;
   text-align: left;
   transition-property: background-color;
