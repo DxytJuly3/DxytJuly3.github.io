@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://dxyt-july.cn/posts/Figur-Bed-Whitelist.html</loc>
+    <loc>http://dxyt-july.cn/posts/Compile-And-Link.html</loc>
     <lastmod>2022-04-29</lastmod>
   </url>
   <url>
-    <loc>http://dxyt-july.cn/posts/hello-world.html</loc>
-    <lastmod>2022-04-24</lastmod>
+    <loc>http://dxyt-july.cn/posts/Structure.html</loc>
+    <lastmod>2022-04-29</lastmod>
+  </url>
+  <url>
+    <loc>http://dxyt-july.cn/posts/File-Operations.html</loc>
+    <lastmod>2022-04-29</lastmod>
+  </url>
+  <url>
+    <loc>http://dxyt-july.cn/posts/DS-Complexity.html</loc>
+    <lastmod>2022-04-29</lastmod>
+  </url>
+  <url>
+    <loc>http://dxyt-july.cn/posts/Single-List.html</loc>
+    <lastmod>2022-04-29</lastmod>
+  </url>
+  <url>
+    <loc>http://dxyt-july.cn/posts/Function-Stack-Frame.html</loc>
+    <lastmod>2022-04-29</lastmod>
+  </url>
+  <url>
+    <loc>http://dxyt-july.cn/posts/Figur-Bed-Whitelist.html</loc>
+    <lastmod>2022-04-29</lastmod>
   </url>
 </urlset> 
