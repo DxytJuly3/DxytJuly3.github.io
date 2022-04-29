@@ -277,7 +277,7 @@ hr {
   margin: 40px 0;
 }
 blockquote {
-  border-left: 4px solid #000000d6;
+  border-left: 10px solid #000000d6;
   color: var(--blockquote-color);
   margin: 0;
   padding: 0 15px;
