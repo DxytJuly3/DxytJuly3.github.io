@@ -512,7 +512,7 @@
 <p>感谢阅读！<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/fangun_dog.gif"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/fangun_dog.gif"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/fangun_dog.gif"></p>
 ]]></content>
       <categories>
-        <category>数据结构与算法</category>
+        <category>神秘海域：数据结构与算法</category>
       </categories>
       <tags>
         <tag>C语言</tag>
@@ -664,18 +664,1762 @@
       </tags>
   </entry>
   <entry>
-    <title>Function-Stack-Frame</title>
+    <title>【程序员的自我修养】[动态图文] 超详解函数栈帧</title>
     <url>/posts/Function-Stack-Frame.html</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p>在阅读这篇文章之前，请思考一下对于下面的这些问题，你有一个准确清晰的认知吗？</p>
+<ol>
+<li>什么是函数栈帧？</li>
+<li>程序中的局部变量，是如何创建的？</li>
+<li>为什么局部变量不初始化会是随机值？</li>
+<li>函数传参，究竟是如何传参的？</li>
+<li>函数的形参和实参存在什么关系？</li>
+<li>函数是如何被调用的？</li>
+<li>函数被调用之后是如何返回的？</li>
+</ol>
+<p>如果没有，请尝试阅读、分析、理解本篇文章。<br>读懂本篇文章将会提升你的“自我修养”。</p>
+<blockquote>
+<p><code>程序运行背后的机制和由来，可以看作是程序员的一种“自我修养”。</code><br><strong>—— 程序员的自我修养 “链接、装载与库”</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<h1 id="栈与栈帧"><a href="#栈与栈帧" class="headerlink" title="栈与栈帧"></a>栈与栈帧</h1><h2 id="什么是栈？"><a href="#什么是栈？" class="headerlink" title="什么是栈？"></a>什么是栈？</h2><p>在操作系统中，栈是一个动态内存区域。<br>函数的中的局部变量，都存放在内存的栈区中。<br>栈区的使用，和数据结构中的栈使用规则相似：<br>压栈、出栈、先进后出。<br>栈区总是先使用高地址，再使用低地址，即栈区的使用是 <code>从高地址向低地址延伸</code> 的。</p>
+<h2 id="什么是栈帧？"><a href="#什么是栈帧？" class="headerlink" title="什么是栈帧？"></a>什么是栈帧？</h2><p>从逻辑上讲，栈帧就是一个函数执行的环境。<br>栈会保存一个函数被调用所需要的维护信息，保存这些信息所用的信息空间，常被称为 <code>函数栈帧</code>。</p>
+<p>每一个函数的调用，都会创建一个独立的栈帧。</p>
+<p>维护函数栈帧，需要用 <code>两个寄存器</code> 来记录函数栈帧的大小，也可以叫 划定函数活动记录的范围 ，这两个寄存器存放的是地址，两个地址之间，就是函数的栈帧大小：</p>
+<ol>
+<li>寄存器 <code>ebp</code>：栈底指针<br>指向维护栈帧的高地址.</li>
+<li>寄存器 <code>esp</code>：栈顶指针<br>指向维护的栈帧的低地址，会随每次压栈自动向低地址延伸.</li>
+</ol>
+<h1 id="栈帧是如何创建的"><a href="#栈帧是如何创建的" class="headerlink" title="栈帧是如何创建的?"></a>栈帧是如何创建的?</h1><blockquote>
+<pre><code>            以下均在Windows平台，VS2013编译环境下演示
+        
+        不同平台，不同编译环境下的栈帧操作可能会有差异，但是逻辑相通。
+</code></pre>
+</blockquote>
+<p>创建一个最简单的可以观察函数栈帧的程序<br>（步骤划分越细，函数栈帧观察越容易）：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">int</span> <span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">int</span> x<span class="token punctuation">,</span> <span class="token keyword">int</span> y<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> z <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	z <span class="token operator">=</span> x <span class="token operator">+</span> y<span class="token punctuation">;</span>
+
+	<span class="token keyword">return</span> z<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> b <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+	<span class="token keyword">int</span> c <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+	c <span class="token operator">=</span> <span class="token function">Add</span><span class="token punctuation">(</span>a <span class="token punctuation">,</span> b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在对代码进行调试的时候，对函数栈帧调用进行查看，此时调用 mian 函数栈帧:<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_Main.png" alt="SF_Main"></p>
+<p>将光标继续向后走，走到 <code>21行</code> 之后跳到另外一个界面：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_main__CRTStartup_mainCRTStartup.png" alt="main函数被调用"><br>发现，<code>main</code> 函数并不是直接被计算机调用的，而是由另外一个函数所调用</p>
+<p>向上翻阅代码，能看到 main 函数其实是在 <code>__mainCRTStartup</code> 函数中被调用<br>而 <code>__mainCRTStartup</code> 函数，又在 <code>mainCRTStartup</code> 函数中被调用<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_mainCRTStartup_return.png" alt="__mainCRTStartup被调用"></p>
+<p>所以 在调用 <code>main</code> 函数之前，其实已经调用了两个函数，也已经创建了两个函数的栈帧。但是这两个函数的栈帧创建的过程并不容易被看到，所以我们可以观察 main 函数的栈帧的创建来详细了解栈帧的创建。</p>
+<p>重新回到，光标刚指向 <code>main</code> 函数的时候，<code>转到反汇编</code>：</p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_Main_Stack_Frames.png" alt="反汇编"><br>右边 <code>反汇编窗口的代码</code> ，其实就是 <code>main</code> 函数中，<code>从函数栈帧创建，到 main 函数结束</code> 的整个操作及顺序。</p>
+<p>以动画形式演示：</p>
+<ol>
+<li><p><code>main</code> 函数调用之前，<code>mainCRTStartup</code> 和 <code>__mainCRTStartup</code> 函数的栈帧创建(无详细内容)：</p>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/SF_MAINSRTSTARTUP_PUSH.gif" alt="简单main 函数栈帧创建" style="zoom: 60%;" />
+</li>
+<li><p>进入 <code>main</code> 函数：</p>
+<blockquote>
+<ol>
+<li><code>(push ebp)</code> 压栈，压入内容是 <code>ebp</code> 指向的地址<code>(为保存当前 ebp 内容)`` </code>ps：压栈之后，esp(栈顶指针)自动指向栈顶&#96;</li>
+<li><code>(mov  ebp,esp)</code> 将 <code>ebp</code> 指向 <code>esp</code> 的地址( 将 <code>esp</code> 赋予 <code>ebp</code>)</li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<p>此时，<code>ebp</code> 和 <code>esp</code> 的实际变化为：</p>
+<blockquote>
+<p>未执行 :<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/push_esp_ebp_change.png"><br>执行 <code>push ebp</code> :<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/pushA_esp_ebp_change.png"><br>执行 <code>mov ebp,esp</code> :<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/mov_esp_ebp_change.png"></p>
+</blockquote>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/push_epb.gif" alt="压栈ebp，调整" style="zoom: 60%;" />
+3. 此时，反汇编中的语句光标指向了 
+
+<p><code>sub esp,0E4h</code></p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/sub_esp.png" alt="next_esp_sub"></p>
+<p>即下一句执行指令的就是 <code>sub esp,0E4h</code></p>
+<blockquote>
+<p>汇编语言：<code>sub 相减</code><br><code>sub esp,0E4h</code> 指 <code>esp = esp - 0E4h</code><br><code>0E4h</code> 是十六进制数，转换成十进制为 228：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/0E4h.png" alt="0E4h"></p>
+</blockquote>
+<p>执行<code>sub esp,0E4h</code> 的变化：</p>
+<blockquote>
+<p>未执行：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/No_sub.png"><br>执行 <code>sub esp,0E4h</code>：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/sub_esp_change.png"></p>
+</blockquote>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/sub_esp_0E4h.gif" alt="sub esp,0E4h" style="zoom: 60%;" />
+
+<p>执行之后，<code>esp</code> 和 <code>ebp</code> 之间会 存在一块由其新维护的空间<br>而这段空间其实就是为 <code>main</code> 函数预开辟的空间</p>
+<p>查看地址：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/For_main_space.png" alt="For_main_space" style="zoom: 80%;" /><br>即：从 <code>0x00AFF8A4</code> 到 <code>0x00AFF988</code> 就是为 <code>main</code> 函数与开辟的空间<br>也被成为 <code>main</code> 函数的栈帧。</p>
+<p>但是，这里并不是函数栈帧创建的结束。</p>
+<ol start="4">
+<li>继续执行汇编指令，光标继续移动：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Push_ebx_esi_edi.png" alt="Push_ebx_esi_edi"></li>
+</ol>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Save_ebx_esi_edi.gif" alt="Save_ebx_esi_edi" style="zoom: 60%;" />
+
+<p>保存了寄存器<code>ebx</code> <code>esi</code> <code>edi</code></p>
+<ol start="5">
+<li>指令继续执行：<blockquote>
+<ol>
+<li><p>执行 <code>lea edi,[ebp-0E4h]</code> ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/lea_edi.png" alt="lea_edi"><br>这里的 <code>ebp-0E4h</code> 地址，经过对比，就是 预开辟的 <code>main</code> 函数栈帧的栈顶地址<code>(0x00AFF8A4)</code></p>
+<blockquote>
+<p>汇编指令 ：<code>lea(Load effect address)</code>   加载有效地址<br><code>lea edi,[ebp-0E4h]</code>  即为：加载有效地址 <code>ebp-0E4h</code> 至寄存器<code>edi</code></p>
+</blockquote>
+</li>
+<li><p>执行 <code>mov ecx,39h</code> 和 <code>mov eax,0CCCCCCCCh</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/No_mov_ecx_eax.png" alt="No_mov_ecx_eax"><br>👇👇👇<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/mov_ecx_eax.png" alt="mov_ecx_eax"><br>寄存器 <code>ecx</code> 存入 <code>十六进制 39(十进制 57)</code><br>寄存器 <code>eax</code> 存入<code>0xCCCCCCCC</code></p>
+</li>
+<li><p>执行 <code>rep_stos  dword_ptr_es:[edi]</code>：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/rep_stos_change.png" alt="rep_stos"><br>执行之后，从 <code>0x00AFF988 - 4</code> 到 <code>0x00AFF8A4</code> 的<code>(每4字节)</code>所有内容都被设置为了 <code>0xCCCCCCCC</code> ，即 开辟的<code>main</code> 栈帧中的所有内容被设置为 <code>0xCCCCCCCC</code> </p>
+<blockquote>
+<p>汇编指令：</p>
+<pre class="line-numbers language-none"><code class="language-none">lea         edi,[ebp-0E4h]  
+mov         ecx,39h  
+mov         eax,0CCCCCCCCh  
+rep stos    dword ptr es:[edi]<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这一段汇编指令中最后一句<br><code>rep_stos    dword_ptr_es:[edi]</code><br><code>rep</code> ： 重复上面指令， 即 </p>
+<pre class="line-numbers language-none"><code class="language-none">lea         edi,[ebp-0E4h]  
+mov         ecx,39h  
+mov         eax,0CCCCCCCCh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<p>寄存器 <code>ecx</code> 中的值，即为重复的次数<br><code>stos</code> ：将 <code>eax</code> 中的值拷贝到 <code>edi</code> 指向的地址</p>
+</blockquote>
+</li>
+</ol>
+<blockquote>
+<blockquote>
+<p>指令执行时，默认 <code>edi</code> 中的地址，是增大的(向高地址增长)。所以，会从<code>edi [ebp-0E4h(0x00AFF8A4)]</code> 每4字节的增长，增长到 <code>0x00AFF988</code> 共 57次(寄存器 <code>ecx</code> 中存入的数据)</p>
+</blockquote>
+</blockquote>
+<p><code>main</code> 函数栈帧中所有内容被 设置为了 <code>0xCCCCCCCC</code><br>那么 在 <code>main</code> 函数中 定义局部变量 而不初始化<br>局部变量就会表示随机值。<br>所以 输出一个未初始化的局部变量，很可能会出现：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/0xCCCCCCCC.png"></p>
+</blockquote>
+</li>
+</ol>
+<p>到此，<code>main</code> 函数栈帧的预创建全部完成（只是预创建）。<br>接下来就是，局部变量的创建、调用函数栈帧的创建、函数传参、函数返回等。</p>
+<h1 id="局部变量是如何创建的？调用函数究竟是如何传参的？"><a href="#局部变量是如何创建的？调用函数究竟是如何传参的？" class="headerlink" title="局部变量是如何创建的？调用函数究竟是如何传参的？"></a>局部变量是如何创建的？调用函数究竟是如何传参的？</h1><p>以上，详细分析了 <code>main</code> 函数栈帧在内存中创建的过程。<br>创建完成之后，就会按照顺序执行 <code>main</code> 函数中的函数 或 语句。</p>
+<p>接下来，就是局部变量在栈帧中的创建 和 函数被调用时传参的实现：</p>
+<h2 id="局部变量在栈帧中的创建"><a href="#局部变量在栈帧中的创建" class="headerlink" title="局部变量在栈帧中的创建"></a>局部变量在栈帧中的创建</h2><p>先在反汇编窗口中，右键选择显示符号名，可以看到：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Show_char_name.png" alt="字符名"><br>关闭字符名则会显示地址：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Local_variables_creat_front.png" alt="Local_variables_creat_front"></p>
+<blockquote>
+<p><code>dword ptr</code> 表示地址内容为双字<code>(4字节)</code>数据</p>
+</blockquote>
+<p>观察汇编代码，对 局部变量 <code>a</code>、 <code>b</code>、 <code>c</code> 的创建及初始化是从 地址<code>ebp-8</code> 开始的。<br>代码向下执行：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Local_variables_creat.png" alt="Local_variables_creat"></p>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Local_variables_creat.gif" alt="Local_variables_creat" style="zoom: 60%;" />
+
+<p>局部变量的创建相对简单，一张动图就可以理解。</p>
+<h2 id="函数被调用时的传参-及-被调用函数栈帧的创建"><a href="#函数被调用时的传参-及-被调用函数栈帧的创建" class="headerlink" title="函数被调用时的传参 及 被调用函数栈帧的创建"></a>函数被调用时的传参 及 被调用函数栈帧的创建</h2><p>调用需要使用参数的函数时，需要传入存在的局部变量，作为函数的参数。<br>但是，被传入函数的参数，在函数中都被称为 <code>形参</code>，在被调用函数中 直接改变 并不能真正改变原来的变量，这是为什么？</p>
+<p>真正的原因，就在这里：</p>
+<hr>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_No.png"><br>先分析汇编代码：</p>
+<blockquote>
+<pre class="line-numbers language-none"><code class="language-none">mov        eax,dword ptr [ebp-14h]
+push       eax
+mov        ecx,dword ptr [ebp-8]
+push       ecx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将 <code>ebp-14h</code> 地址处的双字的值（即变量 b 的值）存入 寄存器 <code>eax</code>，压栈存入 <code>eax</code> ，压入位置是：<code>0x00AFF894</code><br>将 <code>ebp-8</code> 地址处的双字的值（即变量 a 的值）存入 寄存器 <code>ecx</code>，压栈存入 <code>ecx</code>，压入位置是：<code>0x00AFF890</code></p>
+</blockquote>
+<p>执行之后内存中的变化：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/eax_ecx_a_b_push.png" alt="形参的传参"></p>
+<p><code>这两个步骤，其实就是形参的创建，或者说调用函数时的传参操作</code><br><code>(被调用函数究竟是如何使用形参的内容在下边)</code><br>也就是说，形参的创建其实是在 <code>main</code> 函数的栈帧中创建的。</p>
+<p>汇编指令继续向下执行（注意：执行 <code>call</code> 指令时，<code>(VS环境)</code>按<code>F11</code> 进入函数内部 ）：</p>
+<blockquote>
+<p><code>call</code> 指令，在这里的作用是：</p>
+<ol>
+<li>将 <code>call</code> 指令的一下条指令的地址<code>(00911F00)</code>压入栈中</li>
+<li>然后跳转至 后边的地址<code>(009111E0)</code>的代码处</li>
+</ol>
+</blockquote>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/call.png" alt="Call 指令执行"><br>到此时内存变化：</p>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Creat_Virtual_parameters.gif" alt="Virtual_variables_creat" style="zoom: 60%;" />
+
+<blockquote>
+<p><code>jmp</code> 指令：无条件跳转至 后边的地址处<br>即在此指令中，跳转至<code>00911A40</code> 处</p>
+</blockquote>
+<p>执行 <code>jmp</code> ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/jmp_add.png" alt="jmp Add"></p>
+<p>执行 <code>jmp</code> 之后，进入 <code>Add 函数</code>，会发现一段熟悉的指令，和进入 <code>main</code> 函数时的前几行指令相似。<br>这段指令就是 <code>Add</code> 函数预开辟栈帧的指令（不再分析），直接看图：</p>
+<ol>
+<li><p>先压栈，压入的是 维护 <code>main</code> 函数栈帧时的<code>ebp</code>  ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_ebp_Push.png" alt="Add函数压入维护main的ebp"></p>
+</li>
+<li><p>连续执行指令，预创建及处理 <code>Add</code> 函数栈帧：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_SF_Creat.png" alt="Add_函数栈帧创建"></p>
+</li>
+</ol>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_SF_Creat.gif" alt="Add_SF_Creat" style="zoom: 60%;" />
+
+<p>以上是 <code>Add</code> 函数栈帧的创建过程。</p>
+<h2 id="被调用函数形参的使用"><a href="#被调用函数形参的使用" class="headerlink" title="被调用函数形参的使用"></a>被调用函数形参的使用</h2><p>自定义的 <code>Add</code> 函数，目的是求两个<code>int</code> 类型整数的和，返回值也是 <code>int</code> 类型。</p>
+<p>观察、对比汇编代码：</p>
+<blockquote>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Use_Virtual_variables.png"></p>
+<ol>
+<li><p><code>z</code> ，是在 <code>Add</code> 函数栈帧内创建的局部变量，对应的地址是 <code>ebp-8</code>，即从 <code>ebp(此时维护Add栈帧的栈底指针)</code> 向低地址偏移 <code>8 字节</code>，发现在 <code>Add</code> 栈帧内部。<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_Creat_VR.png"></p>
+</li>
+<li><p><code>x</code>、<code>y</code> 分别对应 ：<code>ebp+8</code> 、<code>ebp+0Ch</code><br>即从 <code>ebp</code> 向高地址偏移 <code>8 字节</code> 和 <code>12 字节</code>，很明显不在 <code>Add</code> 函数栈帧内，究竟在哪？<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_VR_address.png"><br>分析之后发现，<code>Add</code> 函数调用的形参 其实就是之前(即将进入<code>Add</code>函数时)，执行这一段代码时压栈的内容：</p>
+<blockquote>
+<pre class="line-numbers language-none"><code class="language-none">mov        eax,dword ptr [ebp-14h]
+push       eax
+mov        ecx,dword ptr [ebp-8]
+push       ecx<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>将 <code>ebp-14h</code> 地址处的双字的值（即变量 <code>b</code> 的值）存入 寄存器 <code>eax</code>，压栈存入 <code>eax</code>，压入位置是：<code>0x00AFF894</code><br>将 <code>ebp-8</code> 地址处的双字的值（即变量 <code>a</code> 的值）存入 寄存器 <code>ecx</code>，压栈存入 <code>ecx</code>，压入位置是：<code>0x00AFF890</code></p>
+</blockquote>
+</li>
+<li><p>所以<br> <code>函数的形参其实早在main函数栈帧中就已经创建好并且存储在一个位置，并不是进入函数才创建的，函数要使用形参直接在存储的那个地址拿就可以了，这就是 在函数中改变形参不会影响原变量 的原因</code></p>
+</li>
+</ol>
+</blockquote>
+<p>观察过后，执行相加的语句：</p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add.png"><br>相加操作完成。<br>但是需要将相加的结果作为返回值返回，并且重新回到<code>main</code> 函数中，这个函数才算执行结束。</p>
+<p>返回操作具体是如何进行的呢？</p>
+<h2 id="函数返回"><a href="#函数返回" class="headerlink" title="函数返回"></a>函数返回</h2><p>函数返回并没有看上去那么简单：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Return_Add.png"><br><code>return z;</code> 语句之后，其实都是函数返回需要进行的操作。</p>
+<ol>
+<li><p>首先是，<code>return z;</code><br>返回值操作是，<code>mov  eax,dword ptr [ebp-8]</code><br>将 <code>ebp-8(z)</code> 处的两字<code>(4字节)</code> 的值存入 寄存器 <code>eax</code><br>返回 <code>z</code> 的操作，其实就是将 <code>z</code> 的值，存入了寄存器中。<br>当函数使用完后，局部变量会被销毁，但是寄存器在CPU中是不会被销毁的。<br>所以将 局部变量 <code>z</code> 的值 存放在寄存器中，就能达到返回 <code>z</code> 的值 的效果。</p>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/return_z.png" alt="return_z" style="zoom: 60%;" />
+</li>
+<li><p>再按顺序将:<br>在进入 <code>Add</code> 函数后 压栈的 <code>edi</code>, <code>esi</code>, <code>ebx</code> 三个内容退栈</p>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Add_pop_edi_esi_ebx.png" alt="pop_edi_esi_ebx" style="zoom: 60%;" />
+</li>
+<li><p>然后将 <code>ebp</code> 的值 给 <code>esp</code><br>当 <code>esp</code> 的值变为 <code>ebp</code> 的值的时候，<code>Add</code> 函数栈帧的维护就结束了。<code>Add</code> 函数栈帧的空间就会还给内存。</p>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/mov_esp%2Cesp.png" alt="mov_esp,esp" style="zoom: 60%;" />
+</li>
+<li><p>再然后就是 <code>pop   ebp</code><br> <code>pop  ebp</code>  与 一般 <code>pop</code> 其他内容不同，<code>pop ebp</code> 还会将这里需要弹出的 <code>ebp</code> 的值 给 寄存器 <code>ebp</code></p>
+ <img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/pop_ebp.png" alt="pop_ebp" style="zoom: 60%;" />
+  此时，`esp` 和 `ebp` 两个维护栈帧的寄存器，就又去维护 `main` 函数栈帧了。</li>
+</ol>
+<p>这整个过程的动画：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/Destory_Add_SF.gif"></p>
+<ol start="5">
+<li>最后一步就是 <code>ret</code> 指令<br>当 <code>Add</code> 函数使用结束之后，汇编代码应该继续回到 <code>main</code> 函数中的 <code>call</code> 指令的下一条语句的地方：<br>即这里：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/return_call.png" alt="return 应该回到的位置"><br>那么怎么才能回到这里呢？<br>回想一下，在 <code>esp</code> 和 <code>ebp</code> 重新维护<code>main</code> 函数栈帧的时候，<code>esp</code> 指向的地址，其实就是之前 <code>call</code> 指令执行时，压栈压入的 <code>call</code> 指令的下一条指令的地址:<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/ret_address.png" alt="ret的地址"><br><code>ret</code> 指令执行之后，会直接把这个空间弹出栈，然后返回到这个空间存放的地址的指令处：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/ret.gif" alt="ret" style="zoom: 60%;" />
+![返回main函数](https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/ret_after.png)</li>
+</ol>
+<p>这些步骤执行之后，逻辑成功从 <code>Add</code> 函数中返回到 <code>main</code> 函数中。</p>
+<p>继续执行代码：<br><code>add  esp,8</code>:<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/add_esp.png" alt="esp+8"></p>
+<p><code>mov dword ptr [ebp-20h],eax</code>:</p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/mov_eax_to_c.png"></p>
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/Stack_Frames/esp%2B8_mov_c.gif" alt="" style="zoom: 60%;" />
+
+<p>代码走到这里，函数栈帧的大部分内容都已经讲的很清楚了。本篇文章到这里也就结束了。</p>
+<hr>
+<h1 id="结束"><a href="#结束" class="headerlink" title="结束"></a>结束</h1><p>再回过头来看文章开头的问题：</p>
+<blockquote>
+<ol>
+<li>什么是函数栈帧？</li>
+<li>程序中的局部变量，是如何创建的？</li>
+<li>为什么局部变量不初始化会是随机值？</li>
+<li>函数传参，究竟是如何传参的？</li>
+<li>函数的形参和实参存在什么关系？</li>
+<li>函数是如何被调用的？</li>
+<li>函数被调用之后是如何返回的？</li>
+</ol>
+</blockquote>
+<p>如果读懂了本篇文章，对于这些问题应该是有一个清晰明确的理解的。<br>希望可以帮到大家。</p>
+<hr>
+<p>这篇文章，是提升自我修养篇的第一篇文章。<br>文章的内容主要来源于 <code>《程序员的自我修养----“链接、装载与库”》</code> 以及 博主自己的调试与总结。</p>
+<p>感谢！！！<br>（画图真的耗时间）</p>
+]]></content>
+      <categories>
+        <category>《程序员的自我修养》</category>
+      </categories>
+      <tags>
+        <tag>底层</tag>
+        <tag>栈帧</tag>
+      </tags>
   </entry>
   <entry>
-    <title>Single-List</title>
+    <title>【神秘海域】[动图] 掌握 单链表 只需要这篇文章~ 「超详细」</title>
     <url>/posts/Single-List.html</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/List_cover.png"></p>
+<hr>
+<h1 id="单链表引言🐙"><a href="#单链表引言🐙" class="headerlink" title="单链表引言🐙"></a>单链表引言🐙</h1><p>❤️‍🔥</p>
+<blockquote>
+<p>数据结构中有 <code>四大基础结构</code> ，即 <code>四大线性表</code>：顺序表、**<code>链表👻</code>** 、栈、队列</p>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th align="left">线性结构</th>
+<th align="left">逻辑结构图示：</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">顺序表</td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SeqList_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td align="left"><strong><code>链表</code></strong></td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/List_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td align="left">栈</td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Stack_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td align="left">队列</td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Queue_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+</tbody></table>
+</blockquote>
+<p>上一篇文章的内容是：<code>顺序表</code>，从上一篇文章 可以看出 <code>顺序表</code> 存在非常明显的缺点：</p>
+<ol>
+<li><code>前插</code>、<code>前删</code>操作 的时间复杂度为 <code>O(N)</code></li>
+<li>需要增容，增容过程比较消耗资源<code>（需要开辟新空间，拷贝数据，释放旧空间等）</code></li>
+<li>增容一般是呈2倍的增长，势必会有一定的空间浪费。<code>（例如：当前容量为100，满了以后增容到200，但是只继续插入了5个数据，后面不再使用，那么就浪费了95个数据空间）</code></li>
+</ol>
+<p>为了解决以上的问题，又提出了一种新的数据结构：**<code>链表</code>**<br>本篇文章将详细介绍 <strong><code>链表</code></strong> 中 <strong><code>单链表</code></strong> 的 <code>结构</code>、 <code>增</code>、 <code>删</code>、 <code>查</code>、 <code>改</code>、 <code>插入</code> 等操作。</p>
+<hr>
+<h1 id="链表🐙"><a href="#链表🐙" class="headerlink" title="链表🐙"></a>链表🐙</h1><p>❤️‍🔥</p>
+<h2 id="链表的分类🪸"><a href="#链表的分类🪸" class="headerlink" title="链表的分类🪸"></a>链表的分类🪸</h2><p>❤️‍🔥<br>上面展示的链表结构是单链表，其实链表有许多不同的结构：</p>
+<blockquote>
+<ol>
+<li>单链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SList_show1_4_19.png"></li>
+<li>双向链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/double_List_show_4_19.png"></li>
+<li>带头结点的单链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/head_SList_show1_4_19.png"></li>
+<li>带头结点的双向链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/head_double_List_show_4_19.png"></li>
+<li>循环单链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/head_cycle_SList_show1_4_19.png"></li>
+<li>循环双向链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/double_cycle_List_show_4_19.png"></li>
+<li>带头结点的单向循环链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/head_cycle_SList_show_4_19.png"></li>
+<li>带头结点的双向循环链表<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/head_double_cycle_List_show_4_19.png"></li>
+</ol>
+</blockquote>
+<p>链表的结构有这 <code>八</code> 种，但是大部分都是不常用的。<br>常用的链表结构只有两种：</p>
+<ol>
+<li><code>不带头节点的单向非循环链表</code></li>
+<li><code>带头节点的双向循环链表</code></li>
+</ol>
+<blockquote>
+<p><code>【神秘海域】数据结构与算法</code> 系列，也只会着重介绍这 <code>两种链表结构</code> ，简单来说只要掌握了这两种链表结构，其他的链表结构就应该都不成问题</p>
+</blockquote>
+<p>本篇文章介绍的内容就是 <code>不带头节点的单向非循环链表</code>，一般直接被称为 <code>单链表👻</code></p>
+<h2 id="单链表的结构🪸"><a href="#单链表的结构🪸" class="headerlink" title="单链表的结构🪸"></a>单链表的结构🪸</h2><p>❤️‍🔥</p>
+<blockquote>
+<p><code>单链表的结构</code> 非常的简单，在实际的使用中，单链表一般作为更高级数据结构的子结构来使用。</p>
+</blockquote>
+<p>引言的表中，简单表示了 <code>单链表的结构</code> ：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/List_photo.jpg" style="zoom:50%;" /><br>是有一个一个节点链接在一起形成的，不过这只是逻辑结构，逻辑顺序是通过 <code>链表中的指针链接次序</code> 实现的，而实际的链表是一种 物理存储结构上 <code>非连续、非顺序</code> 的存储结构，即 这些 <code>单个的节点在内存中不一定是连续存放的</code> 。</p>
+<p>详细的实际情况应该是这样的：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SList_show_4_19.png"><br>即：单链表在 <code>逻辑上是连续的</code> ，一个连着一个，但是在 <code>物理结构上是不一定连续的</code> 。<br>而且可以看出，单链表中 <code>单个节点的结构</code> 由一个 <code>数据单元(存放数据)</code> 和一个 <code>指针单元(存放下个节点的地址)</code> 构成。这样可以保证 链表可以向后链接。</p>
+<p>所以 <code>单链表结构中单个节点</code> 的代码就应该包括两个部分：<code>数据</code> 和 <code>next指针</code><br>实现就为：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">int</span> SLTDataType<span class="token punctuation">;</span>        <span class="token comment">// int typedef 为 SLTDataType</span>
+
+<span class="token comment">// 单链表(SingleList)结构</span>
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">SListNode</span>
+<span class="token punctuation">&#123;</span>
+	SLTDataType val<span class="token punctuation">;</span>               <span class="token comment">// val 用来存放数据</span>
+	<span class="token keyword">struct</span> <span class="token class-name">SListNode</span><span class="token operator">*</span> next<span class="token punctuation">;</span>       <span class="token comment">// next 存放下一节点地址，用来指向下一节点 </span>
+<span class="token punctuation">&#125;</span>SListNode<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这就是单链表一个节点的结构。</p>
+<h2 id="单链表接口及实现🪸"><a href="#单链表接口及实现🪸" class="headerlink" title="单链表接口及实现🪸"></a>单链表接口及实现🪸</h2><p>❤️‍🔥</p>
+<p><code>链表</code> 与 <code>顺序表</code> 一样，几乎所有的操作都是由一个个 <code>接口函数</code> 来完成的。</p>
+<p>但是，链表 是由一个个<code>单独的节点</code>连接起来而构成的，而顺序表本质上是 一个<code>数组</code>。</p>
+<p>所以对于链表的接口，首先需要一个 <code>申请单独节点的接口函数</code> ，然后再进行其他的操作<br>即，一般 <code>单链表的接口函数</code> 有：</p>
+<ol>
+<li>新申请节点：<code>BuySLTNode</code></li>
+<li>单链表打印：<code>SListPrint</code></li>
+<li>单链表尾插：<code>SListPushBack</code></li>
+<li>单链表头插：<code>SListPushFront</code></li>
+<li>单链表尾删：<code>SListPopBack</code></li>
+<li>单链表头删：<code>SListPopFront</code></li>
+<li>单链表查找：<code>SListPushBack</code></li>
+<li>单链表插入：<code>SListPushFront</code></li>
+<li>单链表删除：<code>SListPushBack</code></li>
+<li>单链表销毁：<code>SListPushFront</code></li>
+</ol>
+<p>先从新节点申请开始。</p>
+<h3 id="新节点申请🐚"><a href="#新节点申请🐚" class="headerlink" title="新节点申请🐚"></a>新节点申请🐚</h3><p>❤️‍🔥<br>单链表节点的申请，实现的功能一般是<br>创建一个 <code>新的节点指针</code> ，然后将 <code>节点指针作为返回值</code> 返回到 <code>需要使用的此节点的地方</code></p>
+<p>既然需要返回，那么就必然需要用动态开辟来实现：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">SListNode<span class="token operator">*</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>SLTDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">malloc</span><span class="token punctuation">(</span><span class="token keyword">sizeof</span><span class="token punctuation">(</span>SListNode<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">if</span><span class="token punctuation">(</span>newNode <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"BuyNode fail.\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">// malloc 成功</span>
+	newNode<span class="token operator">-></span>val <span class="token operator">=</span> x<span class="token punctuation">;</span>            <span class="token comment">// 将新节点val 赋予 x</span>
+	newNode<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>        <span class="token comment">// 将新节点的next 指向空</span>
+	
+	<span class="token keyword">return</span> newNode<span class="token punctuation">;</span>              <span class="token comment">// 返回新节点</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>返回接收后，就可以使用新的节点。</p>
+<h3 id="单链表尾插🐚"><a href="#单链表尾插🐚" class="headerlink" title="单链表尾插🐚"></a>单链表尾插🐚</h3><p>❤️‍🔥<br>单链表尾插就是在 <code>链表的尾节点之后</code> 插入节点</p>
+<p>那么思考一下，尾插都需要实现什么功能：</p>
+<ol>
+<li>需要申请 <code>存放有指定数据</code> 的新节点</li>
+<li>需要将新节点 <code>链接到链表的末尾</code></li>
+</ol>
+<p>功能有了，那就来实现一下</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">SListPushBack</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span> phead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pnode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token function">BuyNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> phead<span class="token punctuation">;</span>        <span class="token comment">//记录首节点</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>tail<span class="token operator">-></span>next <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 从首节点开始找尾</span>
+		tail <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">// 退出循环就代表找到尾节点</span>
+	tail<span class="token operator">-></span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>代码实现完毕，尾插来验证一下。<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_returnError.png"></p>
+<p>但是发现，程序非正常结束了。为什么？<br><code>调试！</code></p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug1.png"><br>但是当我继续 <code>F10</code> 希望进入循环时：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug2.png"><br>发生了访问冲突。<br>为什么发生了访问冲突？</p>
+<p><code>分析!</code></p>
+<blockquote>
+<p>分析过程：<br>首先看一下进入循环的条件是什么：<br> <code>while(tail-&gt;next != NULL)</code><br> 当前的 <code>tail</code> 是什么：<br> <code>tail == phead == NULL</code><br> 破案了<br> 当前的 <code>tail == NULL</code> ， <code>tail</code> 根本就没有 <code>next</code> ，如果对 <code>tail-&gt;next</code> 进行访问 可不就是访问冲突吗？<br> 看来<code>刚才写的代码考虑的不全面</code></p>
+</blockquote>
+<p>那么就来分析一下，有什么问题没有考虑到：<br><code>tail</code> 为空，说明了什么问题？<br><code>tail</code> 是首节点的记录，<code>tail</code> 为空就代表传过来的 <code>首节点为空</code><br>也就是说，当前 <code>链表中没有一个节点</code></p>
+<p>看来是这种情况<code>(当插入的节点是链表的首节点)</code>没有考虑到<br>那就再分析一下这种情况怎么解决</p>
+<ol>
+<li>首先，当 <code>phead</code> 为空时，应该单独判断<br>如果 <code>phead == NULL</code> ，<code>首节点</code> 就应该更变为 <code>需要插入的这个新节点</code> </li>
+<li>这样的操作更改了传入的参数，那么就又引发了另外一个问题<br><code>改变形参是不改变原值的</code>，但是又需要 <code>改变原值</code>，所以形参应该传入 <code>首节点的地址</code> ，通过地址改变原值</li>
+</ol>
+<p>OK，现在情况应该考虑完整了</p>
+<p>再来重新实现代码：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表尾插</span>
+<span class="token keyword">void</span> <span class="token function">SListPushBack</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span><span class="token comment">// 传首节点指针 的地址，要用**</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>				<span class="token comment">// 断言 首节点指针的地址不为空</span>
+
+	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">// 首节点为空，将新节点变为首节点</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>pphead <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token operator">*</span>pphead <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+		<span class="token keyword">return</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+
+	<span class="token comment">// 首节点不为空就 找尾</span>
+	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>        <span class="token comment">//记录首节点</span>
+	<span class="token keyword">while</span> <span class="token punctuation">(</span>tail<span class="token operator">-></span>next <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 从首节点开始找尾</span>
+		tail <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">// 退出循环就代表找到尾节点</span>
+	tail<span class="token operator">-></span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug3.png"></p>
+<p>多尾插几个数据试验一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushBack_Debug4.png"></p>
+<p>这样就没问题了~</p>
+<h3 id="单链表打印🐚"><a href="#单链表打印🐚" class="headerlink" title="单链表打印🐚"></a>单链表打印🐚</h3><p>❤️‍🔥<br>实现了 <code>尾插</code> 之后，如果每次查看数据都需要 <code>调试</code> 然后 <code>监视</code>，也太麻烦了</p>
+<p>所以一般需要实现一个打印函数，打印函数没有那么多的注意点</p>
+<p>实现一下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表打印</span>
+<span class="token keyword">void</span> <span class="token function">SListPrint</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span> phead<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	SListNode<span class="token operator">*</span> cur <span class="token operator">=</span> phead<span class="token punctuation">;</span>
+	<span class="token keyword">while</span> <span class="token punctuation">(</span>cur <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// cur 为空时退出循环</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d->"</span><span class="token punctuation">,</span> cur<span class="token operator">-></span>val<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		cur <span class="token operator">=</span> cur<span class="token operator">-></span>next<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"NULL\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>打印刚才实现的单链表：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPrint_Show.png"></p>
+<h3 id="单链表尾删🐚"><a href="#单链表尾删🐚" class="headerlink" title="单链表尾删🐚"></a>单链表尾删🐚</h3><p>❤️‍🔥<br>实现过 <code>尾插</code> 和 <code>打印</code><br>再实现一下 <code>尾删</code></p>
+<p>因为 <code>尾删</code> 也是改变 <code>单链表节点</code> 的函数，当删除链表 <code>最后一个节点</code> 的时候 也是需要改变 <code>原值</code> 的，所以传参也需要 <code>传入首节点指针的地址</code></p>
+<p>而且，因为单链表 <code>只能从前向后找，不能从后向前找</code>，所以如果要删除尾节点，当前位置需要处于 <code>尾节点的前一节点</code>，或者可以保存<code>尾节点的前一节点</code>。</p>
+<blockquote>
+<p>如果需要 <code>控制当前节点在尾节点的前一节点停下</code> ，就需要 用 <code>cur-&gt;next-&gt;next != NULL</code> 作找尾循环条件<br>但是这样需要保证 链表至少有<code>两个节点</code> ，所以 <code>空链表</code> 和 <code>只有一个节点的链表</code> 需要单独控制</p>
+</blockquote>
+<p>实现：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表尾删</span>
+<span class="token keyword">void</span> <span class="token function">SListPopBack</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// 空链表</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>pphead <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+		<span class="token keyword">return</span><span class="token punctuation">;</span>
+
+	<span class="token comment">// 只有一个节点</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token operator">*</span>pphead<span class="token punctuation">)</span><span class="token operator">-></span>next <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">free</span><span class="token punctuation">(</span><span class="token operator">*</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token operator">*</span>pphead <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+		<span class="token keyword">return</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+
+	<span class="token comment">// 多个节点</span>
+	SListNode<span class="token operator">*</span> cur <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>
+	<span class="token keyword">while</span> <span class="token punctuation">(</span>cur<span class="token operator">-></span>next<span class="token operator">-></span>next <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		cur <span class="token operator">=</span> cur<span class="token operator">-></span>next<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token comment">// 退出循环时，cur即在尾节点的前一节点处</span>
+	<span class="token function">free</span><span class="token punctuation">(</span>cur<span class="token operator">-></span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>			<span class="token comment">// 释放cur的next节点(尾节点)</span>
+	cur<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>			<span class="token comment">// cur->next 指向空</span>
+
+	<span class="token comment">/* 或者用前后指针的方法，将 cur 的前一个节点存储起来
+	SListNode* prev = NULL;
+	SListNode* cur = *pphead;
+	while(cur->next != NULL)
+	&#123;
+		prev = cur;				// 每次进入循环先将 cur 用prev存储起来
+		cur = cur->next;
+	&#125;
+	//退出循环时，cur是尾节点，prev是尾节点的前一个节点
+	free(cur);					// 释放尾节点
+	prev->next = NULL;
+	cur = NULL;
+	*/</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证一下 <code>尾删</code> 有没有出错：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPopBack.png"></p>
+<p>即使过多次尾删也能成功</p>
+<hr>
+<p><code>尾插</code> 和 <code>尾删</code> 实现过后，发现一个问题</p>
+<p><code>插入 和 删除 都需要从头开始找尾，这时间复杂度不还是 O(N) 吗？</code><br>是的，单链表 <code>尾插</code> 和 <code>尾删</code> 的时间复杂度是 <code>O(N)</code><br>所以，对于单链表的 <code>插入删除操作</code> ，一般不用 <code>尾插</code> 和 <code>尾删</code><br>而是使用 <code>头插</code> 和 <code>头删</code> </p>
+<p>下面就实现一下 <code>头插</code> 和 <code>头删</code> </p>
+<h3 id="单链表头插🐚"><a href="#单链表头插🐚" class="headerlink" title="单链表头插🐚"></a>单链表头插🐚</h3><p>❤️‍🔥<br>相较于单链表的尾插，<code>单链表头插</code> 的逻辑就简单得多了：</p>
+<ol>
+<li>创建一个新的节点</li>
+<li>将新节点置于链表的头</li>
+<li>再将这个新节点设置为链表首节点</li>
+</ol>
+<p>只需要这三步就可以了，甚至不需要考虑链表是否存在节点。</p>
+<p>因为需要修改 <code>链表的首节点</code> 所以传参还需要使用 <code>二级指针</code></p>
+<p><code>单链表头插的实现：</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表头插</span>
+<span class="token keyword">void</span> <span class="token function">SListPushFront</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	SListNode<span class="token operator">*</span> newNode <span class="token operator">=</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	newNode<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>            <span class="token comment">// 新节点的next 指向 *pphead</span>
+	<span class="token operator">*</span>pphead <span class="token operator">=</span> newNode<span class="token punctuation">;</span>                <span class="token comment">// 将新节点置为 *pphead</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>头插几个数据测试一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPushFront_2022420.png"><br><code>没有错误！</code></p>
+<p>动画过程：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SingleListPushFront_20220420.gif"></p>
+<h3 id="单链表头删🐚"><a href="#单链表头删🐚" class="headerlink" title="单链表头删🐚"></a>单链表头删🐚</h3><p>❤️‍🔥<br>头删就 <code>不像头插一样不需要考虑链表是否存在节点了</code> ，毕竟如果链表中没有节点，也删除不了</p>
+<p>所以 <code>头删需要考虑链表是否为空</code><br>并且由于 <code>单链表后找不到前</code>，且首节点是必须要释放掉的，所以 <code>首节点</code> 或者 <code>第二节点</code> 需要存起来一个。</p>
+<p>那么头删的逻辑应该是什么呢？</p>
+<ol>
+<li>判断链表是否为空</li>
+<li>链表不空：<ol>
+<li>将 <code>首节点</code> 存起来，然后将 <code>首节点的next</code> 置为 <code>*pphead</code>，然后释放 <code>首节点</code></li>
+<li>将 <code>第二节点</code> 存起来，然后将 <code>首节点</code> 释放，然后释放 <code>第二节点</code> 置为 <code>*pphead</code>。</li>
+</ol>
+</li>
+</ol>
+<p>两种思路都实现一下:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表头删</span>
+<span class="token keyword">void</span> <span class="token function">SListPopFront</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">*</span>pphead <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+		<span class="token keyword">return</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">// 存首节点</span>
+	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>
+	<span class="token operator">*</span>pphead <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>
+	<span class="token function">free</span><span class="token punctuation">(</span>tail<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	tail <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">// 存第二节点</span>
+	<span class="token comment">/*SListNode* tail = (*pphead)->next;
+	free(*pphead);
+	*pphead = tail;*/</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>头删检测：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListPopFront_2022420.png"></p>
+<p>动画过程：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SingleListPushFront_20220421.gif"></p>
+<hr>
+<p>实现了 <code>头插</code> 和 <code>头删</code> 之后，能够发现<br><code>头删</code> 和 <code>头插</code> 操作不需要找尾，直接<code>在链表头进行操作</code> 就可以，所以时间复杂度是<code>O(1)</code><br>比 <code>尾插</code> <code>尾删</code> 的时间复杂度快的多，所以对于单链表的 <code>插入删除</code> 一般采用 <code>头插</code> 和 <code>头删</code></p>
+<h3 id="单链表查找🐚"><a href="#单链表查找🐚" class="headerlink" title="单链表查找🐚"></a>单链表查找🐚</h3><p>❤️‍🔥<br>单链表的查找，其实是 <code>查找某个值节点</code><br>找到数据之后返回 <code>节点</code></p>
+<p>不需要修改，不需要添加，只需要比较<br>所以，传参只需要 <code>传一级指针</code></p>
+<p>实现：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c">SListNode<span class="token operator">*</span> <span class="token function">SListFind</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span> phead<span class="token punctuation">,</span> SLTDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> phead<span class="token punctuation">;</span>    <span class="token comment">// 记录首节点</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>tail <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// tail不为空 进循环后 再进行判断</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>tail<span class="token operator">-></span>val <span class="token operator">==</span> x<span class="token punctuation">)</span>
+			<span class="token keyword">return</span> tail<span class="token punctuation">;</span>        <span class="token comment">// 找到就返回节点</span>
+			
+		tail <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>      <span class="token comment">// 没找到，tail 就变为 自己的 next</span>
+	<span class="token punctuation">&#125;</span>
+
+	<span class="token keyword">return</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>    <span class="token comment">// 没进入循环或者从循环出来了，就代表没找到，返回NULL</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SLTFind_SHOW_2022420.png"></p>
+<h3 id="单链表指定位置之后插入🐚"><a href="#单链表指定位置之后插入🐚" class="headerlink" title="单链表指定位置之后插入🐚"></a>单链表指定位置之后插入🐚</h3><p>❤️‍🔥<br>单链表的 <code>插入函数</code> 一般是与单链表 <code>查找函数</code> 一起使用的<br><code>查找函数先找到节点的位置</code> ，然后 <code>传入插入函数在结点之后插入新的节点</code></p>
+<p>单链表的 <code>插入函数的功能</code>，一般实现 <code>在传入的节点之后</code> 插入新的节点</p>
+<blockquote>
+<p>思考一下为什么一般不在指定节点位置之前插入?</p>
+</blockquote>
+<p>在 <code>指定位置(pos)之后</code> 插入新节点，就可以不用传入 <code>首节点</code> 直接将新节点 <code>链接在 pos 位置之后</code> 就可以了</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">SListInsertAfter</span><span class="token punctuation">(</span>SListNode <span class="token operator">*</span>pos<span class="token punctuation">,</span> SLTDateType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	SListNode <span class="token operator">*</span>newNode <span class="token operator">=</span> <span class="token function">BuySLTNode</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    newNode<span class="token operator">-></span>next <span class="token operator">=</span> pos<span class="token operator">-></span>next<span class="token punctuation">;</span>             <span class="token comment">// 先将新节点的next 链上 pos的next</span>
+    pos<span class="token operator">-></span>next <span class="token operator">=</span> newNode<span class="token punctuation">;</span>            <span class="token comment">// 再将pos的next指向新节点</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListInsertAfter_Show_2022420.png"><br>插入成功</p>
+<p>且，在 <code>pos位置之后</code> 插入的时间复杂度为 <code>O(1)</code></p>
+<p>动画过程：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SingleListErase_20220421.gif"></p>
+<h3 id="单链表指定位置之后删除🐚"><a href="#单链表指定位置之后删除🐚" class="headerlink" title="单链表指定位置之后删除🐚"></a>单链表指定位置之后删除🐚</h3><p>❤️‍🔥</p>
+<p>与 <code>指定位置之后插入</code> 相同，<code>指定位置之后删除函数</code> 一般也是与查找函数一起使用</p>
+<blockquote>
+<p>同样思考一下<br>单链表为什么 不直接删除指定位置节点呢？</p>
+</blockquote>
+<p>因为 <code>删除 pos 位置之后</code> 的节点，所以也不需要传入 <code>首节点指针</code><br>所以，它的时间复杂度 也是 <code>O(1)</code></p>
+<p>实现：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 单链表删除(pos之后)</span>
+<span class="token keyword">void</span> <span class="token function">SListEraseAfter</span><span class="token punctuation">(</span>SLTNode<span class="token operator">*</span> pos<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	SListNode<span class="token operator">*</span> next <span class="token operator">=</span> pos<span class="token operator">-></span>next<span class="token punctuation">;</span>			<span class="token comment">//先记录 pos 的 next 节点</span>
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>next<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 若此节点不为空则进行操作</span>
+		pos<span class="token operator">-></span>next <span class="token operator">=</span> next<span class="token operator">-></span>next<span class="token punctuation">;</span>			<span class="token comment">// 先将 pos的next 指向 next的next</span>
+		<span class="token function">free</span><span class="token punctuation">(</span>next<span class="token punctuation">)</span><span class="token punctuation">;</span>						<span class="token comment">// 再释放 next</span>
+		next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListEraseAfter_Show_2022421.png"></p>
+<p>动画过程：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SingleListEraseAfter_20220421.gif"></p>
+<h3 id="单链表的销毁🐚"><a href="#单链表的销毁🐚" class="headerlink" title="单链表的销毁🐚"></a>单链表的销毁🐚</h3><p>❤️‍🔥<br>对于单链表的销毁，需要注意的点不多：</p>
+<ol>
+<li>销毁是从首节点开始的</li>
+<li>销毁当前结点之前，要将下一节点存储起来，防止找不到链表</li>
+<li>因为销毁需要改变首节点，所以需要传入二级指针</li>
+<li>销毁完成之后，<code>*pphead</code> 置空</li>
+</ol>
+<p>经过以上接口的实现，考虑完这些点，就可以直接实现 <code>销毁</code> 了:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 销毁单链表</span>
+<span class="token keyword">void</span> <span class="token function">SListDestroy</span><span class="token punctuation">(</span>SListNode<span class="token operator">*</span><span class="token operator">*</span> pphead<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>pphead<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	SListNode<span class="token operator">*</span> tail <span class="token operator">=</span> <span class="token operator">*</span>pphead<span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>tail <span class="token operator">!=</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 链表不为空</span>
+		SListNode<span class="token operator">*</span> next <span class="token operator">=</span> tail<span class="token operator">-></span>next<span class="token punctuation">;</span>    <span class="token comment">//销毁当前结点之前,要将下一节点存储起来</span>
+		<span class="token function">free</span><span class="token punctuation">(</span>tail<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		tail <span class="token operator">=</span> next<span class="token punctuation">;</span>                <span class="token comment">// 将tail 赋成 存储起来的节点</span>
+	<span class="token punctuation">&#125;</span>
+	
+	<span class="token operator">*</span>pphead <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SListDestroy_2022420.png"></p>
+<p>单链表成功被销毁。</p>
+<hr>
+<p>单链表 <code>主要接口</code> 的实现就是这些了<br>需要注意的 <code>细节</code> 有很多，但都不是什么大问题</p>
+<p>重新回到那个问题：</p>
+<ol>
+<li>为什么插入不在 <code>pos</code> 位置之前？</li>
+<li>为什么删除不直接删除 <code>pos</code> 位置</li>
+<li>可以实现吗？为什么不实现？</li>
+</ol>
+<h3 id="pos-位置插入删除的问题-补充-🐚"><a href="#pos-位置插入删除的问题-补充-🐚" class="headerlink" title="pos 位置插入删除的问题(补充)🐚"></a>pos 位置插入删除的问题(补充)🐚</h3><p>❤️‍🔥<br>实现 <code>指定位置之后插入、删除</code> 时，可以非常简单的计算出，这两个接口时间复杂度都是 <code>O(1)</code></p>
+<p>如果是在 <code>指定位置之前插入、删除</code> 呢？<br>那么，时间复杂度就换变成 <code>O(N)</code></p>
+<p>由于单链表 <code>只能从前找后，不能从后找前</code> ，所以如果想要操作 <code>pos</code> 位置之前的节点，就需要先 <code>从首节点位置向后找，直到找到 pos 之前的节点</code>，才能依此基础进行操作</p>
+<p>这个过程与 <code>单链表尾插、尾删</code> 非常的相似，都需要找尾，所以时间复杂度就来到了 <code>O(N)</code> 这个级别。</p>
+<p>所以，对于单链表 <code>pos位置的插入、删除</code> ，一般都是在 <code>pos</code> 位置之后</p>
+<hr>
+<blockquote>
+<p>可以自己手动写一写，在 <code>pos</code> 位置之前插入、删除的接口</p>
+</blockquote>
+<h1 id="结语🐙"><a href="#结语🐙" class="headerlink" title="结语🐙"></a>结语🐙</h1><p>❤️‍🔥<br>本篇文章所介绍实现的是 <code>线性表结构</code> 之一的：<code>单链表</code>。<br>是一个完全不同于 <code>顺序表</code> 的数据结构，接口实现 需要注意的细节也有很多，比如 <code>首节点</code> 什么时候需要变化，接口什么时候 传参传入 <code>二级指针</code>。</p>
+<p>好了，本篇文章， <code>【神秘海域】 数据结构与算法</code> 系列的第三篇 <code>单链表篇</code> ，至此结束。</p>
+<p>感谢阅读！！</p>
+<hr>
+]]></content>
+      <categories>
+        <category>神秘海域：数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>数据结构与算法</tag>
+        <tag>单链表</tag>
+      </tags>
   </entry>
   <entry>
-    <title>Structure</title>
+    <title>【C语言】[图文] 详解结构体，详细分析结构体对齐</title>
     <url>/posts/Structure.html</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h1><h2 id="1-结构体"><a href="#1-结构体" class="headerlink" title="1. 结构体"></a>1. 结构体</h2><pre><code>结构体是一些值的集合，这些值成为成员变量。结构的每个成员可以是不同类型的变量。结构体属于自定义类型。
+</code></pre>
+<span id="more"></span>
+
+<h3 id="1-1-结构体声明"><a href="#1-1-结构体声明" class="headerlink" title="1.1 结构体声明"></a>1.1 结构体声明</h3><h4 id="1-1-1-标准声明"><a href="#1-1-1-标准声明" class="headerlink" title="1.1.1 标准声明"></a>1.1.1 标准声明</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">User</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> Name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> Sex<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>此结构体的类型就是 <code>struct User</code><br><code>User</code> 是结构体标签<code>(tag)</code></p>
+</blockquote>
+<h4 id="1-1-2-特殊声明-不完全声明"><a href="#1-1-2-特殊声明-不完全声明" class="headerlink" title="1.1.2 特殊声明(不完全声明)"></a>1.1.2 特殊声明(不完全声明)</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">char</span> Name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> Sex<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> age<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>User1<span class="token punctuation">;</span>
+<span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">char</span> Name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> Sex<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> age<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token operator">*</span>p<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>这种声明方法省略了结构体标签<code>tag)</code>, 直接定义的 <code>User1</code> 和 <code>p</code> 均被称为<code>匿名结构体变量</code>。无法在<code> main</code> 函数中再次定义此种结构体变量<br>并且，虽然表面上 <code>User1</code> 和 <code>*p </code>的 <code>结构体类型</code> 好像一样。</p>
+<p>但是如果 <code>p = &amp;User1;</code> 进行编译，将会报出警告。警告内容是：<code> 指针 到 指针 的类型不兼容</code>。说明 两个变量的结构体类型并不相同，编译器认为，<code>两个成员一样的匿名结构体类型是两种不同的类型</code></p>
+</blockquote>
+<h3 id="1-2-结构体的自引用"><a href="#1-2-结构体的自引用" class="headerlink" title="1.2 结构体的自引用"></a>1.2 结构体的自引用</h3><p>以 链表节点 为例：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">Node</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> data<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Node</span><span class="token operator">*</span> next<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">// 自引用 结构体类型的指针</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>但是</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> data<span class="token punctuation">;</span>
+    Node<span class="token operator">*</span> next<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>Node<span class="token punctuation">;</span>
+<span class="token comment">// 不行</span>
+<span class="token comment">// 结构体内部使用 Node* 时, typedef 还未生效</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-3-结构体变量的定义和初始化"><a href="#1-3-结构体变量的定义和初始化" class="headerlink" title="1.3 结构体变量的定义和初始化"></a>1.3 结构体变量的定义和初始化</h3><p>示例：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 结构体声明</span>
+<span class="token keyword">struct</span> <span class="token class-name">Contact</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> Addr<span class="token punctuation">[</span><span class="token number">30</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> Tele<span class="token punctuation">[</span><span class="token number">12</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token comment">// 嵌套结构体的结构体声明</span>
+<span class="token keyword">struct</span> <span class="token class-name">User</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> Name<span class="token punctuation">[</span><span class="token number">20</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">char</span> Sex<span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> age<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Contact</span> C<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">Contact</span> C1 <span class="token operator">=</span> <span class="token punctuation">&#123;</span><span class="token string">"CSDN"</span><span class="token punctuation">,</span> <span class="token string">"2xxxxxxxxxx"</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span class="token comment">//结构体变量的定义和初始化</span>
+	<span class="token keyword">struct</span> <span class="token class-name">User</span> U1 <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token string">"July3"</span><span class="token punctuation">,</span> <span class="token string">"Male"</span><span class="token punctuation">,</span> <span class="token number">19</span><span class="token punctuation">,</span> <span class="token punctuation">&#123;</span> <span class="token string">"CSDN"</span><span class="token punctuation">,</span> <span class="token string">"1xxxxxxxxxx"</span> <span class="token punctuation">&#125;</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>	<span class="token comment">//嵌套结构体的结构体变量的定义和初始化</span>
+    
+	<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-4-结构体内存对齐"><a href="#1-4-结构体内存对齐" class="headerlink" title="1.4 结构体内存对齐 *"></a>1.4 结构体内存对齐 *</h3><p>要弄明白什么是结构体内存对齐，我们先来看一下结构体大小</p>
+<p>下面这段结构体的大小是多少？</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S1</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c2<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们用 <code>sizeof</code> 求出此结构体类型的大小是：<code>12</code> 字节</p>
+<p><img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124135912996.png" alt="image-20220124135912996"></p>
+<p>但是 <code>int</code>类型大小是 <code>4</code> 字节，<code>char</code> 类型的大小是 <code>1</code> 字节。这个结构体大小不应该是 <code>6</code> 字节吗？ 为什么是 <code>12</code> 字节呢？</p>
+<p>这就是由于内存对齐的原因：</p>
+<hr>
+<blockquote>
+<p>在正式开始讲解什么是内存对齐之前，我们先来了解一个概念：<code>结构体成员的偏移量</code></p>
+<p>什么是结构体成员的偏移量？</p>
+<p>一个结构体的每个成员地址相对于其结构体类型的首地址的偏移量，就是结构体成员的偏移量。</p>
+<p>怎么计算结构体成员的偏移量？</p>
+<p>C语言中，计算结构体成员的偏移量有一个函数：<code>offsetof</code></p>
+<blockquote>
+<p> <code>offsetof</code></p>
+ <pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token class-name">size_t</span> <span class="token function">offsetof</span><span class="token punctuation">(</span> structName<span class="token punctuation">,</span> memberName<span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> <code>offsetof</code>函数的两个参数是：结构体类型名，计算偏移量的成员名</p>
+<p> 所在头文件是 <code>stddef.h</code></p>
+</blockquote>
+<p>我们先计算一下上边这段结构体类型，各成员的偏移量(<code>%zu是输出 size_t 类型的数据的指定格式</code>)</p>
+<p><img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124141635244.png" alt="image-20220124141635244"></p>
+<p>第一个，<code>c1</code>的偏移量是 <code>0</code>;</p>
+<p>其次，<code>i</code> 的偏移量是 <code>4</code>;</p>
+<p>最后，<code>c2</code>的偏移量是 <code>8</code>. </p>
+<p>我们做图明确出来：</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124144039803.png" alt="image-20220124144039803" style="zoom:67%;" />
+
+<p>可以非常明显的看出，结构体成员<code>c1</code> 到 <code>i</code> 之间，有三个字节的空间是空的</p>
+<p>不过，这也才占用了 <code>9</code>字节的空间，但是我们计算的 结构体的大小 是 <code>12</code>，所以我们判断，在 <code>c2</code> 之后还有三个字节的空间 被这个结构体所占用。</p>
+<p>所以，此结构体的内存空间占用情况，可能是这样的：</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124144940813.png" alt="image-20220124144940813" style="zoom:67%;" />
+
+<p>那么，为什么呢？为什么会有 开辟了，但是没有用到 的空间呢？一个结构体类型的大小，到底如何计算呢？</p>
+</blockquote>
+<h4 id="1-4-1-结构体内存对齐规则"><a href="#1-4-1-结构体内存对齐规则" class="headerlink" title="1.4.1 结构体内存对齐规则"></a>1.4.1 结构体内存对齐规则</h4><ol>
+<li><p>结构体的第一个成员变量存放在结构体变量 开始位置的 0 偏移处</p>
+</li>
+<li><p>从第二个成员变量开始，要对齐到 某个对齐数 的整数倍的地址处</p>
+<blockquote>
+<p>对齐数：编译器的默认对齐数 与 该成员自身大小 的较小值</p>
+<ul>
+<li>VS编译器 中 对齐数默认为 8</li>
+<li>如果编译器默认没有对齐数，对齐数就是成员自身大小</li>
+</ul>
+</blockquote>
+</li>
+<li><p>结构体总大小必须是 最大对齐数的整数倍</p>
+<blockquote>
+<p>最大对齐数：结构体所有成员中，对齐数最大的成员的对齐数</p>
+</blockquote>
+</li>
+<li><p>如果是结构体嵌套了结构体的情况，被嵌套的结构体对齐到自己的最大对齐数的整数倍处，结构体的整体大小就是所有最大对齐数（含嵌套结构体的对齐数）的整数倍</p>
+</li>
+</ol>
+<p>了解了结构体内存对齐规则，就来详细了解一下结构体到底是如何内存对齐的</p>
+<h4 id="1-4-2-结构体内存对齐详解"><a href="#1-4-2-结构体内存对齐详解" class="headerlink" title="1.4.2 结构体内存对齐详解"></a>1.4.2 结构体内存对齐详解</h4><h5 id="1-4-2-1-示例1："><a href="#1-4-2-1-示例1：" class="headerlink" title="1.4.2.1 示例1："></a>1.4.2.1 示例1：</h5><p>我们以上面举过例子的结构体为例：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S1</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c2<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>先看一下总大小：<br> <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124160252990.png" alt="image-20220124160252990" style="zoom:67%;" /></p>
+<p>然后我们具体来计算一下：</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">除第一个成员外的结构体成员</th>
+<th align="center">成员自身大小成员自身大小(类型大小)</th>
+<th align="center">编译器默认对齐数</th>
+<th align="center">实际对齐数(取较小值)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>i</code></td>
+<td align="center"><code>(int)</code>4</td>
+<td align="center">8</td>
+<td align="center">4</td>
+</tr>
+<tr>
+<td align="center"><code>c2</code></td>
+<td align="center"><code>(char)</code>1</td>
+<td align="center">8</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<p>根据规则：</p>
+<ol>
+<li><p><code>c1</code> 存放在结构体变量 开始地址的 0 偏移处</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124154534873.png" alt="image-20220124154534873" style="zoom: 67%;" /> 
+</li>
+<li><p><code>i</code> 的对齐数是 <code>4</code>，所以存放在偏移量是 <code>4</code>的整数倍 处</p>
+<p>至少是<code>4</code> </p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124155055202.png" alt="image-20220124155055202" style="zoom:67%;" />
+</li>
+<li><p><code>c2</code> 的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的整数倍 处</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124155317987.png" alt="image-20220124155317987" style="zoom:67%;" />
+</li>
+<li><p>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>4</code> 的整数倍。</p>
+<p><code>c2</code>所在空间已经是 第 <code>9</code> 个字节，所以此结构体总大小 最小为 <code>12</code></p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124155736544.png" alt="image-20220124155736544" style="zoom:67%;" />
+
+<p>所以，结构体大小为 <code>12</code> 字节</p>
+</li>
+</ol>
+</blockquote>
+<h5 id="1-4-2-2-示例2："><a href="#1-4-2-2-示例2：" class="headerlink" title="1.4.2.2 示例2："></a>1.4.2.2 示例2：</h5><p>再来看下边这个例子：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S2</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c2<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们将，上一个结构体成员中的，<code>i</code> 和<code>c2</code>换一换位置结果又是什么呢？</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124160428100.png" alt="image-20220124160428100" style="zoom:67%;" />
+
+<p>我们发现只是换了一下位置，结构体大小就减少了 <code>4</code> 个字节 </p>
+<p>这次又是怎么对齐和计算的呢？</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">除第一个成员外的结构体成员</th>
+<th align="center">成员自身大小成员自身大小(类型大小)</th>
+<th align="center">编译器默认对齐数</th>
+<th align="center">实际对齐数(取较小值)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>c2</code></td>
+<td align="center"><code>(char)</code>1</td>
+<td align="center">8</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center"><code>i</code></td>
+<td align="center"><code>(int)</code>4</td>
+<td align="center">8</td>
+<td align="center">4</td>
+</tr>
+</tbody></table>
+<ol>
+<li><code>c1</code> 存放在结构体变量 开始地址的 0 偏移处</li>
+</ol>
+  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124154534873.png" alt="image-20220124154534873" style="zoom: 67%;" /> 
+
+<ol start="2">
+<li><code>c2</code> 的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的整数倍 处，<code>c2</code> 下面就可以</li>
+</ol>
+  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124160939391.png" alt="image-20220124160939391" style="zoom:67%;" />
+
+<ol start="3">
+<li><code>i</code> 的对齐数是 <code>4</code>，所以存放在偏移量是 <code>4</code>的整数倍 处</li>
+</ol>
+<p> 至少是<code>4</code> </p>
+  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124161026248.png" alt="image-20220124161026248" style="zoom:67%;" />
+
+<ol start="4">
+<li>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>4</code> 的整数倍。</li>
+</ol>
+<p> <code>i</code>存放完，结构体占<code>8</code>个字节，正好是 <code>4</code>的倍数，所以不用再占用其他空间</p>
+  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124161322999.png" alt="image-20220124161322999" style="zoom:67%;" />
+
+<p> 此结构体总大小为：<code>8</code>字节</p>
+</blockquote>
+<h5 id="1-4-2-3-示例3："><a href="#1-4-2-3-示例3：" class="headerlink" title="1.4.2.3 示例3："></a>1.4.2.3 示例3：</h5><p>再来一个例子：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S3</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">double</span> n<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>我们先自己计算：</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">除第一个成员外的结构体成员</th>
+<th align="center">成员自身大小(类型大小)</th>
+<th align="center">编译器默认对齐数</th>
+<th align="center">实际对齐数(取较小值)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>c1</code></td>
+<td align="center"><code>(char)</code>1</td>
+<td align="center">8</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center"><code>i</code></td>
+<td align="center"><code>(int)</code>4</td>
+<td align="center">8</td>
+<td align="center">4</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p><code>n</code> 存放在结构体变量 开始地址的 <code>0</code> 偏移处</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163039058.png" alt="image-20220124163039058" style="zoom:67%;" />
+</li>
+<li><p><code>c2</code> 的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的整数倍 处</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163133970.png" alt="image-20220124163133970" style="zoom:67%;" />
+</li>
+<li><p><code>i</code> 的对齐数是 <code>4</code>，所以存放在偏移量是 <code>4</code>的整数倍 处</p>
+<p>至少是<code>12</code> </p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163205300.png" alt="image-20220124163205300" style="zoom:67%;" />
+</li>
+<li><p>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>8</code> 的整数倍。</p>
+<p><code>i</code>存放完，结构体占<code>16</code>个字节，正好是 <code>8</code>的倍数，所以不用再占用其他空间</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163407789.png" alt="image-20220124163407789" style="zoom:67%;" />
+
+<p>此结构体总大小为：<code>16</code>字节</p>
+</li>
+</ol>
+</blockquote>
+<p>我们来验证一下：</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124163820717.png" alt="image-20220124163820717" style="zoom:67%;" />
+
+<p>确实跟我们计算的一样，这个结构体大小为 <code>16</code> 字节</p>
+<h5 id="1-4-2-4-示例4（嵌套结构体的结构体）"><a href="#1-4-2-4-示例4（嵌套结构体的结构体）" class="headerlink" title="1.4.2.4 示例4（嵌套结构体的结构体）"></a>1.4.2.4 示例4（嵌套结构体的结构体）</h5><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S3</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">double</span> n<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">S4</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> n<span class="token punctuation">;</span>
+    <span class="token keyword">struct</span> <span class="token class-name">S3</span> s<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>那么嵌套有结构体的结构体<code>S4</code>，它的成员怎么去对齐，它的大小怎么计算呢？</p>
+<p>按照内存对齐的规则：</p>
+<blockquote>
+<p>如果是结构体嵌套了结构体的情况，被嵌套的结构体对齐到自己的最大对齐数的整数倍处，结构体的整体大小就是所有最大对齐数（含嵌套结构体的对齐数）的整数倍  </p>
+</blockquote>
+<p>被嵌套的结构体的对齐数，就是它的 对齐数最大的成员 的对齐数</p>
+<p>所以，我们先来计算：</p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">除第一个成员外的结构体成员</th>
+<th align="center">成员自身大小(类型大小)</th>
+<th align="center">对齐数最大的成员的对齐数</th>
+<th align="center">编译器默认对齐数</th>
+<th align="center">实际对齐数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>s</code></td>
+<td align="center"><code>(struct S3)</code>16</td>
+<td align="center"><code>(double)</code>8</td>
+<td align="center">8</td>
+<td align="center">8</td>
+</tr>
+<tr>
+<td align="center"><code>c1</code></td>
+<td align="center"><code>(char)</code>1</td>
+<td align="center"></td>
+<td align="center">8</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+<ol>
+<li><p><code>n</code> （大小为<code>4</code>）存放在结构体变量 开始地址的 <code>0</code> 偏移处</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124165613737.png" alt="image-20220124165613737" style="zoom:67%;" />
+</li>
+<li><p><code>s</code> （大小为<code>16</code>）的对齐数是 <code>8</code>，所以存放在偏移量是 <code>8</code>的整数倍 处</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124170021927.png" alt="image-20220124170021927"  />
+</li>
+<li><p><code>c1</code>（大小为 <code>1</code>）的对齐数是 <code>1</code>，所以存放在偏移量是 <code>1</code>的倍数 处</p>
+<p> <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124170223547.png" alt="image-20220124170223547"></p>
+</li>
+<li><p>结构体总大小必须为 最大对齐数的整数倍，在此结构体中即为 <code>8</code> 的整数倍。</p>
+<p><code>c1</code> 存放完，已经占用 <code>25</code> 字节，所以此结构体总大小 最小为 <code>32</code></p>
+<p>即</p>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124170531153.png" alt="image-20220124170531153" style="zoom:67%;" />
+
+<p>此结构体总大小为：<code>32</code> 字节</p>
+</li>
+</ol>
+</blockquote>
+<p>举过 4 个例子之后，结构体的内存对齐应该就已经解释清楚了</p>
+<p>不过，我们再来总结一下规则：</p>
+<blockquote>
+<ol>
+<li><p>结构体的第一个成员，就存放在结构体偏移量为 0 的地址处</p>
+</li>
+<li><p>第二个及以后的成员，需要在 对齐数的整数倍 的地址处存放</p>
+</li>
+<li><p>结构体的总大小，必须是其成员的最大对齐数的整数倍</p>
+</li>
+<li><p>如果是结构体嵌套了结构体的情况，被嵌套的结构体的对齐数，就是 它内部成员的最大对齐数</p>
+</li>
+</ol>
+<blockquote>
+<p>例如：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S3</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token keyword">double</span> n<span class="token punctuation">;</span>
+ <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+ <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> <span class="token class-name">S4</span>
+<span class="token punctuation">&#123;</span>
+ <span class="token keyword">int</span> n<span class="token punctuation">;</span>
+ <span class="token keyword">struct</span> <span class="token class-name">S3</span> s<span class="token punctuation">;</span>
+ <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在 结构体 <code>struct S4</code>声明中，嵌套了结构体<code>struct S3</code></p>
+<p>那么，变量<code>s</code>的对齐数，就是结构体<code>struct S3</code>内部的成员的最大对齐数（为 <code>8</code>），变量<code>s</code>的大小，就是结构体<code>struct S3</code>的大小（为 <code>16</code>）</p>
+</blockquote>
+</blockquote>
+<h4 id="1-4-3-为什么存在内存对齐"><a href="#1-4-3-为什么存在内存对齐" class="headerlink" title="1.4.3 为什么存在内存对齐"></a>1.4.3 为什么存在内存对齐</h4><ol>
+<li><p>硬件平台原因（移植的问题）</p>
+<p>不是所有的硬件平台都能访问 任意地址上 的 任意数据 ；</p>
+<p>某些硬件平台只能在 某些地址处 取 某些特定类型的数据（经过对齐的特定类型的数据），否则抛出硬件异常。  </p>
+</li>
+<li><p>性能原因</p>
+<p>数据结构(尤其是栈)应该尽可能地在自然边界上对齐。<br>原因在于，若访问未对齐的内存，处理器需要作两次内存访问；而对 对齐的内存访问仅需要一次访问  </p>
+<blockquote>
+<p>举个例子：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token operator">></span><span class="token keyword">struct</span> <span class="token class-name">S</span>
+<span class="token operator">></span><span class="token punctuation">&#123;</span>
+<span class="token operator">></span><span class="token keyword">char</span> c<span class="token punctuation">;</span>
+<span class="token operator">></span><span class="token keyword">int</span> i<span class="token punctuation">;</span>
+<span class="token operator">></span><span class="token punctuation">&#125;</span>
+
+<span class="token operator">></span><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token operator">></span><span class="token punctuation">&#123;</span>
+<span class="token operator">></span><span class="token keyword">struct</span> <span class="token class-name">S</span> s1<span class="token punctuation">;</span>
+<span class="token operator">></span><span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token operator">></span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>上边的代码，创建了一个结构体变量，我们来假设两种情况</p>
+<ol>
+<li>假设 不对齐内存</li>
+</ol>
+  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124173955115.png" alt="image-20220124173955115" style="zoom:67%;" />
+
+<ol start="2">
+<li>假设 对齐内存</li>
+</ol>
+  <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124174019513.png" alt="image-20220124174019513" style="zoom:67%;" />
+
+<p>假设，我们是 32 位环境，一次可以读取 4 字节</p>
+<p>那么对于<code>第一种情况</code>:</p>
+<blockquote>
+<p>我们要访问完整的 <code>i</code> 的数据，就需要访问两次</p>
+</blockquote>
+<blockquote>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124174747128.png" alt="image-20220124174747128" style="zoom:67%;" />
+</blockquote>
+<blockquote>
+<p>因为，第一次只访问到了 <code>i</code>的 前三个字节，第二次访问了 <code>i</code> 的最后一个字节 </p>
+</blockquote>
+<p>对于<code>第二种情况</code>：</p>
+<blockquote>
+<p>我们要访问完整的 <code>i</code> 的数据，只需要一次访问</p>
+</blockquote>
+<blockquote>
+<p>跳过前 4 个字节，直接访问 <code>i</code> 的数据，效率要更高一些</p>
+</blockquote>
+<blockquote>
+ <img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124175136669.png" alt="image-20220124175136669" style="zoom:67%;" />
+</blockquote>
+<p>所以，内存对齐，有一定的性能的提升</p>
+</blockquote>
+<p>所以，结构体的内存对齐，是一种用空间来换取时间的做法。</p>
+</li>
+</ol>
+<h4 id="1-4-4-结构体声明（设计）的优化"><a href="#1-4-4-结构体声明（设计）的优化" class="headerlink" title="1.4.4 结构体声明（设计）的优化"></a>1.4.4 结构体声明（设计）的优化</h4><p>了解了结构体内存对齐，知道了结构体变量内部的成员，在内存中可能并不是紧密排列的，是需要对齐的。是一种拿空间换取时间的做法。</p>
+<p>那么有没有一种做法，可以在对其的同时尽量的节省空间呢？</p>
+<p>答案是：有！</p>
+<p>我们 举过的例子，<code>示例 2</code> 和 <code>示例 3</code> 仅仅是将结构体内部的成员换了一个位置，就节省了 4 个字节的空间。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S1</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c2<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token comment">// ↓↓↓</span>
+<span class="token keyword">struct</span> <span class="token class-name">S2</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+    <span class="token keyword">char</span> c2<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>看过上边的对比，我们发现 <code>c1</code> 和 <code>c2</code> 对空间的占用都很小，都是 <code>1</code> 字节。两个占用内存空间小的变量挤在一起，就能减少空间的浪费。</p>
+<p>所以呢，如果 既要满足对齐，还要尽量节省空间，就</p>
+<blockquote>
+<p>让占用空间小的成员尽量集中在一起  </p>
+</blockquote>
+<h4 id="1-4-5-默认对齐数的修改"><a href="#1-4-5-默认对齐数的修改" class="headerlink" title="1.4.5 默认对齐数的修改"></a>1.4.5 默认对齐数的修改</h4><p>上边对齐规则中，我们提到 VS编译器中，结构体的 默认对齐数 是8。而在 <code>Linux</code> 平台下的 <code>gcc</code>编译器 是没有默认对齐数的。但是，我们可以通过一个预处理指令 来设置本项目中的默认对齐数。</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression"><span class="token function">pack</span> <span class="token punctuation">(</span>n<span class="token punctuation">)</span></span></span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>这句预处理指令是设置默认对齐数用的，<code>n</code> 就是 要设置的默认对齐数的值</p>
+<blockquote>
+<p>举个栗子:</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span> <span class="token expression"><span class="token function">pack</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>		</span><span class="token comment">//设置默认对齐数为1</span></span>
+<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span> <span class="token string">&lt;stdio.h></span></span>
+
+<span class="token keyword">struct</span> <span class="token class-name">S1</span>
+<span class="token punctuation">&#123;</span>
+ <span class="token keyword">char</span> c1<span class="token punctuation">;</span>
+ <span class="token keyword">int</span> i<span class="token punctuation">;</span>
+ <span class="token keyword">char</span> c2<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+ <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%zu"</span><span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">S1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<img src="C:\Users\xyt15\AppData\Roaming\Typora\typora-user-images\image-20220124202355959.png" alt="image-20220124202355959" style="zoom:67%;" />
+
+<p>此时，<code>struct S1</code>的总大小变成了 <code>6</code> 字节，而我们没有改变的时候是 <code>12</code> 字节</p>
+</blockquote>
+<p>注意！！默认对齐数千万不要乱改，一般改为 2 的次方。</p>
+<h3 id="1-5-结构体传参"><a href="#1-5-结构体传参" class="headerlink" title="1.5 结构体传参"></a>1.5 结构体传参</h3><p>如果我们想要写一个比如，修改结构体变量、输出结构体变量等功能的函数，就会遇到和其他函数一样的问题——传参。</p>
+<p>函数调用结构体变量时，怎么传参给函数呢？</p>
+<ol>
+<li><p>结构体变量直接传参</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> data<span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> num<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">struct</span> <span class="token class-name">S</span> s1 <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#123;</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">2022</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">print1</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">S</span> s<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> s<span class="token punctuation">.</span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">print1</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+</li>
+<li><p>结构体变量地址传参</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">S</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> data<span class="token punctuation">[</span><span class="token number">1000</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> num<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+<span class="token keyword">struct</span> <span class="token class-name">S</span> s1 <span class="token operator">=</span> <span class="token punctuation">&#123;</span> <span class="token punctuation">&#123;</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">&#125;</span><span class="token punctuation">,</span> <span class="token number">2022</span> <span class="token punctuation">&#125;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">print2</span><span class="token punctuation">(</span><span class="token keyword">struct</span> <span class="token class-name">S</span><span class="token operator">*</span> ptrs<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d\n"</span><span class="token punctuation">,</span> ptrs<span class="token operator">-></span>num<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">print2</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>s1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<p>以上两种结构体的传参方式，大家思考一下，哪一种传参方式好一些，为什么？</p>
+<p>先来分析一下，结构体传参，传值和传地址，有什么不同：</p>
+<p>如果传值：</p>
+<blockquote>
+<p>给函数传入结构体变量的值，函数需要将结构体变量的值完全拷贝一份，再存储到形参。可以修改形参的值，但不能直接访问原结构体变量。</p>
+</blockquote>
+<p>如果传地址：</p>
+<blockquote>
+<p>给函数传入结构体变量的地址，函数需要将地址拷贝一份，存储至形参。并且可以通过地址，来直接访问原结构体变量。</p>
+</blockquote>
+<p>所以这样来看，应该是 传结构体地址的方式好一些。具体原因：</p>
+<blockquote>
+<p>函数传参时，参数是需要压栈的，会有时间和空间上的系统开销。</p>
+<p>如果传递一个结构体对象的时候，结构体过大，函数压栈的系统开销就会比较大，会导致项目性能的下降。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>C语言进阶</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>结构体</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【神秘海域】[动图] 顺序表千字破解~</title>
+    <url>/posts/DS-SeqList.html</url>
+    <content><![CDATA[<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/DS_Cover_qesList.jpg"></p>
+<hr>
+<h1 id="顺序表引言"><a href="#顺序表引言" class="headerlink" title="顺序表引言"></a>顺序表引言</h1><p>数据结构中有 <code>四大基础结构</code> ，即 <code>四大线性表</code>：**<code>顺序表</code>**、<code>链表</code>、<code>栈</code>、<code>队列</code></p>
+<p>被称为线性表是因为，数据用以上四种结构存储，再逻辑结构上都是 <code>在一条线上相邻连续的</code></p>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th align="left">线性结构</th>
+<th align="left">逻辑结构图示：</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">顺序表</td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SeqList_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td align="left">链表</td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/List_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td align="left">栈</td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Stack_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+<tr>
+<td align="left">队列</td>
+<td align="left"><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Queue_photo.jpg" style="zoom:50%;" /></td>
+</tr>
+</tbody></table>
+<p>本篇文章将详细介绍 <strong><code>顺序表</code></strong> 的 <code>结构</code> <code>增</code> <code>删</code> <code>查</code> <code>改</code> <code>插入</code> 等操作。</p>
+<h1 id="顺序表"><a href="#顺序表" class="headerlink" title="顺序表"></a>顺序表</h1><h2 id="顺序表的概念"><a href="#顺序表的概念" class="headerlink" title="顺序表的概念"></a>顺序表的概念</h2><p>先来了解一下什么是 顺序表：<code>用一段物理地址连续的存储单元依次存储数据元素的线性结构，一般情况下采用数组存储。在数组上完成数据的增删查改</code><br>本质来说上，顺序表 就是一个实现增删查改等操作 的数组。</p>
+<h2 id="顺序表的两种结构"><a href="#顺序表的两种结构" class="headerlink" title="顺序表的两种结构"></a>顺序表的两种结构</h2><p>顺序表的实现方式一般分为两种：</p>
+<ol>
+<li>静态的顺序表<br>所谓<code>静态</code>，就是 <code>使用定长数组存储数据</code><br>定长的数组是 <code>有一定的弊端</code> 的，即 <code>只能存储一定数量的数据</code><br>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Quiet_Seq.gif"><br>采用定长的数组实现顺序表，<code>顺序表存满(即数组存满)之后，无法直接继续存储数据，想要继续存储数据就需要改动源代码.</code><br>一般实现代码为：<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">define</span> <span class="token macro-name">N</span> <span class="token expression"><span class="token number">10</span></span></span>
+<span class="token keyword">typedef</span> <span class="token keyword">int</span> SLDataType<span class="token punctuation">;</span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">SeqList</span>
+<span class="token punctuation">&#123;</span>
+	SLDataType a<span class="token punctuation">[</span>N<span class="token punctuation">]</span><span class="token punctuation">;</span>    <span class="token comment">// SLDataType 表示数据类型，已经被typedef 为 int</span>
+	<span class="token keyword">int</span> Size<span class="token punctuation">;</span>    <span class="token comment">//数组内存放数据数量</span>
+<span class="token punctuation">&#125;</span>SeqList<span class="token punctuation">;</span>
+
+<span class="token comment">// 如果需要改变顺序表的容量就需要改动 N 的值</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li>动态的顺序表<br><code>动态的顺序表</code>，就是 <code>使用动态开辟的数组存储数据</code><br>动态开辟的数组，可以实现一个功能就是，<code>当数组满了的时候可以自动扩容</code><br>即：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/dynamic_SeqList.gif"><br>当数组处于已满的状态且再要存入数据时，数组扩容。<br>这样采用动态数组实现的顺序表，<code>使用的时候不需要考虑容量的问题</code> ，所以 一般 <code>实现顺序表就用动态开辟的数组</code> 实现。<br>结构的实现代码为：<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">int</span> SLDataType<span class="token punctuation">;</span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">SeqList</span>
+<span class="token punctuation">&#123;</span>
+	SLDataType<span class="token operator">*</span> arr<span class="token punctuation">;</span>    <span class="token comment">// 指向动态开辟的数组</span>
+	<span class="token keyword">int</span> Size<span class="token punctuation">;</span>    <span class="token comment">//数组内存放数据数量</span>
+	<span class="token keyword">int</span> Capacity<span class="token punctuation">;</span>    <span class="token comment">//顺序表容量</span>
+<span class="token punctuation">&#125;</span>SeqList<span class="token punctuation">;</span>
+<span class="token comment">// 此结构的顺序表 创建后，使用前，需要初始化</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ol>
+<h2 id="顺序表接口实现"><a href="#顺序表接口实现" class="headerlink" title="顺序表接口实现"></a>顺序表接口实现</h2><p>静态顺序表 <code>只适用于确定知道需要存多少数据的场景</code><br>所以现实中基本都是使用动态顺序表，根据需要动态的分配空间大小</p>
+<pre><code>以下也都是以动态顺序表为基础
+</code></pre>
+<p>一个动态顺序表一般拥有这些接口：</p>
+<ol>
+<li>初始化    <code>seqListInit</code></li>
+<li>容量检查    <code>checkCapacity</code></li>
+<li>尾插    <code>seqListPushBack</code></li>
+<li>尾删    <code>seqListPopBack</code></li>
+<li>头插    <code>seqListPushFront</code></li>
+<li>头删    <code>seqListPopFront</code></li>
+<li>查找    <code>seqListFind</code></li>
+<li>指定位置插入    <code>seqListInsert</code></li>
+<li>指定位置删除    <code>seqListErase</code></li>
+<li>销毁顺序表    <code>seqListDestory</code></li>
+<li>打印顺序表    <code>seqListPrint</code></li>
+</ol>
+<p>下面就来一一实现这些接口:</p>
+<h3 id="顺序表动态存储结构"><a href="#顺序表动态存储结构" class="headerlink" title="顺序表动态存储结构"></a>顺序表动态存储结构</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">int</span> SLDataType<span class="token punctuation">;</span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">SeqList</span>
+<span class="token punctuation">&#123;</span>
+	SLDataType<span class="token operator">*</span> arr<span class="token punctuation">;</span>    <span class="token comment">// 指向动态开辟的数组</span>
+	<span class="token keyword">int</span> Size<span class="token punctuation">;</span>    <span class="token comment">//数组内存放数据数量</span>
+	<span class="token keyword">int</span> Capacity<span class="token punctuation">;</span>    <span class="token comment">//顺序表容量</span>
+<span class="token punctuation">&#125;</span>SeqList<span class="token punctuation">;</span>
+<span class="token comment">// 此结构的顺序表 创建后，使用前，需要初始化</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>实现动态顺序表结构，需要在结构体内</p>
+<h3 id="顺序表初始化"><a href="#顺序表初始化" class="headerlink" title="顺序表初始化"></a>顺序表初始化</h3><pre><code>// 顺序表初始化
+void seqListInit(SeqList* psl); 
+</code></pre>
+<p>初始化函数非常的简单，只需要将创建好的顺序表结构体内：<br><code>arr</code> 指向 <code>NULL</code><br><code>Size</code> 和 <code>Capacity</code> 赋予 <code>0</code><br>就完成了一个顺序表的初始化</p>
+<p>实现代码：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表初始化</span>
+<span class="token keyword">void</span> <span class="token function">seqListInit</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	psl<span class="token operator">-></span>arr <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+	psl<span class="token operator">-></span>Size <span class="token operator">=</span> psl<span class="token operator">-></span>Capacity <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>创建一个顺序表验证一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SLInit.jpg"><br>创建出的顺序表，初始化成功。</p>
+<h3 id="顺序表尾插-及-容量检查"><a href="#顺序表尾插-及-容量检查" class="headerlink" title="顺序表尾插 及 容量检查"></a>顺序表尾插 及 容量检查</h3><pre><code>// 顺序表容量检查
+void checkCapacity(SeqList* psl);
+// 顺序表尾插
+void seqListPushBack(SeqList* psl, SLDataType x);
+</code></pre>
+<p>顺序表尾插，即 <code>在顺序表最后一个数据之后存放数据</code><br>存放数据进入顺序表之前，要 <code>先确保顺序表处于未满状态</code> 的，不然数据无法存储。</p>
+<p>所以在实现尾插之前，先 <code>实现一个容量检查的函数</code> 。<br><code>容量检查一般需要实现什么功能？</code></p>
+<ol>
+<li>检查顺序表是否已满</li>
+<li>如果顺序表已满，则扩容</li>
+</ol>
+<p>具体实现如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">void</span> <span class="token function">checkCapacity</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">if</span><span class="token punctuation">(</span>psl<span class="token operator">-></span>Size <span class="token operator">==</span> psl<span class="token operator">-></span>Capacity<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 如果存入的数据数量 与 顺序表的容量相等，就代表顺序表已满</span>
+		<span class="token keyword">int</span> newCapacity <span class="token operator">=</span> psl<span class="token operator">-></span>Capacity <span class="token operator">==</span> <span class="token number">0</span> <span class="token operator">?</span> <span class="token number">2</span> <span class="token operator">:</span> <span class="token number">2</span> <span class="token operator">*</span> psl<span class="token operator">-></span>Capacity<span class="token punctuation">;</span>    
+		<span class="token comment">//如果当前容量等于0,代表新顺序表,新容量给 2</span>
+		<span class="token comment">//如果当前容量不等于0,代表非新顺序表，新容量给原来容量的两倍</span>
+		SLDataType<span class="token operator">*</span> tmp <span class="token operator">=</span> <span class="token punctuation">(</span>SLDataType<span class="token operator">*</span><span class="token punctuation">)</span><span class="token function">realloc</span><span class="token punctuation">(</span>psl<span class="token operator">-></span>arr<span class="token punctuation">,</span> <span class="token keyword">sizeof</span><span class="token punctuation">(</span>SLDataType<span class="token punctuation">)</span><span class="token operator">*</span> newCapacity<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token comment">// 先用tmp 指向 realloc 扩容出新空间，以防止扩容失败导致元数据丢失</span>
+		<span class="token keyword">if</span><span class="token punctuation">(</span>tmp <span class="token operator">==</span> <span class="token constant">NULL</span><span class="token punctuation">)</span>
+		<span class="token punctuation">&#123;</span><span class="token comment">// tmp 为空 表示扩容失败，退出程序</span>
+			<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"realloc fail!\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token function">exit</span><span class="token punctuation">(</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+		<span class="token comment">// tmp 不为空，再将tmp 赋于 psl->arr;</span>
+		psl<span class="token operator">-></span>arr <span class="token operator">=</span> tmp<span class="token punctuation">;</span>  <span class="token comment">//psl->arr 指向扩容后的地址</span>
+		psl<span class="token operator">-></span>Capacity <span class="token operator">=</span> newCapacity<span class="token punctuation">;</span>   <span class="token comment">// 容量改为扩容后的容量</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>容量检查函数实现成功之后，就可以继续 <code>实现尾插函数</code>：</p>
+<p>先考虑一下，<code>尾插都需要注意哪些事项</code>：</p>
+<ol>
+<li>需要先用容量检查函数检查容量</li>
+<li>需要在数组中 <code>Size</code> 的位置放入数据之后，<code>Size</code> 自增<br><code>(因为数组下标从 0 开始，所以 Size 位置即为最后一个数据之后)</code></li>
+</ol>
+<p>具体实现如下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 尾插</span>
+<span class="token keyword">void</span> <span class="token function">seqListPushBack</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> SLDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//断言保证传入的结构体的地址不为空</span>
+
+	<span class="token function">checkCapacity</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//容量检查函数检查容量</span>
+
+	psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>psl<span class="token operator">-></span>Size<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>    <span class="token comment">// 将 x 尾插</span>
+	psl<span class="token operator">-></span>Size<span class="token operator">++</span><span class="token punctuation">;</span>    <span class="token comment">// 存储数据量加1 , Size也要加1</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>每实现一个接口，最好都要验证一下</code></p>
+<p>尾插三个整型数据，验证<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SLPushBack_blog.jpg"></p>
+<p>尾插三次，扩容两次，尾插成功.</p>
+<h3 id="顺序表打印"><a href="#顺序表打印" class="headerlink" title="顺序表打印"></a>顺序表打印</h3><pre><code>// 顺序表打印
+void seqListPrint(SeqList* psl);
+</code></pre>
+<p>尾插存放数据是可以了，但是如何实现顺序表的打印呢？</p>
+<p><code>顺序表打印</code> 接口的实现也是非常的简单：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表打印</span>
+<span class="token keyword">void</span> <span class="token function">seqListPrint</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> psl<span class="token operator">-></span>Size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d "</span><span class="token punctuation">,</span> psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"\n"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SLPrint_blog.jpg"></p>
+<h3 id="顺序表尾删"><a href="#顺序表尾删" class="headerlink" title="顺序表尾删"></a>顺序表尾删</h3><pre><code>// 顺序表尾删
+void seqListPopBack(SeqList* psl);
+</code></pre>
+<p>实现了顺序表的尾插，如果需要删除数据，对应的还有顺序表的尾删。</p>
+<p>尾删需要注意几个点：</p>
+<ol>
+<li>尾删需不需要将 <code>需要删除的数据</code> 的空间释放掉？</li>
+<li>尾删需不需要将 <code>需要删除的数据</code> 赋值为 <code>0</code> ?</li>
+<li>尾删需不需要控制一下顺序表中的 <code>Size</code> ？</li>
+<li>控制不控制 <code>Size</code> 的值，对顺序表来说有什么区别？</li>
+</ol>
+<p>先来思考一下第一个问题，尾删需不需要将 <code>需要删除的数据</code> 的空间释放掉？<br>答案是，不需要，也无法释放。<br>因为 <code>free</code> 函数使用的条件是，<code>malloc</code> 或 <code>realloc</code> 函数开辟的<code>整块空间</code>，且<code>传入的必须是是这块空间的首地址</code>。所以无法释放其中的单独一块空间。</p>
+<p>第二个问题，尾删需不需要将 <code>需要删除的数据</code> 赋值为 <code>0</code> ?</p>
+<p>答案同样是，不需要。<br>因为尾删之后，<code>下次使用这块空间一定是在插入数据的时候，到时候会有新的数据将其覆盖，所以不需要将其赋值为 </code>0&#96;</p>
+<p>第三个问题和第四个问题，一起思考一下：</p>
+<p>尾删需不需要控制一下顺序表中的 <code>Size</code> ？<br>控制不控制 <code>Size</code> 的值，对顺序表来说有什么区别？</p>
+<p>答案是，需要控制 <code>Size</code> 的值，防止 过多次使用尾删<code>(使用次数比存放数据数量多)</code> 导致 <code>Size</code> 变成负数。<br><code>Size</code> 变成负数，会发生什么情况？</p>
+<p>使用下面段 尾删函数试验一下：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表尾删</span>
+<span class="token keyword">void</span> <span class="token function">seqListPopBack</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	psl<span class="token operator">-></span>Size<span class="token operator">--</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/popBack_beyond.jpg"><br><code>尾插 3 个数据，但是尾删了 5 次</code><br>可以看到，顺序表中的 <code>Size</code> 变成了 <code>-3</code><br>变成负数之后，如果继续进行其他操作，一定会发生错误<br>比如：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/popBack_beyond3.jpg"><br>即使，尾插了两次，顺序表中还是无法输出数据，也就是说，再次尾插的两个数据并没有存放至顺序表中。<br>因为 这两次尾插，是从 <code>Size 为 -3</code> 的地方执行的，并没有从 <code>0</code> 位置开始，所以无法存入，<code>同时也发生了越界现象</code>。</p>
+<blockquote>
+<p>这里 <code>VS 编译器</code> 不报错，是因为 <code>对于数组越界的情况， VS编译器 是抽查的</code>。也就是说，并不是所有的越界情况 <code>VS编译器</code> 都能检查得到</p>
+</blockquote>
+<p>所以<code>尾删</code>，需要对顺序表中的 <code>Size</code> 进行一个简单的控制：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表尾删</span>
+<span class="token keyword">void</span> <span class="token function">seqListPopBack</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>psl<span class="token operator">-></span>Size <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 当Size 大于零 再进行自减</span>
+		psl<span class="token operator">-></span>Size<span class="token operator">--</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这样就不会发生使 <code>Size</code> 减到负 的问题：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/popBack_beyond2.jpg"><br>即使 尾删次数过多，<code>Size</code> 也不会变为负数，也就不会发生其他操作错误的情况。</p>
+<h3 id="顺序表头插"><a href="#顺序表头插" class="headerlink" title="顺序表头插"></a>顺序表头插</h3><pre><code>// 顺序表头插
+void seqListPushFront(SeqList* psl, SLDataType x);
+</code></pre>
+<p>顺序表的尾插比较简单，只需要在顺序表 <code>Size</code> 位置放入数据就可以了。</p>
+<p>头插呢？头插需要注意到什么问题？<br>顺序表本质上是 <code>数组实现的</code>，那么需要在数组的首位置插入数据就不仅仅是插入数据那么简单。<code>需要先将数组中的数据向后移动一位，然后才能将新数据放入首位置</code><br><code>演示：</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/PushFront.gif"></p>
+<p><code>那么来实现头插一下：</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 头插</span>
+<span class="token keyword">void</span> <span class="token function">seqListPushFront</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> SLDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//断言保证传入的结构体的地址不为空</span>
+
+	<span class="token function">checkCapacity</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//插入前 首先检查容量</span>
+
+	<span class="token comment">// 方法一：</span>
+	<span class="token keyword">int</span> end <span class="token operator">=</span> psl<span class="token operator">-></span>Size<span class="token punctuation">;</span>
+	<span class="token keyword">while</span> <span class="token punctuation">(</span>end<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>end<span class="token punctuation">]</span> <span class="token operator">=</span> psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>end <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		end<span class="token operator">--</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+
+	<span class="token comment">// 方法二：</span>
+	<span class="token comment">/*int end = psl->Size - 1;
+	while (end >= 0)
+	&#123;
+		psl->arr[end + 1] = psl->arr[end];
+		end--;
+	&#125;*/</span>
+
+	<span class="token comment">// 这两个方法其实一样的，只是对 末尾元素的位置控制方式不同</span>
+	
+
+	psl<span class="token operator">-></span>arr<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>    <span class="token comment">// 将 x 尾插</span>
+	psl<span class="token operator">-></span>Size<span class="token operator">++</span><span class="token punctuation">;</span>    <span class="token comment">// 存储数据量加1 , Size 加1</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/seqListPushFront.jpg"></p>
+<p>头插成功。</p>
+<h3 id="顺序表头删"><a href="#顺序表头删" class="headerlink" title="顺序表头删"></a>顺序表头删</h3><pre><code>// 顺序表头删
+void seqListPopFront(SeqList* psl);
+</code></pre>
+<p>实现了头插，接着来实现一下头删</p>
+<p>头删和头插的思路相似，不过只是将从 <code>1 ~ Size-1</code> 位置的数据向前移动一位。<br>不过，头删同样需要保证 <code>Size &gt; 0</code> 才能执行。<br><code>演示：</code><br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/PopFront.gif"></p>
+<p><code>头删实现：</code></p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表头删</span>
+<span class="token keyword">void</span> <span class="token function">seqListPopFront</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">if</span> <span class="token punctuation">(</span>psl<span class="token operator">-></span>Size <span class="token operator">></span> <span class="token number">0</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token keyword">int</span> begin <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+		<span class="token keyword">while</span> <span class="token punctuation">(</span>begin <span class="token operator">&lt;</span> psl<span class="token operator">-></span>Size<span class="token punctuation">)</span>
+		<span class="token punctuation">&#123;</span>
+			psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>begin<span class="token punctuation">]</span> <span class="token operator">=</span> psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>begin <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+			begin<span class="token operator">++</span><span class="token punctuation">;</span>
+		<span class="token punctuation">&#125;</span>
+
+		psl<span class="token operator">-></span>Size<span class="token operator">--</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/popFront_beyond.jpg"><br>即使删除过多，也不会出错。</p>
+<h3 id="顺序表查找"><a href="#顺序表查找" class="headerlink" title="顺序表查找"></a>顺序表查找</h3><pre><code>int seqListFind(SeqList* psl, SLDataType x);
+</code></pre>
+<p>查找顺序表中某个数据所在的位置，可以用到顺序表查找的操作。<br>因为顺序表的本质是数组，所以 <code>只需要将顺序表从头到尾遍历一遍</code>，找到值就返回 <code>其所在的位置</code> ，找不到就返回 <code>-1</code>。</p>
+<p>查找的实现：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表查找</span>
+<span class="token keyword">int</span> <span class="token function">seqListFind</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> SLDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> psl<span class="token operator">-></span>Size<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		<span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">==</span> psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+			<span class="token keyword">return</span> i<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+
+	<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/seqListFind.jpg"><br>验证了，一般情况、边界情况、未找到情况，均返回正确。</p>
+<h3 id="指定位置插入"><a href="#指定位置插入" class="headerlink" title="指定位置插入"></a>指定位置插入</h3><pre><code>void seqListInsert(SeqList* psl, size_t pos, SLDataType x);
+</code></pre>
+<p>尾插、头插都实现了，接下来就实现一下指定 <code>pos</code> 位置插入数据。<br>在指定 <code>pos</code> 位置插入数据，和前插有一点相似，需要将数据向后移一位。</p>
+<p>我们可以用相似的方法移动，不过是从 <code>pos</code> 位置以后的数据向后移动一位。<br>不过首先还是要检查容量：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 指定位置插入</span>
+<span class="token keyword">void</span> <span class="token function">seqListInsert</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> <span class="token class-name">size_t</span> pos<span class="token punctuation">,</span> SLDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token function">SeqListCheckCapacity</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 检查容量</span>
+	
+	<span class="token class-name">size_t</span> end <span class="token operator">=</span> psl<span class="token operator">-></span>Size<span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>end <span class="token operator">></span> pos<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>end<span class="token punctuation">]</span> <span class="token operator">=</span> psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>end <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		end<span class="token operator">--</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>pos<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+	psl<span class="token operator">-></span>Size<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>验证一下：</p>
+<blockquote>
+<p>在插入之前可以使用 查找函数 获取一下 <code>pos</code> 位置</p>
+</blockquote>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SeqList_posInsert.jpg"><br><code>pos</code> 位置插入数据 成功了。</p>
+<p>但是真的成功了吗？<br>这个函数，现在还有没有什么问题？<br>比如，当我在 <code>20</code> 这个位置插入，会发生什么呢？<br>看一下：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SeqList_posInsert2.jpg"><br>在 <code>20</code> 位置插入数据没有报错，但是输出的时候输出的是随机值<br>而且，在实际的操作中，程序是延迟了一会才结束的<br>为什么？</p>
+<p>因为，顺序表中存放的数据数量只有 <code>9</code> 个，占用的位置只有<code>0 ~ 8</code>，如果在 <code>20</code> 位置插入数据，超出了顺序表应有的位置，这个时候 <code>Size</code> 照常自增<br>那么输出的时候就会输出 <code>0 ~ 9</code> 位置的数据，而 <code>9</code> 位置并没有赋予数据，所以输出的是随机值。</p>
+<p>这就提出了一个问题：当传入的 <code>pos</code> 位置比实际应该插入的位置大，怎么解决？<br>其实也很简单，如果 <code>pos</code> 位置过大，<code>直接结束 插入函数</code> 就可以了。</p>
+<p>那么改进后的代码就是：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 指定位置插入</span>
+<span class="token keyword">void</span> <span class="token function">seqListInsert</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> <span class="token class-name">size_t</span> pos<span class="token punctuation">,</span> SLDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token function">checkCapacity</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 检查容量</span>
+	
+	<span class="token keyword">if</span><span class="token punctuation">(</span>pos <span class="token operator">></span> psl<span class="token operator">-></span>Size<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 尾插的位置是 Size，如果大于Size，就代表pos过大</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Insert fail. Pos > Size! Pos = %d \n"</span><span class="token punctuation">,</span> pos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">return</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	<span class="token class-name">size_t</span> end <span class="token operator">=</span> psl<span class="token operator">-></span>Size<span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>end <span class="token operator">></span> pos<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>end<span class="token punctuation">]</span> <span class="token operator">=</span> psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>end <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		end<span class="token operator">--</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>pos<span class="token punctuation">]</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+	psl<span class="token operator">-></span>Size<span class="token operator">++</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>现在再执行一遍代码：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/SeqList_posInsert3.jpg"><br>当 <code>pos</code> 大于 <code>Size</code> 时，会输出警告，并停止插入。</p>
+<h4 id="调用指定位置插入的-尾插-和-头插"><a href="#调用指定位置插入的-尾插-和-头插" class="headerlink" title="调用指定位置插入的 尾插 和 头插"></a>调用指定位置插入的 尾插 和 头插</h4><p>那么。<br>既然插入函数可以指定位置插入数据，是不是就说明 <code>头插</code> <code>尾插</code> 都可以<code>直接调用插入函数</code> 实现呢？<br>答案当然是可以的。<br>所以 <code>尾插</code> 和 <code>头插</code> 函数就可以改进为：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 尾插</span>
+<span class="token keyword">void</span> <span class="token function">seqListPushBack</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> SLDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//断言保证传入的结构体的地址不为空</span>
+	<span class="token comment">/*
+	checkCapacity(psl);    //容量检查函数检查容量
+
+	psl->arr[psl->Size] = x;    // 将 x 尾插
+	psl->Size++;    // 存储数据量加1 , Size也要加1
+	*/</span>
+	
+	<span class="token function">seqListInsert</span><span class="token punctuation">(</span>psl<span class="token punctuation">,</span> psl<span class="token operator">-></span>Size<span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//在 Size 位置插入数据，就是尾插</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 头插</span>
+<span class="token keyword">void</span> <span class="token function">seqListPushFront</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> SLDataType x<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">//断言保证传入的结构体的地址不为空</span>
+	
+	<span class="token comment">/*
+	checkCapacity(psl);    //插入前 首先检查容量
+
+	// 方法一：
+	int end = psl->Size;
+	while (end)
+	&#123;
+		psl->arr[end] = psl->arr[end - 1];
+		end--;
+	&#125;
+
+	// 方法二：
+	int end = psl->Size - 1;
+	while (end >= 0)
+	&#123;
+		psl->arr[end + 1] = psl->arr[end];
+		end--;
+	&#125;
+
+	// 这两个方法其实一样的，只是对 末尾元素的位置控制方式不同
+	
+
+	psl->arr[0] = x;    // 将 x 尾插
+	psl->Size++;    // 存储数据量加1 , Size 加1
+	*/</span>
+	<span class="token function">seqListInsert</span><span class="token punctuation">(</span>psl<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> x<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 在 0 位置插入数据，就是头插</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用改良后的 <code>头插</code> <code>尾插</code>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/seqListPushBack_Front_UPTATE.jpg"><br>改良后的 <code>头插</code> 和 <code>尾插</code> 成功</p>
+<h3 id="指定位置删除"><a href="#指定位置删除" class="headerlink" title="指定位置删除"></a>指定位置删除</h3><pre><code>void seqListErase(SeqList* psl, size_t pos);
+</code></pre>
+<p>删除 <code>pos</code> 位置的数据，思路也是与 <code>头删</code> 相似。<br>即，<code>pos</code> 位置以后的数据，向前移动一位，同时 <code>Size</code> 自减</p>
+<p>同样的，指定位置删除的 <code>pos</code> 也是要控制一下的</p>
+<p>那么，指定位置删除的实现就是：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 指定位置删除</span>
+<span class="token keyword">void</span> <span class="token function">seqListErase</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">,</span> <span class="token class-name">size_t</span> pos<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token keyword">if</span><span class="token punctuation">(</span>pos <span class="token operator">>=</span> psl<span class="token operator">-></span>Size<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span><span class="token comment">// 这里 pos 必须小于 Size 才能删除</span>
+		<span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Erase fail. Pos >= Size! Pos = %d \n"</span><span class="token punctuation">,</span> pos<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">return</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	<span class="token class-name">size_t</span> begin <span class="token operator">=</span> pos <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">;</span>
+	<span class="token keyword">while</span><span class="token punctuation">(</span>begin <span class="token operator">&lt;</span> psl<span class="token operator">-></span>Size<span class="token punctuation">)</span>
+	<span class="token punctuation">&#123;</span>
+		psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>begin <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span> <span class="token operator">=</span> psl<span class="token operator">-></span>arr<span class="token punctuation">[</span>begin<span class="token punctuation">]</span><span class="token punctuation">;</span>
+		begin<span class="token operator">++</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+	
+	psl<span class="token operator">-></span>Size<span class="token operator">--</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>验证一下：<br>删除之前插入的三个 <code>0</code>：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/seqListErase.jpg"><br>删除成功，同样 超出 <code>Size</code> 直接取消删除。</p>
+<h4 id="调用指定位置删除的-尾删-和-头删"><a href="#调用指定位置删除的-尾删-和-头删" class="headerlink" title="调用指定位置删除的 尾删 和 头删"></a>调用指定位置删除的 尾删 和 头删</h4><p>既然 <code>尾插</code> 和 <code>头插</code> 都可以直接调用 <code>指定位置插入函数</code> 实现<br>我 <code>尾删</code> 和 <code>头删</code> 也要调用 <code>指定位置删除函数</code></p>
+<p>安排：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表尾删</span>
+<span class="token keyword">void</span> <span class="token function">seqListPopBack</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">/*
+	if (psl->Size > 0)
+	&#123;// 当Size 大于零 再进行自减
+		psl->Size--;
+	&#125;
+	*/</span>
+	<span class="token function">seqListErase</span><span class="token punctuation">(</span>psl<span class="token punctuation">,</span> psl<span class="token operator">-></span>Size <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// Size - 1 即为末尾元素位置</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表头删</span>
+<span class="token keyword">void</span> <span class="token function">seqListPopFront</span><span class="token punctuation">(</span>SeqList<span class="token operator">*</span> psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+	<span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">/*
+	if (psl->Size > 0)
+	&#123;
+		int begin = 1;
+		while (begin &lt; psl->Size)
+		&#123;
+			psl->arr[begin] = psl->arr[begin - 1];
+			begin++;
+		&#125;
+		
+		psl->Size--;
+	&#125;
+	*/</span>
+	<span class="token function">seqListErase</span><span class="token punctuation">(</span>psl<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// 0 位置即为首元素</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>也使用改良后的 <code>头删</code> <code>尾删</code>验证：<br><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/seqListErase_FrontBack.jpg"><br>改良后的 <code>头删</code> 和 <code>尾删</code> 成功</p>
+<h3 id="顺序表销毁"><a href="#顺序表销毁" class="headerlink" title="顺序表销毁"></a>顺序表销毁</h3><pre><code>// 顺序表销毁  
+void seqListDestory(SeqList* psl);
+</code></pre>
+<p>对于顺序表的销毁，比较简单，与初始化相似，一看就懂：</p>
+<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token comment">// 顺序表销毁</span>
+<span class="token keyword">void</span> <span class="token function">SeqListDestory</span><span class="token punctuation">(</span>SeqList <span class="token operator">*</span>psl<span class="token punctuation">)</span>
+<span class="token punctuation">&#123;</span>
+    <span class="token function">assert</span><span class="token punctuation">(</span>psl<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token function">free</span><span class="token punctuation">(</span>psl<span class="token operator">-></span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    psl<span class="token operator">-></span>s <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
+    psl<span class="token operator">-></span>size <span class="token operator">=</span> psl<span class="token operator">-></span>capacity <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<p>至此 <code>顺序表结构</code>、<code>主要接口</code> 已经全部实现。<br>阅读到这里的一定都是勤奋好学的hxd了<br>加油！</p>
+<hr>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>本篇文章所介绍实现的是 线性表的第一个结构：<code>顺序表</code>。是相对简单的一个数据结构。虽然相对简单，但是也存在着许多需要注意的细节，像<code>检查容量时</code>对 <code>realloc</code> 函数的掌握、 像 <code>删除函数</code> 中 <code>Size</code>的要点、 像 <code>指定位置操作</code> 中  <code>pos</code> 位置的控制 等。都是一些需要用心注意的细节。</p>
+<p>好了，本篇文章，也是 <code>【神秘海域】 数据结构与算法</code> 系列的第二篇，至此结束。</p>
+<p>感谢阅读！！</p>
+<hr>
+]]></content>
+      <categories>
+        <category>神秘海域：数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>数据结构与算法</tag>
+        <tag>顺序表</tag>
+      </tags>
   </entry>
 </search>
