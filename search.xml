@@ -420,6 +420,77 @@ c. 汇编 <code>(将 汇编代码文件 转换为 对应的机器指令文件（
       </tags>
   </entry>
   <entry>
+    <title>怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~</title>
+    <url>/posts/Figur-Bed-Whitelist.html</url>
+    <content><![CDATA[<h1 id="原由"><a class="markdownIt-Anchor" href="#原由"></a> 原由</h1>
+<p>大家好啊！我是七月<br />
+上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
+<span id="more"></span>
+<p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br />
+<img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述" /></p>
+<p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br />
+肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br />
+但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br />
+所以，对自己图床访问的限制也就变得尤为重要。<br />
+<strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br />
+下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
+<hr />
+<h1 id="给图床设置白名单"><a class="markdownIt-Anchor" href="#给图床设置白名单"></a> 给图床设置白名单</h1>
+<p>这里以 <code>阿里云</code> 为例 <code>( 阿里云手机暂不支持操作，或者是我没找到如何修改 )</code></p>
+<p>首先，在自己的 <code>OSS管理控制台</code> 进入<code>需要设立白名单的Bucket</code><br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_1.png" alt="请添加图片描述" /><br />
+然后再左边列表选择 <code>权限管理-&gt;防盗链</code><br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_2.png" alt="" /></p>
+<p>然后找到 <code>开启防盗链</code>，并打开<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_3.png" alt="" /></p>
+<p>打开后，在 <code>Referer</code> 表里，添加 <code>白名单域名</code> 或 <code>ip</code>  就好了</p>
+<h1 id="白名单需要添加什么"><a class="markdownIt-Anchor" href="#白名单需要添加什么"></a> 白名单需要添加什么</h1>
+<p><code>白名单(防盗链)</code> 中，添加一般 <code>需要访问图床图片</code> 的 <code>网址</code> 和 <code>ip</code></p>
+<p>比如，我们在 <code>C站</code> 写博客需要访问图床外链，就把 <code>C站的域名</code> 添加进去：<code>*.csdn.net</code></p>
+<p>或者，需要在 <code>阿里云OSS</code> 预览图片：<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS.png" alt="" /></p>
+<p>也需要将 <code>阿里云</code> 的域名添加进去，如果不添加就会变成这样：<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS_2.png" alt="" /></p>
+<p>将 <code>需要访问图床图片的网站域名</code> 添加进去之后，指定网站就可以访问获取图片了 !</p>
+<p>这里我添加了需要访问图片的域名：<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Referer_yuming.png" alt="" /><br />
+添加域名的方式，阿里云有给手册 ：<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/For_star.png" alt="" /></p>
+<p>添加完成后，就可以<code>防止白名单外的网站访问图床内的图片</code>，就可以 <code>防止爬虫访问导致流量疯狂外流</code>。</p>
+<h2 id="添加-ip-建议"><a class="markdownIt-Anchor" href="#添加-ip-建议"></a> 添加 ip 建议</h2>
+<p>添加完网站域名，我还推荐 <code>将自己常用网络的ip地址</code> 添加至白名单。否则本地访问 图床图片时 会被拒绝导致访问失败。</p>
+<p>考虑到有些小伙伴可能不知道自己的 网络 <code>ip</code>，这里提供一下查询方法<code>(Windows平台)</code>：</p>
+<blockquote>
+<ol>
+<li>使用 <code>CMD</code> 指令查看：<br />
+先打开 <code>CMD</code> 或 <code>Terminal(Win11)</code>：<br />
+<code>CMD</code>：可以 <code>Win + R</code> 组合键唤出  <code>运行</code>，然后输入 <code>CMD</code> 运行就可以<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_CMD.png" alt="" /></li>
+</ol>
+</blockquote>
+<blockquote>
+<p><code>Terminal(Win11)</code> ：右键 <code>开始按钮</code> 选择 <code>终端(Terminal)</code> 就可以<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_Terminal.png" alt="" /></p>
+</blockquote>
+<blockquote>
+<p>然后在弹出的界面输入 <code>ipconfig /all</code> 回车<br />
+就可以找到 <code>当前网络 ip</code>：<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress.png" alt="" /></p>
+<ol start="2">
+<li>开始界面打开 <code>设置</code>，并打开 <code>网络与Internet</code>，找到 <code>属性</code> 点击就可以看到 <code>当前网络ip</code>：<br />
+<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress2.png" alt="" /></li>
+</ol>
+</blockquote>
+<p>找到自己的 <code>网络 ip</code> 然后添加到 <code>阿里云OSS</code> <code>防盗链(白名单)</code> 里就 OK 啦！</p>
+<hr />
+<p>OK 本篇文章到这里就结束了！</p>
+<p><code>祝以后的我们的无论使用什么做图床，都不会再挂！！</code></p>
+]]></content>
+      <tags>
+        <tag>图床</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>【神秘海域】[动图] 顺序表千字破解~</title>
     <url>/posts/DS-SeqList.html</url>
     <content><![CDATA[<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/DS_Cover_qesList.jpg" alt="" /></p>
@@ -718,77 +789,6 @@ void seqListDestory(SeqList* psl);
         <tag>C语言</tag>
         <tag>数据结构与算法</tag>
         <tag>顺序表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~</title>
-    <url>/posts/Figur-Bed-Whitelist.html</url>
-    <content><![CDATA[<h1 id="原由"><a class="markdownIt-Anchor" href="#原由"></a> 原由</h1>
-<p>大家好啊！我是七月<br />
-上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
-<span id="more"></span>
-<p>在 <code>Gitee</code> 上建立的图床里的图片全都变成了 <code>Gitee</code> 的图标：<br />
-<img src="https://img-blog.csdnimg.cn/3ffc2687b14840ef87c27e14844d9cfb.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBA5LiD5pyISnVseS4=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="请添加图片描述" /></p>
-<p>这波事故过后一定有许多小伙伴也不敢再在 <code>Gitee</code> 创建图床，免得把再自己给整破防了。<br />
-肯定有许多小伙伴转到了 <code>阿里云</code> 等云平台服务重新建立了自己的图床。<br />
-但是在 云平台服务建立图床 <code>不是免费的</code>，无论是空间还是流量都不是免费的。<br />
-所以，对自己图床访问的限制也就变得尤为重要。<br />
-<strong><code>不然自己的云服务就可能被爬虫摧残！！</code></strong> <code>(我已经有了惨痛的教训,都是金钱的教训)</code><br />
-下面就来具体说明一下，<code>如何给自己的图床设置白名单</code>，来阻隔各路爬虫的访问。</p>
-<hr />
-<h1 id="给图床设置白名单"><a class="markdownIt-Anchor" href="#给图床设置白名单"></a> 给图床设置白名单</h1>
-<p>这里以 <code>阿里云</code> 为例 <code>( 阿里云手机暂不支持操作，或者是我没找到如何修改 )</code></p>
-<p>首先，在自己的 <code>OSS管理控制台</code> 进入<code>需要设立白名单的Bucket</code><br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_1.png" alt="请添加图片描述" /><br />
-然后再左边列表选择 <code>权限管理-&gt;防盗链</code><br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_2.png" alt="" /></p>
-<p>然后找到 <code>开启防盗链</code>，并打开<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/OSS_3.png" alt="" /></p>
-<p>打开后，在 <code>Referer</code> 表里，添加 <code>白名单域名</code> 或 <code>ip</code>  就好了</p>
-<h1 id="白名单需要添加什么"><a class="markdownIt-Anchor" href="#白名单需要添加什么"></a> 白名单需要添加什么</h1>
-<p><code>白名单(防盗链)</code> 中，添加一般 <code>需要访问图床图片</code> 的 <code>网址</code> 和 <code>ip</code></p>
-<p>比如，我们在 <code>C站</code> 写博客需要访问图床外链，就把 <code>C站的域名</code> 添加进去：<code>*.csdn.net</code></p>
-<p>或者，需要在 <code>阿里云OSS</code> 预览图片：<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS.png" alt="" /></p>
-<p>也需要将 <code>阿里云</code> 的域名添加进去，如果不添加就会变成这样：<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/cover_OSS_2.png" alt="" /></p>
-<p>将 <code>需要访问图床图片的网站域名</code> 添加进去之后，指定网站就可以访问获取图片了 !</p>
-<p>这里我添加了需要访问图片的域名：<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/Referer_yuming.png" alt="" /><br />
-添加域名的方式，阿里云有给手册 ：<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/For_star.png" alt="" /></p>
-<p>添加完成后，就可以<code>防止白名单外的网站访问图床内的图片</code>，就可以 <code>防止爬虫访问导致流量疯狂外流</code>。</p>
-<h2 id="添加-ip-建议"><a class="markdownIt-Anchor" href="#添加-ip-建议"></a> 添加 ip 建议</h2>
-<p>添加完网站域名，我还推荐 <code>将自己常用网络的ip地址</code> 添加至白名单。否则本地访问 图床图片时 会被拒绝导致访问失败。</p>
-<p>考虑到有些小伙伴可能不知道自己的 网络 <code>ip</code>，这里提供一下查询方法<code>(Windows平台)</code>：</p>
-<blockquote>
-<ol>
-<li>使用 <code>CMD</code> 指令查看：<br />
-先打开 <code>CMD</code> 或 <code>Terminal(Win11)</code>：<br />
-<code>CMD</code>：可以 <code>Win + R</code> 组合键唤出  <code>运行</code>，然后输入 <code>CMD</code> 运行就可以<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_CMD.png" alt="" /></li>
-</ol>
-</blockquote>
-<blockquote>
-<p><code>Terminal(Win11)</code> ：右键 <code>开始按钮</code> 选择 <code>终端(Terminal)</code> 就可以<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/run_Terminal.png" alt="" /></p>
-</blockquote>
-<blockquote>
-<p>然后在弹出的界面输入 <code>ipconfig /all</code> 回车<br />
-就可以找到 <code>当前网络 ip</code>：<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress.png" alt="" /></p>
-<ol start="2">
-<li>开始界面打开 <code>设置</code>，并打开 <code>网络与Internet</code>，找到 <code>属性</code> 点击就可以看到 <code>当前网络ip</code>：<br />
-<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/now_ip_adress2.png" alt="" /></li>
-</ol>
-</blockquote>
-<p>找到自己的 <code>网络 ip</code> 然后添加到 <code>阿里云OSS</code> <code>防盗链(白名单)</code> 里就 OK 啦！</p>
-<hr />
-<p>OK 本篇文章到这里就结束了！</p>
-<p><code>祝以后的我们的无论使用什么做图床，都不会再挂！！</code></p>
-]]></content>
-      <tags>
-        <tag>图床</tag>
       </tags>
   </entry>
   <entry>
