@@ -467,10 +467,10 @@ code {
   font-family: consolas, Menlo, monospace, "PingFang SC", "Microsoft YaHei";
 }
 code {
-  background: #eee;
-  border-radius: 3px;
-  color: #555;
-  padding: 2px 4px;
+  background: #ffdcdc;
+  border-radius: 10px;
+  color: #804040;
+  padding: 2px 7px;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
