@@ -2015,4 +2015,268 @@ void seqListDestory(SeqList* psl);
         <tag>结构体</tag>
       </tags>
   </entry>
+  <entry>
+    <title>【神秘海域】[动图] 结合题目-手把手带你剖析 “带环链表”</title>
+    <url>/posts/Circular-LinkList.html</url>
+    <content><![CDATA[<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501153114604.png" alt="image-20220501153114604" /></p>
+<hr />
+<h1 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h1>
+<p>上一篇 <code>【神秘海域】数据结构与算法</code> 内容是 <strong><code>单链表及其接口</code></strong></p>
+<p>而本篇内容是对单链表的一个 <code>非常重要</code> 的补充： <strong><code>带环单链表</code></strong> 。它，是大厂面试时可能会提问的内容，非常的重要！</p>
+<p>本篇就是要结合题目来 详细分析一下 <code>单链表的带环问题</code></p>
+<h1 id="带环单链表之前-快慢指针"><a class="markdownIt-Anchor" href="#带环单链表之前-快慢指针"></a> 带环单链表之前 : 快慢指针</h1>
+<p>在详细分析 带环单链表 之前，先分析两道题来了解一个非常重要的算法思路：<code>快慢指针</code></p>
+<h2 id="题1单链表的中间结点"><a class="markdownIt-Anchor" href="#题1单链表的中间结点"></a> 题1：单链表的中间结点</h2>
+<p>原题描述是这样的:</p>
+<blockquote>
+<p>给定一个头结点为 <code>head</code> 的非空单链表，返回链表的中间结点。</p>
+<p>如果有两个中间结点，则返回第二个中间结点。</p>
+<p><strong><code>示例 1</code></strong>：</p>
+<blockquote>
+<p>输入：<code>[1,2,3,4,5]</code><br />
+输出：此列表中的结点 <code>3 (序列化形式：[3,4,5])</code><br />
+返回的结点值为 <code>3 (测评系统对该结点序列化表述是 [3,4,5])</code><br />
+注意，我们返回了一个 <code>ListNode</code> 类型的对象 <code>ans</code> ，这样：<br />
+<code>ans.val = 3</code> , <code>ans.next.val = 4</code> , <code>ans.next.next.val = 5</code> , 以及 <code>ans.next.next.next = NULL</code> .</p>
+</blockquote>
+<p><strong><code>示例 2</code></strong>：</p>
+<blockquote>
+<p>输入：<code>[1,2,3,4,5,6]</code><br />
+输出：此列表中的结点 <code>4 (序列化形式：[4,5,6])</code><br />
+由于该列表 <code>有两个中间结点</code> ，值分别为 <code>3</code> 和 <code>4</code>，我们 <code>返回第二个结点</code></p>
+</blockquote>
+<p>原题链接： <a href="https://leetcode-cn.com/problems/middle-of-the-linked-list/">Leetcode - 876. 链表的中间结点</a></p>
+</blockquote>
+<p>这一题的解法，就需要使用到 <code>快慢指针</code> 的思路</p>
+<p>那么什么是 <code>快慢指针</code> ？即，使用两个 <code>移动速度不同</code> 的指针在 <code>数组</code> 或 <code>链表</code>等 序列结构上移动。</p>
+<blockquote>
+<p>本题思路：</p>
+<p>求链表的中间节点，就可以定义两个指针 : <code>pslow 慢指针</code> 、 <code>pfast 快指针</code></p>
+<p>在本题中，快指针每次 <code>移动两个节点</code> ，慢指针每次 <code>移动一个节点</code> ，当快指针 <code>走过尾节点为空(链表节点为单数) 或 指向尾节点(链表节点为双数)</code> 时，慢指针应该 <code>正好在中间节点</code></p>
+<p>此时 <code>慢指针所指节点</code> 即为题目所求</p>
+</blockquote>
+<p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> ListNode* <span class="title function_">middleNode</span><span class="params">(<span class="keyword">struct</span> ListNode* head)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pfast</span> =</span> head;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pslow</span> =</span> head;</span><br><span class="line">    <span class="keyword">while</span>(pfast &amp;&amp; pfast-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        pfast = pfast-&gt;next-&gt;next;</span><br><span class="line">        pslow = pslow-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pslow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430201513575.png" alt="image-20220430201513575" /></p>
+<h2 id="题2链表中倒数最后k个结点"><a class="markdownIt-Anchor" href="#题2链表中倒数最后k个结点"></a> 题2：链表中倒数最后k个结点</h2>
+<p>此题描述是这样的：</p>
+<blockquote>
+<p>例如，输入 <code>&#123;1,2,3,4,5&#125;, 2</code> 时，对应的链表结构如下图所示：</p>
+<p><img src="https://uploadfiles.nowcoder.com/images/20211105/423483716_1636084313645/5407F55227804F31F5C5D73558596F2C" alt="img" /></p>
+<p>其中蓝色部分为该链表的最后2个结点，所以 <code>返回倒数第2个结点（也即结点值为4的结点）</code> 即可，系统会打印后面所有的节点来比较。</p>
+<p><strong><code>示例 1</code></strong>：</p>
+<blockquote>
+<p>输入：<code>&#123;1,2,3,4,5&#125;,2</code></p>
+<p>返回值：<code>&#123;4,5&#125;</code></p>
+<p>说明：返回倒数第2个节点4，系统会打印后面所有的节点来比较。</p>
+</blockquote>
+<p><strong><code>示例 2</code></strong>:</p>
+<blockquote>
+<p>输入：<code>&#123;2&#125;,8</code></p>
+<p>返回值：<code>&#123;&#125;</code></p>
+</blockquote>
+<p>原题链接：<a href="https://www.nowcoder.com/practice/886370fe658f41b498d40fb34ae76ff9">Nowcoder - JZ22 链表中倒数最后k个结点</a></p>
+</blockquote>
+<p>本题的思路也是使用快慢指针，但是与上一题不同的是，本题是<code>先走为快指针 与 后走为慢指针</code></p>
+<blockquote>
+<p>本题思路：</p>
+<p>定义两个指针 : <code>pslow 慢指针</code> 、 <code>pfast 快指针</code>，两指针均 <code>一步一步走</code></p>
+<p>快指针 先走 <code>k</code> 步，但同时要保证 <code>快指针没走到空</code> ，如果 <code>k</code> 步没走完就已经走到空了，就表示链表没那么长</p>
+<p>然后 慢指针 与 快指针 同时开始走，直到快指针走到空</p>
+<p>此时 <code>慢指针所指节点</code> 即为题目所求</p>
+</blockquote>
+<p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> ListNode* <span class="title function_">FindKthToTail</span><span class="params">(<span class="keyword">struct</span> ListNode* pHead, <span class="type">int</span> k )</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pfast</span> =</span> pHead;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pslow</span> =</span> pHead;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span>(k--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(pfast)</span><br><span class="line">        &#123;</span><br><span class="line">            pfast = pfast-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;<span class="comment">// 快指针指向空，即链表长度不到 k，直接返回 NULL</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(pfast)</span><br><span class="line">    &#123;</span><br><span class="line">        pfast = pfast-&gt;next;</span><br><span class="line">        pslow = pslow-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pslow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430203858767.png" alt="image-20220430203858767" /></p>
+<hr />
+<p>在分析带环链表之前，需要 需要了解一下 <code>快慢指针</code> ，因为 <code>带环链表的分析</code> 是根据 <code>快慢指针</code> 分析的.</p>
+<h1 id="带环链表分析"><a class="markdownIt-Anchor" href="#带环链表分析"></a> 带环链表分析</h1>
+<p>分析 <code>带环链表</code> ，先 由一道题来引入：</p>
+<h2 id="题环形链表"><a class="markdownIt-Anchor" href="#题环形链表"></a> 题：环形链表</h2>
+<p>此题描述：</p>
+<blockquote>
+<p>给你一个链表的头节点 <code>head</code> ，判断链表中是否有环。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code> 指针再次到达，则链表中存在环。 为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置（索引从 <code>0</code> 开始）。(注意：<strong><code>pos</code> 不作为参数进行传递</strong> 。仅仅是为了标识链表的实际情况)</p>
+<p>如果链表中存在环 ，则返回 <code>true</code> 。 否则，返回 <code>false</code> 。</p>
+<p><strong><code>示例 1</code></strong>：</p>
+<blockquote>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png" alt="img" /></p>
+<p>输入：<code>head = [3,2,0,-4], pos = 1</code><br />
+返回：<code>true</code><br />
+解释：<code>链表中有一个环，其尾部连接到第二个节点</code></p>
+</blockquote>
+<p><strong><code>示例 2</code></strong>：</p>
+<blockquote>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img" /></p>
+<p>输入：<code>head = [1,2], pos = 0</code><br />
+返回：<code>true</code><br />
+解释：<code>链表中有一个环，其尾部连接到第一个节点</code></p>
+</blockquote>
+<p><strong><code>示例 3</code></strong> ：</p>
+<blockquote>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img" /></p>
+<p>输入：<code>head = [1], pos = -1</code><br />
+返回：<code>false</code><br />
+解释：<code>链表中没有环</code></p>
+</blockquote>
+<p>原题链接：<a href="https://leetcode-cn.com/problems/linked-list-cycle/">Leetcode - 141. 环形链表</a></p>
+</blockquote>
+<p>本题的思路也非常简单：</p>
+<blockquote>
+<p>如果链表带环，那么使用 <code>快慢指针</code>：<code>pfast</code>一次走两步，<code>pslow</code>一次走一步</p>
+<p>两个指针就一定能相遇，因为 <code>两指针均入环之后，两指针的距离是在一步步靠近的</code></p>
+<p>不能相遇，就代表 <code>链表不带环</code></p>
+</blockquote>
+<p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">bool</span> <span class="title function_">hasCycle</span><span class="params">(<span class="keyword">struct</span> ListNode *head)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(head == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pfast</span> =</span> head;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pslow</span> =</span> head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(pfast &amp;&amp; pfast-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        pfast = pfast-&gt;next-&gt;next;</span><br><span class="line">        pslow = pslow-&gt;next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(pfast == pslow)</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430210039173.png" alt="image-20220430210039173" /></p>
+<p>OK，带环链表的题做出来了</p>
+<p>但是并没有结束 <s><strong><code>如果只是这样 怎么会有大厂提问呢？</code></strong></s></p>
+<hr />
+<h3 id="带环链表的问题"><a class="markdownIt-Anchor" href="#带环链表的问题"></a> 带环链表的问题</h3>
+<p>在 <code>链表带环</code> 的基础上，还会延伸出几个问题：</p>
+<ol>
+<li>快指针一次走两步，慢指针一次走一步，两指针一定会相遇吗？为什么？</li>
+<li>如果 快指针一次走两步呢？三步呢？四步呢？为什么？</li>
+<li>怎么找到带环链表的 <code>入环节点</code> ？</li>
+</ol>
+<p>这才是 <code>带环链表</code> 真正需要知道的东西~</p>
+<h3 id="带环链表深入分析"><a class="markdownIt-Anchor" href="#带环链表深入分析"></a> 带环链表深入分析 *</h3>
+<h4 id="问题1"><a class="markdownIt-Anchor" href="#问题1"></a> 问题1</h4>
+<p>快指针一次走两步，慢指针一次走一步，两指针一定会相遇吗？为什么？</p>
+<p>来详细分析一下：</p>
+<p>画图抽象图来分析，一个带环链表，抽象的形式可以看作：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430232045310.png" alt="image-20220430232045310" /></p>
+<p>快慢指针 <code>同时</code> 从首节点开始走，快指针走得快，慢指针走得慢</p>
+<p>所以慢指针入环时，快指针早就已经入环了</p>
+<p>此时的情况可能是<code>(设一下，只是假设)</code>：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430232210782.png" alt="image-20220430232210782" /></p>
+<p>两个指针都入环之后，快指针开始在环内追逐慢指针：</p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/pfast_2_pslow.gif" alt="pfast_2_pslow" /></p>
+<p>因为 <code>当这样的两个指针都入环之后，两个指针之间的距离变化就变为了 每走一步减一</code></p>
+<p>所以，必定会相遇</p>
+<h4 id="问题2"><a class="markdownIt-Anchor" href="#问题2"></a> 问题2</h4>
+<p>如果 快指针一次走三步呢？四步呢？为什么？</p>
+<p>快指针一次走多步，就需要看情况来分析了</p>
+<p><strong><code>快指针一次走三步：</code></strong></p>
+<p>上边我们分析了 快指针<code>一次走两步</code> 时的相遇情况：当两个指针都入环之后，其之间的距离是以 <code>每次缩小 1</code> 变化的</p>
+<p>那么如果 <code>快指针一次走三步</code>，那么 两个指针都入环之后，其之间的距离就是 以 <code>每次缩小 2</code> 变化的</p>
+<p><code>每次缩小 2</code>，会造成什么情况呢？</p>
+<blockquote>
+<p>设 慢指针入环时，快指针和慢指针之间的距离为 <code>X</code>，环的长度为 <code>C</code>，那么就会有两种情况：当 <code>X</code> 为奇数，当 <code>X</code> 为偶数</p>
+<blockquote>
+<p><strong><code>情况 1：</code></strong> <code>X</code> 为 偶数</p>
+<p>当 <code>X(两指针之间的距离)</code> 为偶数，两指针距离又是 <code>每次减2</code> 的变化，所以一定能相遇</p>
+</blockquote>
+<blockquote>
+<p><strong><code>情况 2：</code></strong> <code>X</code> 为 奇数<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/pfast_3_pslow_J.gif" alt="pfast_3_pslow_J" />此情况，快指针 超过 慢指针，但是由于快指针的移动是不连续的，所以两指针并不会相遇</p>
+<p>其之间的距离变成了 <code>-1</code>，但是现在并不能直接判断是否能相遇，因为不能保证后面的追击能不能相遇</p>
+<p>又因为 我们设环的长度为 <code>C</code>，所以此时 两指针之间的距离也是 <code>C-1</code></p>
+<p>所以，就又分为了两种情况：当 <code>C-1</code> 为奇数，当 <code>C-1</code> 为偶数</p>
+<p>当 <code>C-1</code> 为 偶数的时候，这时，下次追击就可以相遇</p>
+<p>当 <code>C-1</code> 为 奇数的时候，这时，就永远不会相遇了</p>
+<blockquote>
+<p>为什么永远不会相遇？</p>
+<p>当 <code>C-1</code> 为奇数时，也就意味着本次追击的 <code>X(两指针之间的距离)</code> 为奇数</p>
+<p><code>X</code> 为奇数，就又会出现 两指针之间的距离等于 <code>-1</code> 的情况，距离就有变成了 <code>C-1</code></p>
+<p>所以，当 <code>C-1</code> 为奇数时，永远不会遇到</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p><strong><code>快指针一次走四步：</code></strong></p>
+<p>当快指针 <code>一次走四步</code> 的时候，按照 <code>一次走三步</code> 的思路进行分析</p>
+<ol>
+<li><code>X</code> 为 <code>3</code> 的倍数，可以相遇</li>
+<li><code>X</code> 不为 <code>3</code> 的倍数，且 <code>C-1</code> 或 <code>C-2</code> 也不为 <code>3</code> 的倍数，就永远无法相遇</li>
+<li><code>C-1</code> 和 <code>C-2</code> ，需要更详细的分析</li>
+</ol>
+<hr />
+<p>也就是说，快指针 <code>一次走多步</code> 能不能与慢指针相遇是 <code>不确定的</code>。</p>
+<p>实际的情况，与 <code>环的长度</code> 和 <code>入环前链表的长度</code> 都有关系，需要 <code>具体情况具体分析</code></p>
+<h4 id="问题3"><a class="markdownIt-Anchor" href="#问题3"></a> 问题3</h4>
+<p>怎么找到带环链表的 <code>入环节点</code> ？</p>
+<p>能够找到入环节点的一个前提是：<code>快指针已经与慢指针相遇</code>。</p>
+<p>详细分析一下：</p>
+<p>首先还是画图假设一下：<img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501142311619.png" alt="image-20220501142311619" /></p>
+<blockquote>
+<p>先思考一个问题：慢指针 <code>从入环到被追上</code> ，走过的长度 是不是如假设的那样，<code>会不会已经走了一圈后才被追上的</code>？</p>
+<p>答案是：<code>不会</code> 。</p>
+<p>即使环再小，只有一个节点，慢指针那么在入环的一刻，就已经与快指针相遇了</p>
+<p>如果环再长，慢指针也不可能走过一圈，因为快指针的速度是慢指针的两倍，慢指针如果走 <code>超过一圈</code> ，那么快指针只会走 <code>超过两圈</code></p>
+<p>所以，慢指针一定是 <code>在一圈之内被追上的</code>，所以假设 是成立的。</p>
+</blockquote>
+<p>参考图来看，慢指针 <code>从开始</code> 到 <code>与快指针相遇</code>，走过的距离就是 ：<code>L + X</code></p>
+<p>那么 快指针 走过的距离就是 ： <code>2 * (L + X)</code></p>
+<p>快指针走过的距离还可以怎么表示呢？</p>
+<p>快指针走过的距离 还可以这样表示：<strong><code>L + X + N * C</code></strong>  <code>(N表示走过的圈数)</code></p>
+<blockquote>
+<p>因为 快指针先入环，所以在慢指针入环之前，快指针很可能在环内已经走过几圈了</p>
+<ol>
+<li>当 <code>L</code> 很大 <code>C</code>很小时，快指针可能已经走了 <code>N</code> 圈了</li>
+<li>当 <code>L</code> 很小 <code>C</code> 很大时，快指针可能没有走超过一圈</li>
+</ol>
+</blockquote>
+<p>所以，快指针 <code>从开始</code> 到 <code>与慢指针相遇</code> 走过的距离，就可以写成一个等式：</p>
+<p><strong><code>2 * (L + X) = L + X + N*C</code></strong></p>
+<p>化简一下就是： <strong><code>L + X = N * C</code></strong></p>
+<p>这个式子有什么用呢？</p>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501142311619.png" alt="image-20220501142311619" /></p>
+<p>其实，这个等式说明：</p>
+<p><mark><strong>如果，有两个指针同时以一次一步的速度，一个从 <code>链表的首节点</code> 开始，另一个从 <code>快慢指针相遇点</code> 开始，两个指针会在环的入口节点相遇。</strong></mark></p>
+<p>为什么呢？</p>
+<p><strong><code>L + X = N * C</code></strong> 可以写为 --&gt; <strong><code>L = N * C - X</code></strong></p>
+<p>一个指针从 链表首届点开始走，走过 <code>L</code> 长度 它的位置在入环节点</p>
+<p>一个指针从 快慢指针相遇点 开始走， 走过 <code>N * C</code> 的长度，它的位置还在 快慢指针相遇点 ，但是如果走过 <code>N * C - X</code> 的长度，那么它的位置就也在 入环节点了，因为 <code>入环节点到快慢指针相遇点的距离是 X</code></p>
+<p>此时，入环节点就找到了。</p>
+<h4 id="题寻找入环节点"><a class="markdownIt-Anchor" href="#题寻找入环节点"></a> 题：寻找入环节点</h4>
+<p>分析完如何寻找入环节点，下面来尝试把这道题给做了：</p>
+<p>题目描述：</p>
+<blockquote>
+<p>给定一个链表的头节点  <code>head</code> ，返回链表开始入环的第一个节点。 如果链表无环，则返回 <code>null</code>。</p>
+<p>如果链表中有某个节点，可以通过连续跟踪 <code>next</code> 指针再次到达，则链表中存在环。</p>
+<p>为了表示给定链表中的环，评测系统内部使用整数 <code>pos</code> 来表示链表尾连接到链表中的位置**（索引从 0 开始）**。如果 <code>pos</code> 是 <code>-1</code>，则在该链表中没有环。</p>
+<p>注意：<strong><code>pos</code> 不作为参数进行传递</strong>，仅仅是为了标识链表的实际情况</p>
+<p><strong><code>不允许修改 链表</code></strong></p>
+<p><strong><code>示例 1</code></strong>：</p>
+<blockquote>
+<p><img src="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png" alt="img" /></p>
+<p>输入：<code>head = [3,2,0,-4], pos = 1</code><br />
+输出：<code>返回索引为 1 的链表节点</code><br />
+解释：<code>链表中有一个环，其尾部连接到第二个节点</code></p>
+</blockquote>
+<p><strong><code>示例 2</code></strong>：</p>
+<blockquote>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png" alt="img" /></p>
+<p>输入：<code>head = [1,2], pos = 0</code><br />
+输出：<code>返回索引为 0 的链表节点</code><br />
+解释：<code>链表中有一个环，其尾部连接到第一个节点</code></p>
+</blockquote>
+<p><strong><code>示例 3</code></strong>：</p>
+<blockquote>
+<p><img src="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png" alt="img" /></p>
+<p>输入：<code>head = [1], pos = -1</code><br />
+输出：<code>返回 null</code><br />
+解释：<code>链表中没有环</code></p>
+</blockquote>
+<p>原题链接：<a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/">Leetcode - 142. 环形链表 II</a></p>
+</blockquote>
+<p>代码实现：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 大体思路与判断有环差不多</span></span><br><span class="line"><span class="comment">// 但是 有环时不能直接返回</span></span><br><span class="line"><span class="keyword">struct</span> ListNode *<span class="title function_">detectCycle</span><span class="params">(<span class="keyword">struct</span> ListNode *head)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(head == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pfast</span> =</span> head;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">pslow</span> =</span> head;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(pfast &amp;&amp; pfast-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        pfast = pfast-&gt;next-&gt;next;</span><br><span class="line">        pslow = pslow-&gt;next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(pfast == pslow)		<span class="comment">// 有环</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">phead</span> =</span> head;</span><br><span class="line">            <span class="keyword">while</span>(phead != pslow)		<span class="comment">//使 两个指针 分别从 首节点和相遇点 一次一步 移动，直到相遇</span></span><br><span class="line">            &#123;</span><br><span class="line">                phead = phead-&gt;next;</span><br><span class="line">                pslow = pslow-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> phead;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501150938765.png" alt="image-20220501150938765" /></p>
+<hr />
+<h1 id="结语"><a class="markdownIt-Anchor" href="#结语"></a> 结语</h1>
+<p>本篇是对 <code>单链表带环问题</code> 的一个深入探索，单链表带环问题是 单链表中一个非常重要的应用 和 对单链表非常重要的理解。同时，他已经进入了大厂面试可能会考的范畴，重要的是对 <code>单链表带环问题的深入分析</code> ，<code>而不是简单的判断是否有环</code>。</p>
+<p>本篇文章到此结束</p>
+<p>感谢阅读~</p>
+<hr />
+<p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/%E7%BF%BB%E6%BB%9A%E5%B0%8F%E9%BB%84%E7%8B%97.gif" alt="翻滚小黄狗" /></p>
+<p>求评论、点赞、收藏~</p>
+]]></content>
+      <categories>
+        <category>神秘海域：数据结构与算法</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>数据结构与算法</tag>
+        <tag>链表</tag>
+      </tags>
+  </entry>
 </search>

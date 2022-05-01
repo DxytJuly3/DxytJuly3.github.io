@@ -20,30 +20,55 @@
     var CONFIG = {"hostname":"dxyt-july.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":true},"copycode":{"enable":true,"show_result":true,"style":"mac"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":true,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="七月的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="JULY&#39;S">
-<meta property="og:url" content="http://dxyt-july.cn/index.html">
+  <meta name="description" content="引言 上一篇 【神秘海域】数据结构与算法 内容是 单链表及其接口 而本篇内容是对单链表的一个 非常重要 的补充： 带环单链表 。它，是大厂面试时可能会提问的内容，非常的重要！ 本篇就是要结合题目来 详细分析一下 单链表的带环问题  带环单链表之前 : 快慢指针 在详细分析 带环单链表 之前，先分析两道题来了解一个非常重要的算法思路：快慢指针  题1：单链表的中间结点 原题描述是这样的:  给">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【神秘海域】[动图] 结合题目-手把手带你剖析 “带环链表”">
+<meta property="og:url" content="http://dxyt-july.cn/posts/Circular-LinkList.html">
 <meta property="og:site_name" content="JULY&#39;S">
-<meta property="og:description" content="七月的博客">
+<meta property="og:description" content="引言 上一篇 【神秘海域】数据结构与算法 内容是 单链表及其接口 而本篇内容是对单链表的一个 非常重要 的补充： 带环单链表 。它，是大厂面试时可能会提问的内容，非常的重要！ 本篇就是要结合题目来 详细分析一下 单链表的带环问题  带环单链表之前 : 快慢指针 在详细分析 带环单链表 之前，先分析两道题来了解一个非常重要的算法思路：快慢指针  题1：单链表的中间结点 原题描述是这样的:  给">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501153114604.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430201513575.png">
+<meta property="og:image" content="https://uploadfiles.nowcoder.com/images/20211105/423483716_1636084313645/5407F55227804F31F5C5D73558596F2C">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430203858767.png">
+<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist.png">
+<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png">
+<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430210039173.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430232045310.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220430232210782.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/pfast_2_pslow.gif">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/pfast_3_pslow_J.gif">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501142311619.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501142311619.png">
+<meta property="og:image" content="https://assets.leetcode.com/uploads/2018/12/07/circularlinkedlist.png">
+<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test2.png">
+<meta property="og:image" content="https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/07/circularlinkedlist_test3.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501150938765.png">
+<meta property="og:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/%E7%BF%BB%E6%BB%9A%E5%B0%8F%E9%BB%84%E7%8B%97.gif">
+<meta property="article:published_time" content="2022-05-01T08:08:01.000Z">
+<meta property="article:modified_time" content="2022-05-01T08:09:51.958Z">
 <meta property="article:author" content="七月July">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="数据结构与算法">
+<meta property="article:tag" content="链表">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501153114604.png">
 
-<link rel="canonical" href="http://dxyt-july.cn/">
+<link rel="canonical" href="http://dxyt-july.cn/posts/Circular-LinkList.html">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>JULY'S</title>
+  <title>【神秘海域】[动图] 结合题目-手把手带你剖析 “带环链表” | JULY'S</title>
   
 
 
@@ -186,9 +211,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -204,10 +230,9 @@
       <meta itemprop="name" content="JULY'S">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/Circular-LinkList.html" class="post-title-link" itemprop="url">【神秘海域】[动图] 结合题目-手把手带你剖析 “带环链表”</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          【神秘海域】[动图] 结合题目-手把手带你剖析 “带环链表”
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -230,6 +255,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
   
   <span class="post-meta-item">
     
@@ -268,7 +300,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501153114604.png" alt="image-20220501153114604" /></p>
+        <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/image-20220501153114604.png" alt="image-20220501153114604" /></p>
 <hr />
 <h1 id="引言"><a class="markdownIt-Anchor" href="#引言"></a> 引言</h1>
 <p>上一篇 <code>【神秘海域】数据结构与算法</code> 内容是 <strong><code>单链表及其接口</code></strong></p>
@@ -520,929 +552,43 @@
 <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/%E7%BF%BB%E6%BB%9A%E5%B0%8F%E9%BB%84%E7%8B%97.gif" alt="翻滚小黄狗" /></p>
 <p>求评论、点赞、收藏~</p>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/Structure.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
           
-            <a href="/posts/Structure.html" class="post-title-link" itemprop="url">【C 语言】[图文] 详解结构体，详细分析结构体对齐</a>
-        </h2>
+          <div class="post-tags">
+              <a href="/tags/C%E8%AF%AD%E8%A8%80/" rel="tag"><i class="fa fa-tag"></i> C语言</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 数据结构与算法</a>
+              <a href="/tags/%E9%93%BE%E8%A1%A8/" rel="tag"><i class="fa fa-tag"></i> 链表</a>
+          </div>
 
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-23 17:46:47" itemprop="dateCreated datePublished" datetime="2022-04-23T17:46:47+08:00">2022-04-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 18:05:30" itemprop="dateModified" datetime="2022-04-29T18:05:30+08:00">2022-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C%E8%AF%AD%E8%A8%80%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">C语言进阶</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/Structure.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/Structure.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>6.1k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>7 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="结构体"><a class="markdownIt-Anchor" href="#结构体"></a> 结构体</h1>
-<h2 id="1-结构体"><a class="markdownIt-Anchor" href="#1-结构体"></a> 1. 结构体</h2>
-<pre><code>结构体是一些值的集合，这些值成为成员变量。结构的每个成员可以是不同类型的变量。结构体属于自定义类型。
-</code></pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/Structure.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/Single-List.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/Single-List.html" class="post-title-link" itemprop="url">【神秘海域】[动图] 掌握 单链表 只需要这篇文章~ 「超详细」</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-21 14:48:00" itemprop="dateCreated datePublished" datetime="2022-04-21T14:48:00+08:00">2022-04-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 15:26:50" itemprop="dateModified" datetime="2022-04-29T15:26:50+08:00">2022-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%A5%9E%E7%A7%98%E6%B5%B7%E5%9F%9F%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">神秘海域：数据结构与算法</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/Single-List.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/Single-List.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>7.4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>8 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/List_cover.png" alt="" /></p>
-<hr />
-<h1 id="单链表引言"><a class="markdownIt-Anchor" href="#单链表引言"></a> 单链表引言🐙</h1>
-<p>❤️‍🔥</p>
-<blockquote>
-<p>数据结构中有 <code>四大基础结构</code> ，即 <code>四大线性表</code>：顺序表、<strong><code>链表👻</code></strong> 、栈、队列</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/Single-List.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/Structure.html" rel="prev" title="【C 语言】[图文] 详解结构体，详细分析结构体对齐">
+      <i class="fa fa-chevron-left"></i> 【C 语言】[图文] 详解结构体，详细分析结构体对齐
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/File-Operations.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/File-Operations.html" class="post-title-link" itemprop="url">【C语言初阶】[图文] 二进制文件怎么看？C语言能对文件进行哪些操作？今天我来教你</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-17 14:48:55" itemprop="dateCreated datePublished" datetime="2022-04-17T14:48:55+08:00">2022-04-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 15:34:02" itemprop="dateModified" datetime="2022-04-29T15:34:02+08:00">2022-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C%E8%AF%AD%E8%A8%80%E5%88%9D%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">C语言初阶</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/File-Operations.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/File-Operations.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>1.3k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="文本文件-二进制文件及其存储"><a class="markdownIt-Anchor" href="#文本文件-二进制文件及其存储"></a> 文本文件、二进制文件及其存储</h1>
-<hr />
-<p>上一篇介绍过，文件按照功能分类，可以分为 <code>程序文件</code>、<code>数据文件</code> 两类。</p>
-<p>此外，文件的分类还有其他的分类方法，比如 按照文件数据的组织形式 来分为 <code>二进制文件</code> 和 <code>文本文件</code>。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/File-Operations.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/Figur-Bed-Whitelist.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/Figur-Bed-Whitelist.html" class="post-title-link" itemprop="url">怎么防止云服务图床被爬虫爬？给自己的图床添加白名单~</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-17 09:24:09" itemprop="dateCreated datePublished" datetime="2022-04-17T09:24:09+08:00">2022-04-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 14:40:29" itemprop="dateModified" datetime="2022-04-29T14:40:29+08:00">2022-04-29</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/Figur-Bed-Whitelist.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/Figur-Bed-Whitelist.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>996</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="原由"><a class="markdownIt-Anchor" href="#原由"></a> 原由</h1>
-<p>大家好啊！我是七月<br />
-上个月发生了一件让许多人破防的一件事：<code>Gitee 图床炸了</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/Figur-Bed-Whitelist.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/DS-SeqList.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/DS-SeqList.html" class="post-title-link" itemprop="url">【神秘海域】[动图] 顺序表千字破解~</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-15 15:19:41" itemprop="dateCreated datePublished" datetime="2022-04-15T15:19:41+08:00">2022-04-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 15:26:49" itemprop="dateModified" datetime="2022-04-29T15:26:49+08:00">2022-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%A5%9E%E7%A7%98%E6%B5%B7%E5%9F%9F%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">神秘海域：数据结构与算法</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/DS-SeqList.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/DS-SeqList.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>8.9k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>10 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/DS_Cover_qesList.jpg" alt="" /></p>
-<hr />
-<h1 id="顺序表引言"><a class="markdownIt-Anchor" href="#顺序表引言"></a> 顺序表引言</h1>
-<p>数据结构中有 <code>四大基础结构</code> ，即 <code>四大线性表</code>：<strong><code>顺序表</code></strong>、<code>链表</code>、<code>栈</code>、<code>队列</code></p>
-<p>被称为线性表是因为，数据用以上四种结构存储，再逻辑结构上都是 <code>在一条线上相邻连续的</code></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/DS-SeqList.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/DS-Complexity.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/DS-Complexity.html" class="post-title-link" itemprop="url">【神秘海域】[动图] 数据结构与算法初探：复杂度详解分析 「附代码」</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-14 14:48:29" itemprop="dateCreated datePublished" datetime="2022-04-14T14:48:29+08:00">2022-04-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-30 10:42:36" itemprop="dateModified" datetime="2022-04-30T10:42:36+08:00">2022-04-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%A5%9E%E7%A7%98%E6%B5%B7%E5%9F%9F%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">神秘海域：数据结构与算法</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/DS-Complexity.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/DS-Complexity.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5.8k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="https://dxyt-july-image.oss-cn-beijing.aliyuncs.com/CSDN/DS_Cover_Com.jpg" alt="" /></p>
-<hr />
-<h1 id="复杂度-引言"><a class="markdownIt-Anchor" href="#复杂度-引言"></a> 复杂度 引言</h1>
-<p>本篇文章是 数据结构与算法 正式内容的第一篇文章。<br />
-要介绍的也是数据结构与算法中最重要的概念之一：<strong><code>复杂度</code></strong></p>
-<p>复杂度，是贯穿整个数据结构与算法学习的一个重要概念。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/DS-Complexity.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/Compile-And-Link.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/Compile-And-Link.html" class="post-title-link" itemprop="url">【程序员的自我修养】[动态图文] 理解编译到链接的过程 [编译与链接一]</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-07 14:47:35" itemprop="dateCreated datePublished" datetime="2022-04-07T14:47:35+08:00">2022-04-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 15:53:37" itemprop="dateModified" datetime="2022-04-29T15:53:37+08:00">2022-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E3%80%8A%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E3%80%8B/" itemprop="url" rel="index"><span itemprop="name">《程序员的自我修养》</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/Compile-And-Link.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/Compile-And-Link.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>4k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>4 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="程序的编译及链接"><a class="markdownIt-Anchor" href="#程序的编译及链接"></a> 程序的编译及链接</h1>
-<p>在学习C语言的过程中，每一个 <code>.c</code> 文件都会经过 <code>编译链接</code> 等 <code>预处理</code> 操作才能成为一个 <code>.exe</code> 的可执行文件的</p>
-<p>这些 <code>预处理</code> 过程到底是如何进行的，就是本篇文章的内容</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/Compile-And-Link.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://dxyt-july.cn/posts/Function-Stack-Frame.html">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/Pikachu.png">
-      <meta itemprop="name" content="七月July">
-      <meta itemprop="description" content="七月的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JULY'S">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/posts/Function-Stack-Frame.html" class="post-title-link" itemprop="url">【程序员的自我修养】[动态图文] 超详解函数栈帧</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-07 14:46:41" itemprop="dateCreated datePublished" datetime="2022-04-07T14:46:41+08:00">2022-04-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 15:28:53" itemprop="dateModified" datetime="2022-04-29T15:28:53+08:00">2022-04-29</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E3%80%8A%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E8%87%AA%E6%88%91%E4%BF%AE%E5%85%BB%E3%80%8B/" itemprop="url" rel="index"><span itemprop="name">《程序员的自我修养》</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">评论数：</span>
-    
-    <a title="valine" href="/posts/Function-Stack-Frame.html#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/posts/Function-Stack-Frame.html" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="本文字数">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">本文字数：</span>
-              <span>5k</span>
-            </span>
-            <span class="post-meta-item" title="阅读时长">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>6 分钟</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>在阅读这篇文章之前，请思考一下对于下面的这些问题，你有一个准确清晰的认知吗？</p>
-<ol>
-<li>什么是函数栈帧？</li>
-<li>程序中的局部变量，是如何创建的？</li>
-<li>为什么局部变量不初始化会是随机值？</li>
-<li>函数传参，究竟是如何传参的？</li>
-<li>函数的形参和实参存在什么关系？</li>
-<li>函数是如何被调用的？</li>
-<li>函数被调用之后是如何返回的？</li>
-</ol>
-<p>如果没有，请尝试阅读、分析、理解本篇文章。<br />
-读懂本篇文章将会提升你的“自我修养”。</p>
-<blockquote>
-<p><code>程序运行背后的机制和由来，可以看作是程序员的一种“自我修养”。</code><br />
-<strong>------ 程序员的自我修养 “链接、装载与库”</strong></p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/posts/Function-Stack-Frame.html#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -1489,6 +635,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text"> 引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%A6%E7%8E%AF%E5%8D%95%E9%93%BE%E8%A1%A8%E4%B9%8B%E5%89%8D-%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88"><span class="nav-number">2.</span> <span class="nav-text"> 带环单链表之前 : 快慢指针</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%981%E5%8D%95%E9%93%BE%E8%A1%A8%E7%9A%84%E4%B8%AD%E9%97%B4%E7%BB%93%E7%82%B9"><span class="nav-number">2.1.</span> <span class="nav-text"> 题1：单链表的中间结点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%982%E9%93%BE%E8%A1%A8%E4%B8%AD%E5%80%92%E6%95%B0%E6%9C%80%E5%90%8Ek%E4%B8%AA%E7%BB%93%E7%82%B9"><span class="nav-number">2.2.</span> <span class="nav-text"> 题2：链表中倒数最后k个结点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%A6%E7%8E%AF%E9%93%BE%E8%A1%A8%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text"> 带环链表分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%98%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8"><span class="nav-number">3.1.</span> <span class="nav-text"> 题：环形链表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%A6%E7%8E%AF%E9%93%BE%E8%A1%A8%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 带环链表的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%A6%E7%8E%AF%E9%93%BE%E8%A1%A8%E6%B7%B1%E5%85%A5%E5%88%86%E6%9E%90"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 带环链表深入分析 *</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%981"><span class="nav-number">3.1.2.1.</span> <span class="nav-text"> 问题1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%982"><span class="nav-number">3.1.2.2.</span> <span class="nav-text"> 问题2</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%983"><span class="nav-number">3.1.2.3.</span> <span class="nav-text"> 问题3</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%98%E5%AF%BB%E6%89%BE%E5%85%A5%E7%8E%AF%E8%8A%82%E7%82%B9"><span class="nav-number">3.1.2.4.</span> <span class="nav-text"> 题：寻找入环节点</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">4.</span> <span class="nav-text"> 结语</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
